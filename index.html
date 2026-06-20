@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="What's real, overhyped, and next in AI engineering — distilled twice daily. Today: 'agentic' peaks; evals and verifiability are the real disciplines.">
+  <title>zeitgeist · 2026-06-20</title>
+  <style>
+    :root {
+      --ink: #1a1a1a;
+      --muted: #6b6b6b;
+      --rule: #e8e4dc;
+      --surface: #fbfaf7;
+      --emerging-fg: #2f8f5a;
+      --emerging-bg: #e9f6ed;
+      --rising-fg: #1f6feb;
+      --rising-bg: #e6f0ff;
+      --peak-fg: #c53b3b;
+      --peak-bg: #fde8e8;
+      --fading-fg: #6b6b6b;
+      --fading-bg: #eeeeee;
+      --serif: ui-serif, "Iowan Old Style", "Apple Garamond", Georgia, serif;
+      --sans: ui-sans-serif, system-ui, -apple-system, "Helvetica Neue", sans-serif;
+      --mono: ui-monospace, "SF Mono", Menlo, monospace;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --ink: #f3efe7;
+        --muted: #9b958a;
+        --rule: #2a2620;
+        --surface: #15130f;
+        --emerging-bg: #14352a;
+        --rising-bg: #16284a;
+        --peak-bg: #3a1a1a;
+        --fading-bg: #262626;
+      }
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      font-family: var(--sans);
+      color: var(--ink);
+      background: var(--surface);
+      line-height: 1.5;
+      font-size: clamp(15px, 0.4vw + 14px, 17px);
+      -webkit-text-size-adjust: 100%;
+    }
+    a { color: inherit; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+    a:hover { text-decoration-thickness: 2px; }
+    .wrap { max-width: 920px; margin: 0 auto; padding: 24px 20px 56px; }
+
+    .masthead {
+      display: flex; align-items: flex-start; justify-content: space-between;
+      gap: 16px; flex-wrap: wrap;
+      padding-bottom: 20px; border-bottom: 1px solid var(--rule);
+    }
+    .wordmark {
+      font-family: var(--serif);
+      font-size: clamp(30px, 4vw + 8px, 44px);
+      font-weight: 600; letter-spacing: -0.025em;
+      margin: 0; line-height: 1;
+    }
+    .wordmark .glyph { font-family: var(--sans); margin-right: 0.15em; }
+    .tagline { color: var(--muted); font-size: 14px; max-width: 380px; margin: 8px 0 0; line-height: 1.45; }
+    .stamp { font-family: var(--mono); font-size: 11.5px; color: var(--muted); white-space: nowrap; letter-spacing: 0.04em; text-transform: uppercase; }
+
+    .hero { margin: 40px 0 8px; }
+    .hero-eyebrow { font-family: var(--mono); text-transform: uppercase; font-size: 11px; letter-spacing: 0.1em; color: var(--muted); }
+    .hero-line {
+      font-family: var(--serif);
+      font-size: clamp(28px, 3vw + 14px, 48px);
+      line-height: 1.12; letter-spacing: -0.02em;
+      margin: 12px 0 0;
+      font-weight: 500;
+    }
+    .hero-line em { font-style: italic; color: var(--peak-fg); font-weight: 600; }
+    .hero-line .alt { color: var(--rising-fg); font-style: normal; font-weight: 600; }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+      margin-top: 28px;
+    }
+    @media (min-width: 720px) {
+      .hero-grid { grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    }
+    .takeaway {
+      padding: 16px 18px 18px;
+      border-radius: 14px;
+      border: 1px solid var(--rule);
+    }
+    .takeaway .label { font-family: var(--mono); text-transform: uppercase; font-size: 10.5px; letter-spacing: 0.12em; }
+    .takeaway .text { margin: 8px 0 0; font-size: 15px; line-height: 1.45; }
+    .takeaway--important { border-color: var(--rising-fg); background: var(--rising-bg); }
+    .takeaway--important .label { color: var(--rising-fg); }
+    .takeaway--overhyped { border-color: var(--peak-fg); background: var(--peak-bg); }
+    .takeaway--overhyped .label { color: var(--peak-fg); }
+    .takeaway--emerging { border-color: var(--emerging-fg); background: var(--emerging-bg); }
+    .takeaway--emerging .label { color: var(--emerging-fg); }
+
+    h2 {
+      font-family: var(--serif);
+      font-weight: 600;
+      font-size: clamp(20px, 1vw + 18px, 26px);
+      letter-spacing: -0.01em;
+      margin: 56px 0 18px;
+      display: flex; align-items: baseline; gap: 12px;
+    }
+    h2 .num { font-family: var(--mono); font-size: 12px; color: var(--muted); letter-spacing: 0.08em; }
+
+    .radar {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+    @media (min-width: 720px) {
+      .radar { grid-template-columns: repeat(4, 1fr); gap: 14px; align-items: start; }
+    }
+    .lane {
+      border: 1px solid var(--rule);
+      border-radius: 14px;
+      padding: 14px 14px 16px;
+    }
+    .lane-head { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px dashed currentColor; opacity: 1; }
+    .lane-head > * { opacity: 1; }
+    .lane-name { font-weight: 600; letter-spacing: -0.01em; font-size: 14.5px; }
+    .lane-sub { font-size: 10.5px; margin-left: auto; font-family: var(--mono); letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.7; }
+    .term {
+      display: block;
+      padding: 9px 11px;
+      margin-bottom: 6px;
+      border-radius: 8px;
+      font-size: 13.5px;
+      line-height: 1.4;
+      background: rgba(0,0,0,0.03);
+    }
+    @media (prefers-color-scheme: dark) {
+      .term { background: rgba(255,255,255,0.05); }
+    }
+    .term:last-child { margin-bottom: 0; }
+    .term .name { font-weight: 600; display: block; }
+    .term .signal { display: block; margin-top: 3px; font-size: 12px; opacity: 0.85; font-weight: 400; }
+    .lane--emerging { background: var(--emerging-bg); border-color: var(--emerging-fg); color: var(--emerging-fg); }
+    .lane--rising { background: var(--rising-bg); border-color: var(--rising-fg); color: var(--rising-fg); }
+    .lane--peak { background: var(--peak-bg); border-color: var(--peak-fg); color: var(--peak-fg); }
+    .lane--fading { background: var(--fading-bg); border-color: var(--fading-fg); color: var(--fading-fg); }
+    .term-strong { box-shadow: inset 0 0 0 1.5px currentColor; background: transparent; }
+
+    ul.watch { padding: 0; margin: 0; display: grid; gap: 12px; list-style: none; }
+    @media (min-width: 720px) { ul.watch { grid-template-columns: 1fr 1fr; gap: 14px; } }
+    ul.watch li {
+      padding: 14px 16px 14px 18px;
+      border-left: 3px solid var(--emerging-fg);
+      background: var(--emerging-bg);
+      border-radius: 0 12px 12px 0;
+      font-size: 14.5px; line-height: 1.45;
+      color: var(--emerging-fg);
+    }
+    ul.watch li b { font-weight: 700; }
+    ul.watch li span { display: block; margin-top: 4px; color: var(--ink); opacity: 0.85; font-weight: 400; font-size: 13.5px; }
+
+    .digests { padding: 0; margin: 0; list-style: none; }
+    .digests li {
+      padding: 16px 0;
+      border-top: 1px solid var(--rule);
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 4px;
+    }
+    @media (min-width: 560px) {
+      .digests li { grid-template-columns: 110px 1fr; gap: 18px; align-items: baseline; }
+    }
+    .digests li:last-child { border-bottom: 1px solid var(--rule); }
+    .digests .date {
+      font-family: var(--mono); font-size: 12.5px; color: var(--muted); letter-spacing: 0.04em;
+    }
+    .digests .teaser { font-size: 14.5px; line-height: 1.5; }
+
+    .pull {
+      margin: 64px 0 32px;
+      padding: 32px 24px;
+      border-top: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+      text-align: center;
+    }
+    .pull blockquote {
+      font-family: var(--serif);
+      font-size: clamp(20px, 2vw + 12px, 30px);
+      line-height: 1.3;
+      margin: 0;
+      letter-spacing: -0.015em;
+      font-weight: 500;
+    }
+    .pull blockquote em { color: var(--peak-fg); font-style: italic; }
+    .pull cite {
+      display: block; font-style: normal; margin-top: 14px;
+      font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--muted);
+    }
+
+    footer {
+      margin-top: 56px;
+      padding-top: 22px;
+      border-top: 1px solid var(--rule);
+      font-size: 12.5px;
+      color: var(--muted);
+      display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px;
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      .hero-line, .takeaway, .lane { animation: rise 0.55s cubic-bezier(0.2, 0.6, 0.2, 1) both; }
+      .takeaway:nth-child(2) { animation-delay: 0.06s; }
+      .takeaway:nth-child(3) { animation-delay: 0.12s; }
+      .lane:nth-child(2) { animation-delay: 0.07s; }
+      .lane:nth-child(3) { animation-delay: 0.14s; }
+      .lane:nth-child(4) { animation-delay: 0.21s; }
+      @keyframes rise {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <div>
+      <h1 class="wordmark"><span class="glyph">🧭</span>zeitgeist</h1>
+      <p class="tagline">What's real, what's overhyped, and what's next in AI engineering — distilled twice daily.</p>
+    </div>
+    <div class="stamp">Updated 2026-06-20 · AM</div>
+  </header>
+
+  <section class="hero" aria-labelledby="hero">
+    <div class="hero-eyebrow" id="hero">Today's read</div>
+    <p class="hero-line"><em>"Agentic"</em> means everything and nothing. The forward crowd is quietly running on <span class="alt">evals + verifiability</span>.</p>
+    <div class="hero-grid">
+      <div class="takeaway takeaway--important">
+        <div class="label">Most important</div>
+        <p class="text">Hamel Husain, Shreya Shankar &amp; Karpathy reject "agentic" hype for <b>evals + verifiability</b>. OpenAI buying <b>Ona</b> says the next battleground is agent <b>runtime/persistence</b>, not smarter models.</p>
+      </div>
+      <div class="takeaway takeaway--overhyped">
+        <div class="label">Most overhyped</div>
+        <p class="text"><b>"Agentic"</b> — five engineers, five answers. "Loops" is at peak too: Steinberger's post hit ~6.5M views — peak velocity <em>is</em> the peak signal.</p>
+      </div>
+      <div class="takeaway takeaway--emerging">
+        <div class="label">Emerging</div>
+        <p class="text"><b>Ontology</b> (tempered — real but slow-burn), <b>dark factories</b> (zero-human-review code), <b>docs → skills</b>.</p>
+      </div>
+    </div>
+  </section>
+
+  <h2><span class="num">02 ·</span>Hype radar</h2>
+  <div class="radar">
+
+    <div class="lane lane--emerging">
+      <div class="lane-head"><span class="lane-name">🌱 Emerging</span><span class="lane-sub">adopt now</span></div>
+      <div class="term term-strong"><span class="name">Ontology / KG-grounded agents</span><span class="signal">Tempered "next": real (Palantir, Neo4j, Sequeda) but slow-burn</span></div>
+      <div class="term"><span class="name">Dark factories</span><span class="signal">Zero-human-review code — swyx</span></div>
+      <div class="term"><span class="name">Docs → skills</span><span class="signal">"No one wrote docs; everyone writes skills" — Breunig</span></div>
+      <div class="term"><span class="name">Returns to domain expertise</span><span class="signal">Anthropic 400k-session study</span></div>
+      <div class="term"><span class="name">Agent memory / "Dreaming"</span><span class="signal">swyx: biggest limiting constraint</span></div>
+      <div class="term"><span class="name">Lethal trifecta / agent security</span><span class="signal">NSA-flagged (VIPER-MCP, EchoLeak)</span></div>
+      <div class="term"><span class="name">Bitemporal provenance</span><span class="signal">Zep applied SCD Type 6 — fintech knew first</span></div>
+    </div>
+
+    <div class="lane lane--rising">
+      <div class="lane-head"><span class="lane-name">📈 Rising</span><span class="lane-sub">still has edge</span></div>
+      <div class="term term-strong"><span class="name">Evals (as the discipline)</span><span class="signal">"Evals are the product-design discipline" — Hamel + Shreya</span></div>
+      <div class="term term-strong"><span class="name">Long-running agents / runtime</span><span class="signal">OpenAI ⇒ Ona; JPMorgan: "era of long-running agents"</span></div>
+      <div class="term"><span class="name">Agentic SDLC</span><span class="signal">Karpathy: "automate what you can verify"</span></div>
+      <div class="term"><span class="name">MCP</span><span class="signal">LF infra (~97M downloads); ~40% public servers unauthenticated</span></div>
+      <div class="term"><span class="name">Spec-driven dev (EARS / Kiro)</span><span class="signal">AWS Kiro enforced at the tooling layer</span></div>
+      <div class="term"><span class="name">Recursive self-improvement</span><span class="signal">Anthropic staked it (May 2026)</span></div>
+    </div>
+
+    <div class="lane lane--peak">
+      <div class="lane-head"><span class="lane-name">🔥 Peak</span><span class="lane-sub">overhyped</span></div>
+      <div class="term term-strong"><span class="name">"Agentic" (umbrella)</span><span class="signal">Means everything and nothing — #1 overused term</span></div>
+      <div class="term"><span class="name">Loops / "loop engineering"</span><span class="signal">Steinberger ~6.5M views = peak velocity</span></div>
+      <div class="term"><span class="name">Multi-agent</span><span class="signal">Research: hurts on most tasks; "agentic swarm" ≈ marketing</span></div>
+      <div class="term"><span class="name">Context engineering</span><span class="signal">Mainstream + Gartner-blessed</span></div>
+    </div>
+
+    <div class="lane lane--fading">
+      <div class="lane-head"><span class="lane-name">📉 Fading</span><span class="lane-sub">commoditized</span></div>
+      <div class="term"><span class="name">Vibe coding</span><span class="signal">Becoming a pejorative; maturing into "agentic engineering"</span></div>
+    </div>
+
+  </div>
+
+  <h2><span class="num">03 ·</span>Next / watch</h2>
+  <ul class="watch">
+    <li><b>Ontology / KG-grounding</b><span>The structured-world-model counter to brittle "agentic/loops." Be early — it's a slow burn.</span></li>
+    <li><b>Evals as the default discipline</b><span>Graduating from niche craft to table-stakes.</span></li>
+    <li><b>Agent runtime / persistence</b><span>"Where do agents live, keep state, and prove what they did?"</span></li>
+    <li><b>Memory governance &amp; provenance</b><span>Who authorised this memory write — is it poisoned?</span></li>
+  </ul>
+
+  <h2><span class="num">04 ·</span>Recent digests</h2>
+  <ul class="digests">
+    <li>
+      <span class="date">2026-06-20</span>
+      <span class="teaser"><a href="https://github.com/Samuel-Morgan-Tyghe/zeitgeist/blob/main/digest/2026-06-20.md">"Agentic" peaks; evals + verifiability are the real disciplines; ontology = tempered next; OpenAI⇒Ona; ~40% of MCP servers unauthenticated.</a></span>
+    </li>
+  </ul>
+
+  <section class="pull">
+    <blockquote>If everyone's saying it, it's near peak. <em>Watch what the most forward people say instead.</em></blockquote>
+    <cite>— the hype test</cite>
+  </section>
+
+  <footer>
+    <div>Distilled from a private knowledge base · twice daily · commentary on public AI-engineering news &amp; research.</div>
+    <div><a href="https://github.com/Samuel-Morgan-Tyghe/zeitgeist">source on github</a></div>
+  </footer>
+
+</div>
+</body>
+</html>
