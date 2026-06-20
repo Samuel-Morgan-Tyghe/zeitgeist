@@ -74,20 +74,6 @@
     .plain p { font-family: var(--serif); font-size: clamp(20px, 1.3vw + 14px, 28px); line-height: 1.32; letter-spacing: -0.012em; margin: 12px 0 0; font-weight: 500; }
     .plain p .lift { background: linear-gradient(transparent 62%, rgba(31,111,235,0.18) 62%); padding: 0 2px; }
 
-    .deltas { margin-top: 36px; }
-    .deltas-grid { display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 8px; }
-    .delta { display: grid; grid-template-columns: 1fr; border: 1px solid var(--rule); border-radius: 14px; overflow: hidden; }
-    @media (min-width: 520px) { .delta { grid-template-columns: 1fr auto 1fr; align-items: stretch; } }
-    .delta-side { padding: 14px 16px; font-size: 14.5px; line-height: 1.45; }
-    .delta-side .label { font-family: var(--mono); text-transform: uppercase; font-size: 10.5px; letter-spacing: 0.12em; display: block; margin-bottom: 6px; }
-    .delta-was { background: var(--fading-bg); color: var(--ink); }
-    .delta-was .label { color: var(--fading-fg); }
-    .delta-now { background: var(--rising-bg); color: var(--ink); }
-    .delta-now .label { color: var(--rising-fg); }
-    .delta-arrow { display: flex; align-items: center; justify-content: center; padding: 0 12px; background: var(--surface); font-family: var(--mono); font-size: 18px; color: var(--rising-fg); border-block: 1px solid var(--rule); }
-    @media (min-width: 520px) { .delta-arrow { border-block: none; border-inline: 1px solid var(--rule); } }
-    @media (max-width: 519px) { .delta-arrow { padding: 4px 12px; font-size: 14px; } }
-
     h2 { font-family: var(--serif); font-weight: 600; font-size: clamp(20px, 1vw + 18px, 26px); letter-spacing: -0.01em; margin: 48px 0 14px; display: flex; align-items: baseline; gap: 12px; }
     h2 .num { font-family: var(--mono); font-size: 12px; color: var(--muted); letter-spacing: 0.08em; font-weight: 500; }
     h2 .sub { font-family: var(--sans); font-size: 13px; color: var(--muted); font-weight: 400; letter-spacing: 0; margin-left: 8px; }
@@ -104,17 +90,6 @@
     .takeaway--overhyped .label { color: var(--peak-fg); }
     .takeaway--emerging { border-color: var(--emerging-fg); background: var(--emerging-bg); }
     .takeaway--emerging .label { color: var(--emerging-fg); }
-
-    /* Inline radar (compact for digest pages) */
-    .radar-rows { display: grid; gap: 8px; }
-    .row { display: grid; grid-template-columns: 1fr auto; gap: 12px; align-items: center; padding: 10px 12px; border-radius: 10px; font-size: 14px; border: 1px solid var(--rule); }
-    .row .name { font-weight: 600; }
-    .row .note { display: block; font-weight: 400; font-size: 12.5px; margin-top: 2px; opacity: 0.85; }
-    .row .stage { font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap; }
-    .row--peak { background: var(--peak-bg); border-color: var(--peak-fg); color: var(--peak-fg); }
-    .row--rising { background: var(--rising-bg); border-color: var(--rising-fg); color: var(--rising-fg); }
-    .row--emerging { background: var(--emerging-bg); border-color: var(--emerging-fg); color: var(--emerging-fg); }
-    .row--fading { background: var(--fading-bg); border-color: var(--fading-fg); color: var(--fading-fg); }
 
     /* Worth a click */
     .links { padding: 0; margin: 0; list-style: none; display: grid; gap: 10px; }
@@ -156,7 +131,7 @@
     footer { margin-top: 16px; padding-top: 18px; border-top: 1px solid var(--rule); font-size: 12.5px; color: var(--muted); display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; }
 
     @media (prefers-reduced-motion: no-preference) {
-      .plain p, .delta, .takeaway, .row, .links li { animation: rise 0.5s cubic-bezier(0.2,0.6,0.2,1) both; }
+      .plain p, .takeaway, .links li { animation: rise 0.5s cubic-bezier(0.2,0.6,0.2,1) both; }
       @keyframes rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
     }
   </style>
