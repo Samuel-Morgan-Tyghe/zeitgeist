@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Karpathy's Sequoia AI Ascent 2026 talk, decoded section by section. December inflection, Software 3.0, verifiability, jagged intelligence, floor vs ceiling, ghosts not animals, and more.">
+  <meta name="theme-color" content="#1a1a1a">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="zeitgeist">
+  <link rel="manifest" href="../manifest.json">
+  <link rel="icon" type="image/svg+xml" href="../icon.svg">
+  <link rel="apple-touch-icon" href="../icon.svg">
+  <title>Karpathy at Sequoia Ascent 2026 · zeitgeist deep dive</title>
+  <style>
+    :root {
+      --ink: #1a1a1a; --muted: #6b6b6b; --soft: #8d8478; --rule: #e8e4dc;
+      --surface: #fbfaf7; --surface-2: #f5f1e8;
+      --emerging-fg: #2f8f5a; --rising-fg: #1f6feb; --peak-fg: #c53b3b; --fading-fg: #6b6b6b;
+      --serif: ui-serif, "Iowan Old Style", "Apple Garamond", Georgia, serif;
+      --sans: ui-sans-serif, system-ui, -apple-system, "Helvetica Neue", sans-serif;
+      --mono: ui-monospace, "SF Mono", Menlo, monospace;
+      --measure: 62ch;
+      --type-h2: clamp(1.35rem, 1.1rem + 0.9vw, 1.7rem);
+      --type-lede: clamp(1.2rem, 1.0rem + 0.9vw, 1.5rem);
+      --type-body: 17px;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root { --ink: #f3efe7; --muted: #9b958a; --soft: #7a7368; --rule: #2a2620; --surface: #15130f; --surface-2: #1f1c17; }
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body { font-family: var(--sans); color: var(--ink); background: var(--surface); line-height: 1.6; font-size: var(--type-body); -webkit-font-smoothing: antialiased; -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+    a { color: inherit; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+    a:hover { text-decoration-thickness: 2px; }
+
+    .wrap { max-width: 760px; margin: 0 auto; padding: 24px 20px 56px; }
+
+    .masthead { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-bottom: 16px; border-bottom: 1px solid var(--rule); }
+    .masthead a { text-decoration: none; }
+    .wordmark { font-family: var(--serif); font-size: 22px; font-weight: 600; letter-spacing: -0.02em; margin: 0; line-height: 1; }
+    .wordmark .glyph { font-family: var(--sans); margin-right: 0.15em; }
+    .nav-back { font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; }
+
+    .hero { margin: 40px 0 8px; max-width: var(--measure); }
+    .hero-kicker { font-family: var(--mono); font-size: 11px; color: var(--rising-fg); letter-spacing: 0.18em; text-transform: uppercase; display: block; margin-bottom: 10px; }
+    .hero-title { font-family: var(--serif); font-weight: 600; font-size: clamp(32px, 2vw + 22px, 48px); line-height: 1.05; letter-spacing: -0.025em; margin: 0; }
+    .hero-byline { font-family: var(--mono); font-size: 12px; color: var(--soft); letter-spacing: 0.06em; margin: 16px 0 0; }
+    .hero-byline a { color: inherit; }
+
+    .lede { margin: 28px 0 0; max-width: var(--measure); }
+    .lede p { font-family: var(--serif); font-size: var(--type-lede); line-height: 1.34; letter-spacing: -0.012em; margin: 0 0 14px; font-weight: 500; }
+    .lede p::first-letter { font-family: var(--serif); float: left; font-size: 3.2em; line-height: 0.86; padding: 0.05em 0.1em 0 0; font-weight: 600; color: var(--peak-fg); }
+    .lede p .smcp { font-variant: small-caps; letter-spacing: 0.06em; font-weight: 600; }
+    .lede p .lift { background: linear-gradient(transparent 60%, rgba(31,111,235,0.18) 60%); padding: 0 2px; }
+
+    .toc { margin: 40px 0 0; padding: 18px 20px 20px; background: var(--surface-2); border: 1px solid var(--rule); border-radius: 12px; }
+    .toc-eyebrow { font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.14em; color: var(--muted); margin-bottom: 10px; }
+    .toc ol { list-style: none; padding: 0; margin: 0; columns: 2; column-gap: 28px; }
+    @media (max-width: 600px) { .toc ol { columns: 1; } }
+    .toc li { break-inside: avoid; margin: 6px 0; font-size: 13.5px; line-height: 1.4; }
+    .toc a { text-decoration: none; display: inline-flex; gap: 8px; align-items: baseline; }
+    .toc a:hover { color: var(--rising-fg); }
+    .toc .toc-num { font-family: var(--mono); font-size: 11px; color: var(--soft); letter-spacing: 0.04em; }
+
+    .sections { margin: 56px 0 0; }
+
+    .sec { padding: 36px 0 36px; border-top: 1px solid var(--rule); position: relative; max-width: var(--measure); }
+    .sec:first-of-type { border-top: none; padding-top: 8px; }
+    .sec-num { font-family: var(--mono); font-size: 12px; color: var(--soft); letter-spacing: 0.16em; text-transform: uppercase; margin-bottom: 10px; }
+    .sec-heading { font-family: var(--serif); font-weight: 600; font-size: var(--type-h2); letter-spacing: -0.015em; line-height: 1.15; margin: 0 0 22px; scroll-margin-top: 80px; }
+    .sec-quote { font-family: var(--serif); font-style: italic; font-weight: 500; font-size: clamp(18px, 0.6vw + 16px, 22px); line-height: 1.34; letter-spacing: -0.005em; margin: 0 0 22px; padding: 0 0 0 18px; border-left: 3px solid var(--rising-fg); color: var(--ink); }
+    .sec-body p { margin: 0; font-size: 15.5px; line-height: 1.65; }
+    .sec-body p + p { margin-top: 16px; padding-top: 16px; border-top: 1px dashed var(--rule); font-size: 14.5px; color: var(--ink); }
+    .sec-body em { font-style: italic; color: var(--peak-fg); }
+    .sec-body code { font-family: var(--mono); font-size: 0.9em; background: var(--surface-2); padding: 1px 5px; border-radius: 3px; }
+
+    .footer-cta { margin: 56px 0 0; padding: 24px; background: var(--surface-2); border: 1px solid var(--rule); border-radius: 14px; max-width: var(--measure); }
+    .footer-cta h3 { font-family: var(--serif); font-size: 18px; margin: 0 0 8px; font-weight: 600; }
+    .footer-cta p { margin: 0 0 12px; font-size: 14.5px; line-height: 1.5; color: var(--muted); }
+    .footer-cta a { font-family: var(--mono); font-size: 12px; letter-spacing: 0.06em; color: var(--rising-fg); text-decoration: none; }
+    .footer-cta a:hover { text-decoration: underline; }
+
+    footer { margin-top: 48px; padding-top: 22px; border-top: 1px solid var(--rule); font-size: 12.5px; color: var(--muted); display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; }
+
+    @media (prefers-reduced-motion: no-preference) {
+      .sec, .lede p { animation: rise 0.55s cubic-bezier(0.2, 0.6, 0.2, 1) both; }
+      @keyframes rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <a href="../index.html" class="wordmark"><span class="glyph">🧭</span>zeitgeist</a>
+    <a href="../index.html" class="nav-back">← home</a>
+  </header>
+
+  <div class="hero">
+    <span class="hero-kicker">Deep dive · Karpathy</span>
+    <h1 class="hero-title">Sequoia AI Ascent 2026, every section decoded.</h1>
+    <p class="hero-byline">Andrej Karpathy · Apr 30, 2026 · <a href="https://karpathy.bearblog.dev/sequoia-ascent-2026/">read the original ↗</a></p>
+  </div>
+
+  <section class="lede">
+    <p><span class="smcp">Karpathy gave</span> the cleanest single talk on what the AI conversation is actually about in 2026 — not the next benchmark, but the shape of the work itself. Twelve sections, each one a load-bearing idea. We pulled the original quote, then a plain-English version (no jargon) and a technical reading. <span class="lift">If you read one piece this month, this is it.</span></p>
+  </section>
+
+  <nav class="toc" aria-label="Section index">
+    <div class="toc-eyebrow">Twelve sections</div>
+    <ol>
+      <li><a href="#sec-01"><span class="toc-num">01</span>December 2025 was the agentic inflection point</a></li>
+      <li><a href="#sec-02"><span class="toc-num">02</span>Software 3.0 — the context window is the new program</a></li>
+      <li><a href="#sec-03"><span class="toc-num">03</span>MenuGen — when software disappears</a></li>
+      <li><a href="#sec-04"><span class="toc-num">04</span>The new opportunity isn&#x27;t faster programming</a></li>
+      <li><a href="#sec-05"><span class="toc-num">05</span>Verifiability explains where AI moves fastest</a></li>
+      <li><a href="#sec-06"><span class="toc-num">06</span>Jagged intelligence — capability has two axes</a></li>
+      <li><a href="#sec-07"><span class="toc-num">07</span>Vibe coding raises the floor; agentic engineering raises the ceiling</a></li>
+      <li><a href="#sec-08"><span class="toc-num">08</span>Hiring needs to change</a></li>
+      <li><a href="#sec-09"><span class="toc-num">09</span>Founders — hunt for valuable verifiable environments</a></li>
+      <li><a href="#sec-10"><span class="toc-num">10</span>Agent-native infrastructure — the user is the agent now</a></li>
+      <li><a href="#sec-11"><span class="toc-num">11</span>Ghosts, not animals</a></li>
+      <li><a href="#sec-12"><span class="toc-num">12</span>Education — outsource thinking, not understanding</a></li>
+    </ol>
+  </nav>
+
+  <div class="sections">
+
+    <article class="sec" id="sec-01">
+      <div class="sec-num">01</div>
+      <h2 class="sec-heading">December 2025 was the agentic inflection point</h2>
+      <blockquote class="sec-quote">"The unit of programming changed from typing lines of code to delegating larger ‘macro actions.’"</blockquote>
+      <div class="sec-body">
+        <p>For most of computing history, programmers worked in lines of code: type, run, fix, type again. In late 2025 a quiet threshold passed where models became reliable enough to be given a whole task — “make this feature work” — rather than a single line. The job stopped being “write the code” and became “describe what to do, delegate it, and check the result.” Karpathy dates the shift to December 2025 because that's when reliability got good enough that the delegation actually held.</p>
+        <p>The agentic inflection is empirically grounded: reliability across multi-step tasks crossed the threshold where models produce larger, more coherent outputs with minimal human correction. The unit of programming flipped from <q>line</q> to <q>macro action.</q> Implication for tooling: harnesses are now the leverage point. The model's reasoning is good enough; what matters is how you scope the delegation, capture the output, and verify it. Pairs with Patrick Roos's formulation: <b>Model + Harness = Agent</b>.</p>
+      </div>
+    </article>
+
+    <article class="sec" id="sec-02">
+      <div class="sec-num">02</div>
+      <h2 class="sec-heading">Software 3.0 — the context window is the new program</h2>
+      <blockquote class="sec-quote">"The context window becomes the main lever. The LLM is an interpreter over that context."</blockquote>
+      <div class="sec-body">
+        <p>There are now three eras of software. Software 1.0 was code that humans wrote line by line. Software 2.0 was learned weights — you trained a model on data and the model became the program. Software 3.0, Karpathy's name for the current era, is when the program is the context you put in front of an LLM. You're not writing logic or training weights; you're crafting the input that makes a general-purpose model produce the behaviour you want.</p>
+        <p>Software 3.0 reframes the LLM as an interpreter and the context window as the source code. Prompting + RAG + tool definitions + system instructions become the development surface. This is what makes <q>context engineering</q> a real discipline rather than prompt-tweaking. Consequence: programming becomes legible to non-coders (which is the floor-raise), while the ceiling moves to whoever can compose context most precisely (which is the ceiling-raise).</p>
+      </div>
+    </article>
+
+    <article class="sec" id="sec-03">
+      <div class="sec-num">03</div>
+      <h2 class="sec-heading">MenuGen — when software disappears</h2>
+      <blockquote class="sec-quote">"In that version, much of the app disappears… The old software stack was scaffolding."</blockquote>
+      <div class="sec-body">
+        <p>Karpathy describes a hypothetical app called MenuGen that takes a restaurant menu photo and returns visual menus. In 2024 you'd build it with twenty layers — OCR, parsing, image search, ranking, UI scaffolding. In the 2026 version, an LLM does all of that in one pass. The scaffolding falls away. Whole categories of plumbing software — the small specialised pieces of code that used to be a real business — are about to evaporate because the model now does the transform end-to-end.</p>
+        <p>The transformation collapse: pipelines of {OCR → parser → retriever → ranker → renderer} become a single LLM call with a structured output schema. Implication for product builders: the moat moves from owning the pipeline to owning the data, the eval suite, and the runtime layer. If your product is “wrapper around an LLM that does X,” ask whether X is becoming a primitive. If yes, the wrapper has 12 months.</p>
+      </div>
+    </article>
+
+    <article class="sec" id="sec-04">
+      <div class="sec-num">04</div>
+      <h2 class="sec-heading">The new opportunity isn&#x27;t faster programming</h2>
+      <blockquote class="sec-quote">"What information transformation was impossible before, but is now natural?"</blockquote>
+      <div class="sec-body">
+        <p>The temptation is to use AI to do the same things faster — a faster code generator, a faster summariser. Karpathy says the bigger prize is asking the opposite question: what transformations were <em>impossible</em> before because nobody could write the code, but become natural now? Translating ambiguous user intent into a structured action. Reading a 200-page contract and answering one question. Composing UI on the fly. These weren't “slow” before — they were unbuildable.</p>
+        <p>Search the space of <em>previously impossible</em> information transformations, not <em>currently expensive</em> ones. The latter is a productivity play; the former is a category-creating play. Karpathy's instinct: the highest-value 2026 startups will be doing transformations that no team of engineers could have shipped in 2024 for any amount of money, because the algorithmic primitive didn't exist.</p>
+      </div>
+    </article>
+
+    <article class="sec" id="sec-05">
+      <div class="sec-num">05</div>
+      <h2 class="sec-heading">Verifiability explains where AI moves fastest</h2>
+      <blockquote class="sec-quote">"Traditional software automates what you can specify. LLMs… automate what you can verify."</blockquote>
+      <div class="sec-body">
+        <p>This is the keeper sentence of the talk. For seventy years computers could only do tasks you could spell out step by step. LLMs can now do tasks where you can't write the steps — as long as you can <em>check the result</em>. The corollary: the parts of work that automate first are the parts with strong verification signals (tests pass, build green, lint clean). The parts that don't have those signals (architecture taste, product judgment) stay human.</p>
+        <p>Verifiability is the master gate. Software 1.0 automates specifiable tasks; LLMs automate verifiable tasks. The SDLC phases with strong eval signals (unit tests, build, types) collapse onto agents first; phases without (architecture, taste) hold human. The engineering work becomes <em>expanding the frontier of what's verifiable</em> — better evals, better synthetic test environments, better RL reward functions. Karpathy's framing makes evals + verifiability the spine of the entire agentic SDLC.</p>
+      </div>
+    </article>
+
+    <article class="sec" id="sec-06">
+      <div class="sec-num">06</div>
+      <h2 class="sec-heading">Jagged intelligence — capability has two axes</h2>
+      <blockquote class="sec-quote">"Capability spike ≈ verifiability × training attention × data coverage × economic value."</blockquote>
+      <div class="sec-body">
+        <p>Models aren't smoothly smart. They're <em>jagged</em> — superhuman at competitive programming, mediocre at long-horizon project work; great at chess, weak at remembering what they did Tuesday. Why? Because what gets good is whatever has a clean eval AND whatever the labs pay attention to AND whatever has enough training data AND whatever there's money in. The spikes are where all four axes line up. The valleys are where one or more is missing.</p>
+        <p>Jagged intelligence as a product of {verifiability × training attention × data coverage × economic value}. This decomposes the <q>why is model X great at Y but bad at Z?</q> question into a small, testable model. Practical use: if you want to bet on the next capability spike, look for tasks high in verifiability and economic value where training attention is still low — that's the alpha. Pairs with the <q>find valuable verifiable environments</q> founder rule below.</p>
+      </div>
+    </article>
+
+    <article class="sec" id="sec-07">
+      <div class="sec-num">07</div>
+      <h2 class="sec-heading">Vibe coding raises the floor; agentic engineering raises the ceiling</h2>
+      <blockquote class="sec-quote">"Vibe coding raises the floor. Agentic engineering raises the ceiling."</blockquote>
+      <div class="sec-body">
+        <p>Two stories about AI coding tools coexist and people confuse them. <em>Vibe coding</em> — typing a vague intent into Cursor or Lovable and getting something working — raises the <em>floor</em>: more people can ship more things. <em>Agentic engineering</em> — building harnesses, evals, multi-agent systems to do serious software work — raises the <em>ceiling</em>: the best teams ship things they couldn't have shipped before. Both are real. Don't confuse them.</p>
+        <p>Floor vs ceiling is the cleanest classifier for any new AI tool. Floor-raisers (Cursor, Lovable, v0, basic Claude Code use) democratise existing capability. Ceiling-raisers (harness design, eval infrastructure, spec-driven dev like Kiro, multi-agent for breadth-first search) extend the frontier of what's achievable. Investing posture: the floor is competitive (already crowded); the ceiling is where the moats are still being built. Personal posture: get fluent on the floor, but build on the ceiling.</p>
+      </div>
+    </article>
+
+    <article class="sec" id="sec-08">
+      <div class="sec-num">08</div>
+      <h2 class="sec-heading">Hiring needs to change</h2>
+      <blockquote class="sec-quote">"Build a substantial project with agents, deploy it, make it secure, then have agents try to break it."</blockquote>
+      <div class="sec-body">
+        <p>Traditional coding interviews — invert a binary tree, implement a queue — test skills the agent can already do. They no longer measure what an engineer needs to be good at in the agentic era: scoping a delegation, designing the harness, reading agent output critically, securing what the agent produced. Karpathy's suggested interview: have the candidate build a real project with agents, ship it, harden it, then try to break it.</p>
+        <p>Interview shift from <em>algorithmic primitive recall</em> to <em>orchestration craft</em>: scope decomposition, prompt + context design, eval suite construction, security review of agent output, adversarial red-teaming. The senior-engineer challenge (Schmid, GoogleDeepMind): the people best at the old loop — removing ambiguity — are the worst at the new one — living in ambiguity. Hiring filters built for the old loop will systematically miss the people who'll be effective in the new one.</p>
+      </div>
+    </article>
+
+    <article class="sec" id="sec-09">
+      <div class="sec-num">09</div>
+      <h2 class="sec-heading">Founders — hunt for valuable verifiable environments</h2>
+      <blockquote class="sec-quote">"Many economically important domains may have latent verifiable structure not yet exploited."</blockquote>
+      <div class="sec-body">
+        <p>If you're starting a company, the winning pattern is to find a domain that's economically important AND has some hidden way of <em>checking whether the AI did it right</em> that no one's exploited yet. Insurance claims have verifiable rules. Code has tests. Legal contracts have clauses. Finance has settlements. Many domains have this structure but haven't been built into eval suites. Build the eval, then the agent that passes it, then the moat is yours.</p>
+        <p>Founder rule: <em>valuable</em> × <em>verifiable</em> × <em>under-served</em>. Verifiability creates an RL signal you can fine-tune on; valuable creates willingness-to-pay; under-served means no one's built the eval suite yet. The startup playbook becomes: (1) identify the latent verification structure of a domain, (2) instrument it as an eval, (3) train or scaffold an agent that maxes the eval, (4) the eval suite is the moat. AIG (Claude on insurance claims, 88% expert parity out of the box) is an early data point.</p>
+      </div>
+    </article>
+
+    <article class="sec" id="sec-10">
+      <div class="sec-num">10</div>
+      <h2 class="sec-heading">Agent-native infrastructure — the user is the agent now</h2>
+      <blockquote class="sec-quote">"Increasingly the user is not the human directly. The user is the human&#x27;s agent."</blockquote>
+      <div class="sec-body">
+        <p>Software written for humans has buttons, forms, scrollbars, hover states. None of that helps an AI agent using your product on behalf of its human owner. The next wave of infrastructure is rebuilt around the agent: machine-readable APIs first, command-line interfaces, structured response formats, predictable URLs, well-known endpoints. Products that don't expose an agent-friendly surface get bypassed by ones that do.</p>
+        <p>Product redesign: every UI flow needs an equivalent machine-callable surface. CLIs over GUIs for power features. JSON/structured output over HTML scraping. <code>/.well-known/</code> endpoints for discovery. Server-side rendering of tool-callable actions (mcp-ui). The strategic question for any product team: <q>What does my product look like if the user is Claude / GPT, not the human?</q> If you don't have a good answer, an agent-native competitor will undercut you within 18 months.</p>
+      </div>
+    </article>
+
+    <article class="sec" id="sec-11">
+      <div class="sec-num">11</div>
+      <h2 class="sec-heading">Ghosts, not animals</h2>
+      <blockquote class="sec-quote">"They are not smooth human minds. They are jagged, alien tools."</blockquote>
+      <div class="sec-body">
+        <p>It's tempting to think of LLMs as artificial people — imperfect humans. Karpathy's pushback: they're not animals at all. Animals evolved through millions of years of drives, instincts, survival pressures. LLMs are statistical artifacts shaped by training data and an objective function. They don't have intent. They're more like ghosts — you can interact with them, they respond intelligently, but the metaphor of a person doing things <em>for reasons</em> is wrong. Treat them empirically, not anthropomorphically.</p>
+        <p>Anti-anthropomorphism as engineering discipline. LLMs are statistical artifacts, not agents with goals. They have no homeostasis, no preferences, no internal narrative — just a learned distribution over outputs given context. Implications: don't ascribe intent to errors (the model didn't <q>try</q> to deceive); don't expect consistency without forcing it; design around the actual mechanism (sampling, attention) rather than the simulated persona. <em>“Jagged, alien tools”</em> is the working frame.</p>
+      </div>
+    </article>
+
+    <article class="sec" id="sec-12">
+      <div class="sec-num">12</div>
+      <h2 class="sec-heading">Education — outsource thinking, not understanding</h2>
+      <blockquote class="sec-quote">"You can outsource your thinking, but you can&#x27;t outsource your understanding."</blockquote>
+      <div class="sec-body">
+        <p>The fear about students using AI for homework misses the deeper risk. You can offload the <em>thinking</em> — the cognitive labour of producing an answer — to an AI. What you can't offload is <em>understanding</em>: the internalised model of how something works that lets you ask better questions, notice when the AI is wrong, and choose what's worth doing in the first place. The question for educators isn't whether to allow AI; it's how to make sure understanding still gets built when thinking gets cheap.</p>
+        <p>Education needs to separate <em>output production</em> (which automates) from <em>schema-building</em> (which doesn't). Generative-AI homework that bypasses schema construction creates fluent answers without internal models — students who can't direct their own future learning. The pedagogy fix is to evaluate on <em>question-asking</em>, <em>error-spotting</em>, <em>direction-setting</em>, not on output. Same principle applies to professionals: the engineers who'll thrive in 2026 are the ones who keep building schemas faster than agents replace their output.</p>
+      </div>
+    </article>
+
+  </div>
+
+  <aside class="footer-cta">
+    <h3>House phrases minted in this piece</h3>
+    <p>The zeitgeist lexicon picks up three handles from this talk: <em>“automate what you can verify”</em>, <em>“vibe coding raises the floor, agentic engineering raises the ceiling”</em>, and <em>“you can outsource your thinking, but you can't outsource your understanding.”</em> Use them as load-bearing in your own writing.</p>
+    <a href="../index.html">← back to the homepage</a>
+  </aside>
+
+  <footer>
+    <div>Distilled from a private knowledge base · commentary on public AI-engineering writing.</div>
+    <div><a href="../index.html">home</a> · <a href="https://github.com/Samuel-Morgan-Tyghe/zeitgeist">source</a></div>
+  </footer>
+
+</div>
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('../sw.js').catch(() => {});
+    });
+  }
+</script>
+</body>
+</html>
