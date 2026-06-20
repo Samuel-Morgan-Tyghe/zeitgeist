@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Zeitgeist digest 2026-06-04 — MCP becomes infrastructure (110M downloads); build skills, not agents; the connector layer for AI goes public.">
+  <meta name="theme-color" content="#1a1a1a">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="zeitgeist">
+  <link rel="manifest" href="../manifest.json">
+  <link rel="icon" type="image/svg+xml" href="../icon.svg">
+  <link rel="apple-touch-icon" href="../icon.svg">
+  <title>Digest 2026-06-04 · zeitgeist</title>
+  <style>
+    :root {
+      --ink: #1a1a1a;
+      --muted: #6b6b6b;
+      --soft: #8d8478;
+      --rule: #e8e4dc;
+      --surface: #fbfaf7;
+      --surface-2: #f5f1e8;
+      --emerging-fg: #2f8f5a;
+      --rising-fg: #1f6feb;
+      --peak-fg: #c53b3b;
+      --fading-fg: #6b6b6b;
+      --serif: ui-serif, "Iowan Old Style", "Apple Garamond", Georgia, serif;
+      --sans: ui-sans-serif, system-ui, -apple-system, "Helvetica Neue", sans-serif;
+      --mono: ui-monospace, "SF Mono", Menlo, monospace;
+      --measure: 62ch;
+      --type-h2: clamp(1.3rem, 1.1rem + 0.9vw, 1.6rem);
+      --type-lede: clamp(1.2rem, 1.0rem + 0.9vw, 1.5rem);
+      --type-body: 17px;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root { --ink: #f3efe7; --muted: #9b958a; --soft: #7a7368; --rule: #2a2620; --surface: #15130f; --surface-2: #1f1c17; }
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body { font-family: var(--sans); color: var(--ink); background: var(--surface); line-height: 1.6; font-size: var(--type-body); -webkit-font-smoothing: antialiased; -webkit-text-size-adjust: 100%; }
+    a { color: inherit; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+    a:hover { text-decoration-thickness: 2px; }
+    .wrap { max-width: 760px; margin: 0 auto; padding: 24px 20px 48px; }
+    .masthead { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-bottom: 16px; border-bottom: 1px solid var(--rule); }
+    .masthead a { text-decoration: none; }
+    .wordmark { font-family: var(--serif); font-size: 22px; font-weight: 600; letter-spacing: -0.02em; margin: 0; line-height: 1; }
+    .wordmark .glyph { font-family: var(--sans); margin-right: 0.15em; }
+    .nav-back { font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; }
+    .doc-head { margin: 36px 0 12px; max-width: var(--measure); }
+    .doc-date { font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: 0.14em; text-transform: uppercase; }
+    .doc-title { font-family: var(--serif); font-weight: 600; font-size: clamp(28px, 2vw + 18px, 40px); letter-spacing: -0.02em; line-height: 1.1; margin: 12px 0 0; }
+    .plain { margin: 24px 0 0; padding: 22px 0 0; border-top: 1px solid var(--rule); }
+    .plain-eyebrow { font-family: var(--mono); text-transform: uppercase; font-size: 11px; letter-spacing: 0.12em; color: var(--muted); margin-bottom: 12px; }
+    .plain p { font-family: var(--serif); font-size: var(--type-lede); line-height: 1.34; letter-spacing: -0.012em; margin: 0; font-weight: 500; max-width: var(--measure); }
+    .plain p::first-letter { font-family: var(--serif); float: left; font-size: 3.2em; line-height: 0.86; padding: 0.05em 0.1em 0 0; font-weight: 600; color: var(--peak-fg); }
+    .plain p .smcp { font-variant: small-caps; letter-spacing: 0.06em; font-weight: 600; }
+    .plain p .lift { background: linear-gradient(transparent 60%, rgba(31,111,235,0.18) 60%); padding: 0 2px; }
+    h2 { font-family: var(--serif); font-weight: 600; font-size: var(--type-h2); letter-spacing: -0.01em; margin: 56px 0 16px; display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+    h2 .num { font-family: var(--mono); font-size: 12px; color: var(--muted); letter-spacing: 0.1em; font-weight: 500; }
+    h2 .sub { font-family: var(--sans); font-size: 13px; color: var(--muted); font-weight: 400; letter-spacing: 0; }
+    .tldr-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
+    @media (min-width: 640px) { .tldr-grid { grid-template-columns: repeat(3, 1fr); gap: 14px; } }
+    .takeaway { padding: 14px 16px 14px 18px; background: var(--surface); border: 1px solid var(--rule); border-left-width: 3px; border-radius: 6px 12px 12px 6px; }
+    .takeaway .label { font-family: var(--mono); text-transform: uppercase; font-size: 10.5px; letter-spacing: 0.14em; }
+    .takeaway .text { margin: 6px 0 0; font-size: 14px; line-height: 1.5; }
+    .takeaway--important { border-left-color: var(--rising-fg); }
+    .takeaway--important .label { color: var(--rising-fg); }
+    .takeaway--overhyped { border-left-color: var(--peak-fg); }
+    .takeaway--overhyped .label { color: var(--peak-fg); }
+    .takeaway--emerging { border-left-color: var(--emerging-fg); }
+    .takeaway--emerging .label { color: var(--emerging-fg); }
+    .articles { padding: 0; margin: 0; list-style: none; }
+    .articles > li { display: grid; grid-template-columns: 32px 1fr; gap: 14px; padding: 26px 0 28px; border-top: 1px solid var(--rule); }
+    .articles > li:last-child { border-bottom: 1px solid var(--rule); }
+    .articles .index { font-family: var(--mono); font-size: 13px; color: var(--soft); letter-spacing: 0.04em; padding-top: 7px; }
+    .articles .head { margin-bottom: 14px; }
+    .articles .tease { font-family: var(--serif); font-weight: 600; font-size: clamp(20px, 0.7vw + 17px, 24px); line-height: 1.22; letter-spacing: -0.018em; display: block; color: var(--ink); }
+    .articles .tease a { text-decoration: none; color: inherit; }
+    .articles .tease a:hover { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 4px; color: var(--rising-fg); }
+    .articles .src { font-family: var(--mono); font-size: 11px; color: var(--soft); letter-spacing: 0.06em; display: block; margin-top: 5px; }
+    .articles .body { max-width: 60ch; }
+    .articles .body p { margin: 0; font-size: 15.5px; line-height: 1.6; }
+    .articles .body p + p { margin-top: 14px; padding-top: 14px; border-top: 1px dashed var(--rule); font-size: 14.5px; color: var(--ink); }
+    .articles .body em { font-style: italic; color: var(--peak-fg); }
+    @media (max-width: 520px) { .articles > li { grid-template-columns: 1fr; gap: 6px; padding: 22px 0 24px; } .articles .index { padding-top: 0; } }
+    .skip { display: grid; gap: 10px; }
+    .skip > div { padding: 14px 16px 14px 18px; border-left: 3px solid var(--peak-fg); background: var(--surface); border-top: 1px solid var(--rule); border-right: 1px solid var(--rule); border-bottom: 1px solid var(--rule); border-radius: 4px 12px 12px 4px; font-size: 14.5px; line-height: 1.5; }
+    .skip > div b { color: var(--peak-fg); }
+    .nav { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 56px 0 32px; padding: 24px 0; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+    .nav a, .nav .stub { display: block; padding: 16px 18px; border-radius: 14px; border: 1px solid var(--rule); text-decoration: none; background: var(--surface); }
+    .nav .label { display: block; font-family: var(--mono); text-transform: uppercase; font-size: 10.5px; letter-spacing: 0.14em; color: var(--muted); }
+    .nav .title { display: block; margin-top: 6px; font-weight: 600; font-size: 15px; }
+    .nav .nav-prev { text-align: left; }
+    .nav .nav-next { text-align: right; }
+    .nav .stub { color: var(--muted); cursor: not-allowed; opacity: 0.55; }
+    .nav a:hover { border-color: var(--rising-fg); color: var(--rising-fg); }
+    .nav a:hover .label { color: var(--rising-fg); }
+    footer { margin-top: 16px; padding-top: 18px; border-top: 1px solid var(--rule); font-size: 12.5px; color: var(--muted); display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; }
+    @media (prefers-reduced-motion: no-preference) { .plain p, .takeaway, .links li, .articles > li { animation: rise 0.5s cubic-bezier(0.2,0.6,0.2,1) both; } @keyframes rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } } }
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <a href="../index.html" class="wordmark"><span class="glyph">🧭</span>zeitgeist</a>
+    <a href="../index.html" class="nav-back">← home</a>
+  </header>
+
+  <div class="doc-head">
+    <div class="doc-date">Digest · 2026-06-04 · AM</div>
+    <h1 class="doc-title">MCP becomes infrastructure. Build skills, not agents.</h1>
+  </div>
+
+  <section class="plain">
+    <div class="plain-eyebrow">In plain English</div>
+    <p><span class='smcp'>The plumbing under</span> AI assistants quietly became a real industry today. A protocol called MCP (Model Context Protocol — think USB for AI tools) hit 110 million monthly downloads in roughly half the time it took React, and GitHub's registry of these connectors crossed nearly 2,000 entries with 407% growth since September. The clearest voices in the field are now telling builders to stop reaching for <q>agents</q> — software that figures out its own steps — for every problem; if you can draw the decision tree on a whiteboard, you should build a fixed workflow instead. The honest summary: the smart-AI race has turned into a plumbing race, and the people winning it are the ones picking <span class='lift'>smaller, simpler shapes</span>.</p>
+  </section>
+
+  <h2><span class="num">01 ·</span>TL;DR <span class="sub">the day in three</span></h2>
+  <div class="tldr-grid">
+    <div class="takeaway takeaway--important"><div class="label">Most important</div><p class="text">MCP has graduated from demo protocol to enterprise infrastructure — 110M monthly downloads, donated to the Linux Foundation, GitHub's registry at ~2,000 servers and 407% growth.</p></div>
+    <div class="takeaway takeaway--overhyped"><div class="label">Most overhyped</div><p class="text"><b>"Build an agent"</b> — Barry Zhang's pushback is that most agent projects should have been workflows; the model owning the plumbing is a cost, not a feature.</p></div>
+    <div class="takeaway takeaway--emerging"><div class="label">Emerging</div><p class="text"><b>Skills-over-MCP</b>, <b>progressive discovery</b>, and <b>programmatic tool calling</b> — the shape of how a model talks to the world is changing under the hood.</p></div>
+  </div>
+
+  <h2><span class="num">02 ·</span>Today's reading <span class="sub">six pieces · plain English first, then the named version</span></h2>
+  <ol class="articles">
+
+    <li>
+      <div class="index">01</div>
+      <div>
+        <div class="head">
+          <span class="tease"><a href="https://www.youtube.com/watch?v=CEvIs9y1uog">Don&#x27;t build agents — build skills</a></span>
+          <span class="src">Barry Zhang &amp;amp; Mahesh Murag · Anthropic</span>
+        </div>
+        <div class="body">
+          <p>Barry Zhang from Anthropic argues that most <q>AI agent</q> projects shouldn't be agents at all. If you can already draw the decision tree on a whiteboard, the right thing to build is a fixed workflow where you wire up each step yourself. Agents — software that decides its own next move — are for genuinely ambiguous tasks, and they cost more accuracy, control, and money than people admit. The headline rule: don't reach for the autonomous version of a problem you've already solved.</p>
+          <p>Zhang's framing: <em>"With a workflow, you own the plumbing. With an agent, the model owns the plumbing."</em> Agents are defined as <em>"models using tools in a loop"</em> dynamically directing their own processes, anchored by three things — the environment, the tools, and the system prompt. His first rule is <b>don't build agents for everything</b>: the criterion is ambiguity. If the decision tree is pre-mappable, build a workflow and optimise each node. Skills over agents whenever the task is well-understood.</p>
+        </div>
+      </div>
+    </li>
+
+    <li>
+      <div class="index">02</div>
+      <div>
+        <div class="head">
+          <span class="tease"><a href="https://www.youtube.com/watch?v=v3Fr2JR47KA">MCP hits 110M monthly downloads</a></span>
+          <span class="src">David Soria Parra · Anthropic</span>
+        </div>
+        <div class="body">
+          <p>David Soria Parra co-created MCP — the wiring standard that lets AI assistants plug into outside tools — and he laid out where it's going next. The big number: 110 million downloads a month, hit in about half the time React took to reach the same level. It's now used by OpenAI, Google, and thousands of frameworks, and Anthropic has handed it over to the Linux Foundation so no single company owns it. The takeaway for non-builders: the connector layer for AI just stopped being an Anthropic project and started being public infrastructure.</p>
+          <p>Two client-side patterns are the story for 2026. <b>Progressive discovery</b> — lazy-loading tools on demand rather than dumping every tool spec into context up front — solves context bloat at enterprise scale. <b>Programmatic tool calling</b> — having the model write scripts that compose multiple tool calls — <em>"turns the agent from a tool-caller into a programmer."</em> Roadmap: stateless transport, async primitives for agent-to-agent comms, SDK v2 in TypeScript/Python, cross-app SSO, well-known-URL server discovery, and skills-over-MCP for shipping domain knowledge alongside servers.</p>
+        </div>
+      </div>
+    </li>
+
+    <li>
+      <div class="index">03</div>
+      <div>
+        <div class="head">
+          <span class="tease"><a href="https://www.youtube.com/watch?v=UQjAZrTM0MI">Stop converting REST APIs to MCP</a></span>
+          <span class="src">Jeremiah Lowin · AI Engineer Code Summit 2025</span>
+        </div>
+        <div class="body">
+          <p>Jeremiah Lowin, who built the popular FastMCP toolkit, says most of today's MCP servers are bad products. The reason: people auto-generate them from web APIs designed for humans clicking around — hundreds of tiny endpoints, infinitely flexible. That's fine for code, but for an AI model every single call is expensive, and chaining ten little ones to do one job is slow, error-prone, and burns money. The fix is human work: pick the few combined actions an assistant actually needs, and throw the rest away.</p>
+          <p>Three failure modes: <b>context cost</b> (LLMs process every tool name + description + parameter on each reasoning cycle), <b>atomicity mismatch</b> (REST is generous because iteration is cheap for code; for LLMs iteration is <em>"slow, error-prone, and burns through tokens"</em>), and <b>context pollution</b> — <em>"your agent stops being a helpful assistant and becomes an obsessive API librarian."</em> Lowin's prescription: <em>"Stop converting your REST APIs. Start curating them."</em> Bootstrap with <code>FastMCP.from_openapi()</code>, then ruthlessly curate. Start from the agent story.</p>
+        </div>
+      </div>
+    </li>
+
+    <li>
+      <div class="index">04</div>
+      <div>
+        <div class="head">
+          <span class="tease"><a href="https://www.youtube.com/watch?v=661yQKSoKP8">GitHub registry hits 2,000 servers</a></span>
+          <span class="src">GitHub team · AI Engineer Paris 2025</span>
+        </div>
+        <div class="body">
+          <p>GitHub showed the numbers behind MCP going mainstream inside big companies. Their public registry of connectors now lists nearly 2,000 entries — up 407% since September. Pinterest's internal deployment alone logged 66,000 tool calls in a month from 844 employees. Slack, Salesforce, Stripe, HubSpot, Shopify, Notion, Linear, Figma, and Cloudflare all run official versions. This is the moment a protocol stops being a demo and starts being IT infrastructure.</p>
+          <p>The unglamorous work is now the work: transport scalability, agent-to-agent comms protocols, governance (who can access which tools), and enterprise readiness — SSO, audit logging, rate limiting. The gap between <em>"works in Claude Desktop"</em> and <em>"works for 844 users"</em> is where the next year of engineering lives. Read alongside Lowin: curation + Lowin's three failure modes are what stand between a registry entry and a production deployment.</p>
+        </div>
+      </div>
+    </li>
+
+    <li>
+      <div class="index">05</div>
+      <div>
+        <div class="head">
+          <span class="tease"><a href="https://www.youtube.com/watch?v=4CB8zDdShzA">MCP as the multi-agent connector</a></span>
+          <span class="src">Dan Mason · AI Engineer Summit NYC 2025</span>
+        </div>
+        <div class="body">
+          <p>Dan Mason's workshop reframed MCP from <q>the thing that lets one AI use one tool</q> to <q>the wiring between teams of AIs and the real world.</q> Each AI in a multi-agent setup gets its own scoped slice of tools through MCP, with a router agent deciding who handles what. The deeper point is for product people: instead of writing code, you describe roles, the tools each role can touch, and the outcome you want — and let the system figure out the rest.</p>
+          <p>Built on LangGraph (compatible with AutoGen, CrewAI). Mason's framing: <em>"Rethink how to express business logic as a set of roles, tools, and desired outcomes"</em> rather than as code. Each agent gets scoped tool access through MCP; the orchestrator routes between agents. Reads as a useful counterweight to Zhang — multi-agent has a real shape, but the <em>workflow vs agent</em> question still applies at every node inside the system.</p>
+        </div>
+      </div>
+    </li>
+
+  </ol>
+
+  <h2><span class="num">03 ·</span>Skip the hype</h2>
+  <div class="skip">
+    <div><b>"Just build an agent"</b> — Zhang's gauntlet: if you can pre-map the decision tree, a workflow beats an agent on accuracy, control, and cost. Most agent projects are smuggled workflows wearing a costume.</div>
+    <div><b>Auto-converted REST→MCP servers</b> — Lowin's verdict is blunt: bad products. A registry entry that ships every endpoint isn't a tool, it's a context-pollution machine; curation is the actual engineering.</div>
+  </div>
+
+  <nav class="nav" aria-label="Digest pagination">
+    <div class="nav-prev">
+      <a href="2026-06-10.html">
+        <span class="label">← Newer</span>
+        <span class="title">Loops peak; Farley lands tests-as-spec.</span>
+      </a>
+    </div>
+    <div class="nav-next">
+      <div class="stub">
+        <span class="label">Older →</span>
+        <span class="title">No earlier digest yet.</span>
+      </div>
+    </div>
+  </nav>
+
+  <footer>
+    <div>Distilled from a private knowledge base · twice daily · commentary on public AI-engineering news &amp; research.</div>
+    <div><a href="../index.html">home</a> · <a href="https://github.com/Samuel-Morgan-Tyghe/zeitgeist">source</a></div>
+  </footer>
+
+</div>
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('../sw.js').catch(() => {});
+    });
+  }
+</script>
+</body>
+</html>

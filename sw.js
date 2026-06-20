@@ -1,4 +1,4 @@
-const CACHE = 'zeitgeist-v3';
+const CACHE = 'zeitgeist-v4';
 const SHELL = [
   './',
   './index.html',

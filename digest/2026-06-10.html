@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Zeitgeist digest 2026-06-10 — Loops peak; Farley lands tests-as-spec; generative UI matures; senior engineers stall on agents.">
+  <meta name="theme-color" content="#1a1a1a">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="zeitgeist">
+  <link rel="manifest" href="../manifest.json">
+  <link rel="icon" type="image/svg+xml" href="../icon.svg">
+  <link rel="apple-touch-icon" href="../icon.svg">
+  <title>Digest 2026-06-10 · zeitgeist</title>
+  <style>
+    :root {
+      --ink: #1a1a1a;
+      --muted: #6b6b6b;
+      --soft: #8d8478;
+      --rule: #e8e4dc;
+      --surface: #fbfaf7;
+      --surface-2: #f5f1e8;
+      --emerging-fg: #2f8f5a;
+      --rising-fg: #1f6feb;
+      --peak-fg: #c53b3b;
+      --fading-fg: #6b6b6b;
+      --serif: ui-serif, "Iowan Old Style", "Apple Garamond", Georgia, serif;
+      --sans: ui-sans-serif, system-ui, -apple-system, "Helvetica Neue", sans-serif;
+      --mono: ui-monospace, "SF Mono", Menlo, monospace;
+      --measure: 62ch;
+      --type-h2: clamp(1.3rem, 1.1rem + 0.9vw, 1.6rem);
+      --type-lede: clamp(1.2rem, 1.0rem + 0.9vw, 1.5rem);
+      --type-body: 17px;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root { --ink: #f3efe7; --muted: #9b958a; --soft: #7a7368; --rule: #2a2620; --surface: #15130f; --surface-2: #1f1c17; }
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body { font-family: var(--sans); color: var(--ink); background: var(--surface); line-height: 1.6; font-size: var(--type-body); -webkit-font-smoothing: antialiased; -webkit-text-size-adjust: 100%; }
+    a { color: inherit; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+    a:hover { text-decoration-thickness: 2px; }
+    .wrap { max-width: 760px; margin: 0 auto; padding: 24px 20px 48px; }
+    .masthead { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-bottom: 16px; border-bottom: 1px solid var(--rule); }
+    .masthead a { text-decoration: none; }
+    .wordmark { font-family: var(--serif); font-size: 22px; font-weight: 600; letter-spacing: -0.02em; margin: 0; line-height: 1; }
+    .wordmark .glyph { font-family: var(--sans); margin-right: 0.15em; }
+    .nav-back { font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; }
+    .doc-head { margin: 36px 0 12px; max-width: var(--measure); }
+    .doc-date { font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: 0.14em; text-transform: uppercase; }
+    .doc-title { font-family: var(--serif); font-weight: 600; font-size: clamp(28px, 2vw + 18px, 40px); letter-spacing: -0.02em; line-height: 1.1; margin: 12px 0 0; }
+    .plain { margin: 24px 0 0; padding: 22px 0 0; border-top: 1px solid var(--rule); }
+    .plain-eyebrow { font-family: var(--mono); text-transform: uppercase; font-size: 11px; letter-spacing: 0.12em; color: var(--muted); margin-bottom: 12px; }
+    .plain p { font-family: var(--serif); font-size: var(--type-lede); line-height: 1.34; letter-spacing: -0.012em; margin: 0; font-weight: 500; max-width: var(--measure); }
+    .plain p::first-letter { font-family: var(--serif); float: left; font-size: 3.2em; line-height: 0.86; padding: 0.05em 0.1em 0 0; font-weight: 600; color: var(--peak-fg); }
+    .plain p .smcp { font-variant: small-caps; letter-spacing: 0.06em; font-weight: 600; }
+    .plain p .lift { background: linear-gradient(transparent 60%, rgba(31,111,235,0.18) 60%); padding: 0 2px; }
+    h2 { font-family: var(--serif); font-weight: 600; font-size: var(--type-h2); letter-spacing: -0.01em; margin: 56px 0 16px; display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+    h2 .num { font-family: var(--mono); font-size: 12px; color: var(--muted); letter-spacing: 0.1em; font-weight: 500; }
+    h2 .sub { font-family: var(--sans); font-size: 13px; color: var(--muted); font-weight: 400; letter-spacing: 0; }
+    .tldr-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
+    @media (min-width: 640px) { .tldr-grid { grid-template-columns: repeat(3, 1fr); gap: 14px; } }
+    .takeaway { padding: 14px 16px 14px 18px; background: var(--surface); border: 1px solid var(--rule); border-left-width: 3px; border-radius: 6px 12px 12px 6px; }
+    .takeaway .label { font-family: var(--mono); text-transform: uppercase; font-size: 10.5px; letter-spacing: 0.14em; }
+    .takeaway .text { margin: 6px 0 0; font-size: 14px; line-height: 1.5; }
+    .takeaway--important { border-left-color: var(--rising-fg); }
+    .takeaway--important .label { color: var(--rising-fg); }
+    .takeaway--overhyped { border-left-color: var(--peak-fg); }
+    .takeaway--overhyped .label { color: var(--peak-fg); }
+    .takeaway--emerging { border-left-color: var(--emerging-fg); }
+    .takeaway--emerging .label { color: var(--emerging-fg); }
+    .articles { padding: 0; margin: 0; list-style: none; }
+    .articles > li { display: grid; grid-template-columns: 32px 1fr; gap: 14px; padding: 26px 0 28px; border-top: 1px solid var(--rule); }
+    .articles > li:last-child { border-bottom: 1px solid var(--rule); }
+    .articles .index { font-family: var(--mono); font-size: 13px; color: var(--soft); letter-spacing: 0.04em; padding-top: 7px; }
+    .articles .head { margin-bottom: 14px; }
+    .articles .tease { font-family: var(--serif); font-weight: 600; font-size: clamp(20px, 0.7vw + 17px, 24px); line-height: 1.22; letter-spacing: -0.018em; display: block; color: var(--ink); }
+    .articles .tease a { text-decoration: none; color: inherit; }
+    .articles .tease a:hover { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 4px; color: var(--rising-fg); }
+    .articles .src { font-family: var(--mono); font-size: 11px; color: var(--soft); letter-spacing: 0.06em; display: block; margin-top: 5px; }
+    .articles .body { max-width: 60ch; }
+    .articles .body p { margin: 0; font-size: 15.5px; line-height: 1.6; }
+    .articles .body p + p { margin-top: 14px; padding-top: 14px; border-top: 1px dashed var(--rule); font-size: 14.5px; color: var(--ink); }
+    .articles .body em { font-style: italic; color: var(--peak-fg); }
+    @media (max-width: 520px) { .articles > li { grid-template-columns: 1fr; gap: 6px; padding: 22px 0 24px; } .articles .index { padding-top: 0; } }
+    .skip { display: grid; gap: 10px; }
+    .skip > div { padding: 14px 16px 14px 18px; border-left: 3px solid var(--peak-fg); background: var(--surface); border-top: 1px solid var(--rule); border-right: 1px solid var(--rule); border-bottom: 1px solid var(--rule); border-radius: 4px 12px 12px 4px; font-size: 14.5px; line-height: 1.5; }
+    .skip > div b { color: var(--peak-fg); }
+    .nav { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 56px 0 32px; padding: 24px 0; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+    .nav a, .nav .stub { display: block; padding: 16px 18px; border-radius: 14px; border: 1px solid var(--rule); text-decoration: none; background: var(--surface); }
+    .nav .label { display: block; font-family: var(--mono); text-transform: uppercase; font-size: 10.5px; letter-spacing: 0.14em; color: var(--muted); }
+    .nav .title { display: block; margin-top: 6px; font-weight: 600; font-size: 15px; }
+    .nav .nav-prev { text-align: left; }
+    .nav .nav-next { text-align: right; }
+    .nav .stub { color: var(--muted); cursor: not-allowed; opacity: 0.55; }
+    .nav a:hover { border-color: var(--rising-fg); color: var(--rising-fg); }
+    .nav a:hover .label { color: var(--rising-fg); }
+    footer { margin-top: 16px; padding-top: 18px; border-top: 1px solid var(--rule); font-size: 12.5px; color: var(--muted); display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; }
+    @media (prefers-reduced-motion: no-preference) { .plain p, .takeaway, .links li, .articles > li { animation: rise 0.5s cubic-bezier(0.2,0.6,0.2,1) both; } @keyframes rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } } }
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <a href="../index.html" class="wordmark"><span class="glyph">🧭</span>zeitgeist</a>
+    <a href="../index.html" class="nav-back">← home</a>
+  </header>
+
+  <div class="doc-head">
+    <div class="doc-date">Digest · 2026-06-10 · AM</div>
+    <h1 class="doc-title">Loops peak. Farley lands tests-as-spec.</h1>
+  </div>
+
+  <section class="plain">
+    <div class="plain-eyebrow">In plain English</div>
+    <p><span class='smcp'>This was the week</span> the AI-coding crowd settled on a single word for what they're doing — <q>loops</q> — and the most experienced engineer in the room said the word is wrong. The hard part isn't the loop, it's the <span class='lift'>test that tells the loop when to stop</span>. At the same time, a small group started shipping UIs that the AI invents on the fly (an <q>operating system</q> that hallucinates Notepad on demand; a flame graph that appears live inside a chat window). And — quietly more important — senior engineers are turning out to be the <em>worst</em> at building these agents, because instinct tells them to remove ambiguity, and that's exactly what an agent runs on.</p>
+  </section>
+
+  <h2><span class="num">01 ·</span>TL;DR <span class="sub">the day in three</span></h2>
+  <div class="tldr-grid">
+    <div class="takeaway takeaway--important"><div class="label">Most important</div><p class="text">Dave Farley lands the keystone — agentic loops only work with <b>tests-as-spec</b> and Continuous Delivery feedback discipline; the rest is throughput theatre.</p></div>
+    <div class="takeaway takeaway--overhyped"><div class="label">Most overhyped</div><p class="text"><b>"Loop engineering"</b> — newly named, already saturating LinkedIn; the loop is easy, the termination condition is the work everyone skips.</p></div>
+    <div class="takeaway takeaway--emerging"><div class="label">Emerging</div><p class="text"><b>Generative UI</b> as the <q>agency escape hatch</q> — interactive surfaces inside MCP responses let the user click instead of the agent guessing.</p></div>
+  </div>
+
+  <h2><span class="num">02 ·</span>Today's reading <span class="sub">six pieces · plain English first, then the named version</span></h2>
+  <ol class="articles">
+
+    <li>
+      <div class="index">01</div>
+      <div>
+        <div class="head">
+          <span class="tease"><a href="https://www.youtube.com/watch?v=hlxeiSzde5A">The &quot;secret&quot; is just CD</a></span>
+          <span class="src">Dave Farley · Modern Software Engineering</span>
+        </div>
+        <div class="body">
+          <p>Farley — the man who wrote the book on Continuous Delivery (CD: ship to production many times a day with confidence) — hit the same wall everyone hits with AI coding tools: impressive output, constant regressions. His fix wasn't a new prompt or framework. It was test-driven development, where the tests themselves are the specification of <q>done.</q> His one-line reframe: <q>slow down to speed up.</q> Build in 90 minutes what took weeks, then spend the rest of the day thinking critically about whether it holds up.</p>
+          <p>Farley names the guardrail every loops post dances around: <em>"tests as the spec, fast feedback loops at every timescale."</em> TDD stops the agent's worst habit (skipping/deleting tests) and gives the loop an objective, checkable <q>done.</q> The reframe that bites: an AI agent doesn't remove the need for engineering discipline — <em>"it raises the price of not having it"</em> because bad code now arrives faster and in greater volume. This is the missing half of loop engineering and the discipline behind every spec-driven dev platform shipping right now.</p>
+        </div>
+      </div>
+    </li>
+
+    <li>
+      <div class="index">02</div>
+      <div>
+        <div class="head">
+          <span class="tease"><a href="https://www.mindstudio.ai/blog/what-is-loop-engineering-ai-coding-agents">It&#x27;s the loop, not the model</a></span>
+          <span class="src">MindStudio · mindstudio.ai</span>
+        </div>
+        <div class="body">
+          <p>Everyone compares AI coding tools by which model they use. MindStudio's argument: that's the wrong axis. The real differentiator is the <em>loop</em> around the model — the act-observe-decide-repeat machinery that turns a single chat reply into a system that keeps going until the job is actually done. Claude Code and Devin are loops first, models second. The five things you need: a clear goal, a tool set, context management, termination logic, and real error handling.</p>
+          <p>The defensible take: <em>"The quality difference between AI coding agents usually isn't the base model — it's the loop design."</em> Rooted in ReAct (Reason + Act), interleaving reasoning with actions. Key distinction: <b>chains</b> are fixed (A→B→C); <b>loops</b> are dynamic. The five components — testable termination conditions, tool set, context management, termination logic, error handling — are the checklist nobody writes down. Practical rules: structured feedback not raw output, strict per-iteration tool-call budget, test on failure cases. Pairs cleanly with Farley: termination condition is where tests-as-spec lives.</p>
+        </div>
+      </div>
+    </li>
+
+    <li>
+      <div class="index">03</div>
+      <div>
+        <div class="head">
+          <span class="tease"><a href="https://www.youtube.com/watch?v=zMiSRliEzv4">The self in self-driving</a></span>
+          <span class="src">Joshua Snyder · PostHog</span>
+        </div>
+        <div class="body">
+          <p>PostHog's Snyder reframes what <q>autonomous product development</q> means. It's not the agent writing code without a human — it's the agent deciding <em>when</em> to work without a human telling it to. The trigger is product telemetry, not a Jira ticket. Target isn't the strategic top of the backlog; it's the bottom 1% — bugs, UX paper-cuts, conversion tweaks that drain engineering hours but rarely need human judgement. Customers generate 100,000 failed queries and 1.5 million error issues per week. That's the actual case.</p>
+          <p>Snyder: <em>"The 'self' in self-driving isn't autonomy from the engineer. It's autonomy from user instruction."</em> Five components: tools, skills, signals, memory, evaluation. The killer line for documentation debt: <em>"For an agent, the skill <b>is</b> the feature."</em> Two underrated stages everyone skips: <b>memory</b> (without it, agent reopens the same PR every Tuesday) and <b>evaluation</b> — <q>done</q> means <q>the metric that triggered the work moved,</q> measured hours/days later via long-running Temporal jobs. Not <q>the PR merged.</q></p>
+        </div>
+      </div>
+    </li>
+
+    <li>
+      <div class="index">04</div>
+      <div>
+        <div class="head">
+          <span class="tease"><a href="https://www.youtube.com/watch?v=3_gYbhABcAE">Seniors fight the model</a></span>
+          <span class="src">Philipp Schmid · Google DeepMind</span>
+        </div>
+        <div class="body">
+          <p>A counter-intuitive finding from Google DeepMind: the more senior the engineer, the <em>worse</em> they tend to be at building AI agents. Decades of training to remove ambiguity from systems — the thing that made them senior — is exactly the wrong instinct for software that runs on probability. Junior engineers ship working agents faster. Seniors try to <q>code away</q> the uncertainty and end up undermining what makes the agent useful in the first place.</p>
+          <p>Schmid's paradox: <em>"The more senior the engineer, the less they tend to trust the reasoning and instruction-following capabilities of the Agent."</em> Five challenges: (1) <b>Text is the new State</b> — rigid JSON schemas lobotomise context; preserve natural language. (2) <b>Hand over control</b> — interactions <em>"loop, backtrack, and pivot."</em> (3) <em>"An error is just another input."</em> (4) Unit tests → evals: Pass^k reliability + LLM-as-judge quality + tracing. (5) Agents are <em>"Literalists"</em> — verbose docstrings, unambiguous parameter names, no inferring intent from <code>id</code>.</p>
+        </div>
+      </div>
+    </li>
+
+    <li>
+      <div class="index">05</div>
+      <div>
+        <div class="head">
+          <span class="tease"><a href="https://www.youtube.com/watch?v=hCMrEfPG2Yg">Three tiers of generative UI</a></span>
+          <span class="src">Ruben Casas · Postman</span>
+        </div>
+        <div class="body">
+          <p>When an AI assistant needs to show you something — a chart, a form, a booking flow — chat alone isn't enough. Ruben Casas (Postman) lays out the three architectures: static components the AI picks from a library, server-driven UI where a tool ships its own UI (think USB for UI), and generative UI where the model invents the interface on the fly from the conversation. Most real products will combine all three. The cost-of-change ladder runs from cheapest/least flexible to most expressive/hardest to govern.</p>
+          <p>Tier 1 = client-rendered first-party components (tight coupling, complete expressiveness). Tier 2 = server-driven via MCP (Model Context Protocol — the standard for tool-to-AI plumbing); <code>mcp-ui</code> is the package, Shopify storefronts already use it. <em>"The server describes the <b>what</b>, the client decides <b>how</b>."</em> Tier 3 = LLM composes UI dynamically. Postman ships all three: React components in Agent Mode (T1), <code>mcp-ui</code> for third-party tools (T2), Flows agent generating UI on demand (T3).</p>
+        </div>
+      </div>
+    </li>
+
+    <li>
+      <div class="index">06</div>
+      <div>
+        <div class="head">
+          <span class="tease"><a href="https://youtu.be/_xIwFcnHqp4">Flame graphs inside chat</a></span>
+          <span class="src">Mhangami &amp;amp; Hampton · GitHub / Microsoft</span>
+        </div>
+        <div class="body">
+          <p>GitHub just shipped the cleanest example of what Casas was describing. Ask Copilot to profile a Go program inside VS Code, and the result isn't text or a table — it's a fully interactive flame graph rendered right inside the chat window, that you can click and explore like any standalone profiling tool. Generative UI stops being a hypothetical or an art project; it's in a developer tool used by millions. The bigger consequence: when the agent returns an interactive UI, the user can click — which means a UI is now a tactical answer to <q>how much agency should the agent have?</q></p>
+          <p>Tier 2/3 from the Casas framework in mainstream production. MCP server returns a UI description (HTML / serialised component), VS Code chat host renders it with full interactivity. Marlene's framing of the real question: <em>"The main question being asked is — How much human oversight should we have?"</em> Interactive UI is the agency escape hatch — the agent doesn't decide whether to chain; it returns a UI that lets the user decide. Tool-surface design now includes the rendered surface, not just the function call.</p>
+        </div>
+      </div>
+    </li>
+
+  </ol>
+
+  <h2><span class="num">03 ·</span>Skip the hype</h2>
+  <div class="skip">
+    <div><b>"Loop engineering"</b> — newly named, already a buzzword. The five components are real, but the term will be on every coaching deck within a quarter. Farley's tests-as-spec is the unsexy half that actually does the work — quote that, not <q>loops.</q></div>
+    <div><b>VibeOS</b> — an entire operating system where every app, even Notepad, is hallucinated on demand. The honest review (Futurism): <em>"a buggy and largely unusable mess."</em> Worth watching as the loudest version of a quieter trend, not as a product. Critical paths still need determinism.</div>
+  </div>
+
+  <nav class="nav" aria-label="Digest pagination">
+    <div class="nav-prev">
+      <a href="2026-06-19.html">
+        <span class="label">← Newer</span>
+        <span class="title">Security, memory, MCP graduate to infra.</span>
+      </a>
+    </div>
+    <div class="nav-next">
+      <a href="2026-06-04.html">
+        <span class="label">Older →</span>
+        <span class="title">MCP becomes infrastructure.</span>
+      </a>
+    </div>
+  </nav>
+
+  <footer>
+    <div>Distilled from a private knowledge base · twice daily · commentary on public AI-engineering news &amp; research.</div>
+    <div><a href="../index.html">home</a> · <a href="https://github.com/Samuel-Morgan-Tyghe/zeitgeist">source</a></div>
+  </footer>
+
+</div>
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('../sw.js').catch(() => {});
+    });
+  }
+</script>
+</body>
+</html>

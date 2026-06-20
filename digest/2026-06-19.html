@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Zeitgeist digest 2026-06-19 — Prompt injection conceded unsolvable; agent memory grows up; MCP graduates to infra; verifiability is the keeper frame.">
+  <meta name="theme-color" content="#1a1a1a">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="zeitgeist">
+  <link rel="manifest" href="../manifest.json">
+  <link rel="icon" type="image/svg+xml" href="../icon.svg">
+  <link rel="apple-touch-icon" href="../icon.svg">
+  <title>Digest 2026-06-19 · zeitgeist</title>
+  <style>
+    :root {
+      --ink: #1a1a1a;
+      --muted: #6b6b6b;
+      --soft: #8d8478;
+      --rule: #e8e4dc;
+      --surface: #fbfaf7;
+      --surface-2: #f5f1e8;
+      --emerging-fg: #2f8f5a;
+      --rising-fg: #1f6feb;
+      --peak-fg: #c53b3b;
+      --fading-fg: #6b6b6b;
+      --serif: ui-serif, "Iowan Old Style", "Apple Garamond", Georgia, serif;
+      --sans: ui-sans-serif, system-ui, -apple-system, "Helvetica Neue", sans-serif;
+      --mono: ui-monospace, "SF Mono", Menlo, monospace;
+      --measure: 62ch;
+      --type-h2: clamp(1.3rem, 1.1rem + 0.9vw, 1.6rem);
+      --type-lede: clamp(1.2rem, 1.0rem + 0.9vw, 1.5rem);
+      --type-body: 17px;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root { --ink: #f3efe7; --muted: #9b958a; --soft: #7a7368; --rule: #2a2620; --surface: #15130f; --surface-2: #1f1c17; }
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body { font-family: var(--sans); color: var(--ink); background: var(--surface); line-height: 1.6; font-size: var(--type-body); -webkit-font-smoothing: antialiased; -webkit-text-size-adjust: 100%; }
+    a { color: inherit; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+    a:hover { text-decoration-thickness: 2px; }
+    .wrap { max-width: 760px; margin: 0 auto; padding: 24px 20px 48px; }
+    .masthead { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-bottom: 16px; border-bottom: 1px solid var(--rule); }
+    .masthead a { text-decoration: none; }
+    .wordmark { font-family: var(--serif); font-size: 22px; font-weight: 600; letter-spacing: -0.02em; margin: 0; line-height: 1; }
+    .wordmark .glyph { font-family: var(--sans); margin-right: 0.15em; }
+    .nav-back { font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; }
+    .doc-head { margin: 36px 0 12px; max-width: var(--measure); }
+    .doc-date { font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: 0.14em; text-transform: uppercase; }
+    .doc-title { font-family: var(--serif); font-weight: 600; font-size: clamp(28px, 2vw + 18px, 40px); letter-spacing: -0.02em; line-height: 1.1; margin: 12px 0 0; }
+    .plain { margin: 24px 0 0; padding: 22px 0 0; border-top: 1px solid var(--rule); }
+    .plain-eyebrow { font-family: var(--mono); text-transform: uppercase; font-size: 11px; letter-spacing: 0.12em; color: var(--muted); margin-bottom: 12px; }
+    .plain p { font-family: var(--serif); font-size: var(--type-lede); line-height: 1.34; letter-spacing: -0.012em; margin: 0; font-weight: 500; max-width: var(--measure); }
+    .plain p::first-letter { font-family: var(--serif); float: left; font-size: 3.2em; line-height: 0.86; padding: 0.05em 0.1em 0 0; font-weight: 600; color: var(--peak-fg); }
+    .plain p .smcp { font-variant: small-caps; letter-spacing: 0.06em; font-weight: 600; }
+    .plain p .lift { background: linear-gradient(transparent 60%, rgba(31,111,235,0.18) 60%); padding: 0 2px; }
+    h2 { font-family: var(--serif); font-weight: 600; font-size: var(--type-h2); letter-spacing: -0.01em; margin: 56px 0 16px; display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+    h2 .num { font-family: var(--mono); font-size: 12px; color: var(--muted); letter-spacing: 0.1em; font-weight: 500; }
+    h2 .sub { font-family: var(--sans); font-size: 13px; color: var(--muted); font-weight: 400; letter-spacing: 0; }
+    .tldr-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
+    @media (min-width: 640px) { .tldr-grid { grid-template-columns: repeat(3, 1fr); gap: 14px; } }
+    .takeaway { padding: 14px 16px 14px 18px; background: var(--surface); border: 1px solid var(--rule); border-left-width: 3px; border-radius: 6px 12px 12px 6px; }
+    .takeaway .label { font-family: var(--mono); text-transform: uppercase; font-size: 10.5px; letter-spacing: 0.14em; }
+    .takeaway .text { margin: 6px 0 0; font-size: 14px; line-height: 1.5; }
+    .takeaway--important { border-left-color: var(--rising-fg); }
+    .takeaway--important .label { color: var(--rising-fg); }
+    .takeaway--overhyped { border-left-color: var(--peak-fg); }
+    .takeaway--overhyped .label { color: var(--peak-fg); }
+    .takeaway--emerging { border-left-color: var(--emerging-fg); }
+    .takeaway--emerging .label { color: var(--emerging-fg); }
+    .articles { padding: 0; margin: 0; list-style: none; }
+    .articles > li { display: grid; grid-template-columns: 32px 1fr; gap: 14px; padding: 26px 0 28px; border-top: 1px solid var(--rule); }
+    .articles > li:last-child { border-bottom: 1px solid var(--rule); }
+    .articles .index { font-family: var(--mono); font-size: 13px; color: var(--soft); letter-spacing: 0.04em; padding-top: 7px; }
+    .articles .head { margin-bottom: 14px; }
+    .articles .tease { font-family: var(--serif); font-weight: 600; font-size: clamp(20px, 0.7vw + 17px, 24px); line-height: 1.22; letter-spacing: -0.018em; display: block; color: var(--ink); }
+    .articles .tease a { text-decoration: none; color: inherit; }
+    .articles .tease a:hover { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 4px; color: var(--rising-fg); }
+    .articles .src { font-family: var(--mono); font-size: 11px; color: var(--soft); letter-spacing: 0.06em; display: block; margin-top: 5px; }
+    .articles .body { max-width: 60ch; }
+    .articles .body p { margin: 0; font-size: 15.5px; line-height: 1.6; }
+    .articles .body p + p { margin-top: 14px; padding-top: 14px; border-top: 1px dashed var(--rule); font-size: 14.5px; color: var(--ink); }
+    .articles .body em { font-style: italic; color: var(--peak-fg); }
+    @media (max-width: 520px) { .articles > li { grid-template-columns: 1fr; gap: 6px; padding: 22px 0 24px; } .articles .index { padding-top: 0; } }
+    .skip { display: grid; gap: 10px; }
+    .skip > div { padding: 14px 16px 14px 18px; border-left: 3px solid var(--peak-fg); background: var(--surface); border-top: 1px solid var(--rule); border-right: 1px solid var(--rule); border-bottom: 1px solid var(--rule); border-radius: 4px 12px 12px 4px; font-size: 14.5px; line-height: 1.5; }
+    .skip > div b { color: var(--peak-fg); }
+    .nav { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 56px 0 32px; padding: 24px 0; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+    .nav a, .nav .stub { display: block; padding: 16px 18px; border-radius: 14px; border: 1px solid var(--rule); text-decoration: none; background: var(--surface); }
+    .nav .label { display: block; font-family: var(--mono); text-transform: uppercase; font-size: 10.5px; letter-spacing: 0.14em; color: var(--muted); }
+    .nav .title { display: block; margin-top: 6px; font-weight: 600; font-size: 15px; }
+    .nav .nav-prev { text-align: left; }
+    .nav .nav-next { text-align: right; }
+    .nav .stub { color: var(--muted); cursor: not-allowed; opacity: 0.55; }
+    .nav a:hover { border-color: var(--rising-fg); color: var(--rising-fg); }
+    .nav a:hover .label { color: var(--rising-fg); }
+    footer { margin-top: 16px; padding-top: 18px; border-top: 1px solid var(--rule); font-size: 12.5px; color: var(--muted); display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; }
+    @media (prefers-reduced-motion: no-preference) { .plain p, .takeaway, .links li, .articles > li { animation: rise 0.5s cubic-bezier(0.2,0.6,0.2,1) both; } @keyframes rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } } }
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <a href="../index.html" class="wordmark"><span class="glyph">🧭</span>zeitgeist</a>
+    <a href="../index.html" class="nav-back">← home</a>
+  </header>
+
+  <div class="doc-head">
+    <div class="doc-date">Digest · 2026-06-19 · AM</div>
+    <h1 class="doc-title">Security, memory, MCP graduate to infrastructure.</h1>
+  </div>
+
+  <section class="plain">
+    <div class="plain-eyebrow">In plain English</div>
+    <p><span class='smcp'>A Microsoft 365 user</span> can have confidential documents quietly leaked by reading a perfectly ordinary-looking email — no click required. That's not a hypothetical; researchers shipped the proof in 2025, and the people who build these models (OpenAI, Anthropic, DeepMind) now openly admit the underlying problem <span class='lift'>can't be patched with a smarter filter</span>. The same week, a separate group of researchers solved a different problem: how to make an AI assistant actually remember what it did between Tuesday and Wednesday. The headline of the day is that the AI conversation finally moved past <q>make the model smarter</q> to <q>build the plumbing around it</q> — security, memory, audit trails, who's allowed to do what. The boring infrastructure year has started.</p>
+  </section>
+
+  <h2><span class="num">01 ·</span>TL;DR <span class="sub">the day in three</span></h2>
+  <div class="tldr-grid">
+    <div class="takeaway takeaway--important"><div class="label">Most important</div><p class="text">Three labs concede <b>prompt injection</b> is structurally unsolvable; the answer is architecture (Meta's <q>Rule of Two</q>), not a better guardrail.</p></div>
+    <div class="takeaway takeaway--overhyped"><div class="label">Most overhyped</div><p class="text"><b>"Multi-agent"</b> — Anthropic's own data shows it's a 15x token-spend that <em>hurts</em> coding by 2–15% and degrades 70% on PlanCraft.</p></div>
+    <div class="takeaway takeaway--emerging"><div class="label">Emerging</div><p class="text"><b>Bitemporal agent memory</b> (Zep/Graphiti) — fintech engineers have shipped this for 20 years; AI memory startups are just finding out.</p></div>
+  </div>
+
+  <h2><span class="num">02 ·</span>Today's reading <span class="sub">six pieces · plain English first, then the named version</span></h2>
+  <ol class="articles">
+
+    <li>
+      <div class="index">01</div>
+      <div>
+        <div class="head">
+          <span class="tease"><a href="https://arxiv.org/pdf/2503.18813">Prompt injection can&#x27;t be patched</a></span>
+          <span class="src">Google DeepMind / AIM / Meta · arXiv 2503.18813</span>
+        </div>
+        <div class="body">
+          <p>For two years, every AI safety pitch promised a better filter would catch malicious instructions hidden inside the documents an AI reads. In 2025, OpenAI, Anthropic, and Google DeepMind each publicly admitted that's not going to happen — the instructions and the data share one stream and the model can't tell them apart. AIM Security then proved the cost: a zero-click exploit (EchoLeak, CVE-2025-32711) made Microsoft 365 Copilot leak <em>"Acquisition Target"</em> and <em>"Layoff Plan - Confidential"</em> documents from a single poisoned email. No click, no download. The fix isn't smarter filters — it's redesigning who has permission to do what.</p>
+          <p>OpenAI (Dec 2025): prompt injection <em>"is unlikely to ever be fully solved."</em> The <q>Attacker Moves Second</q> paper bypassed 12 published defences at &gt;90%; human red-teamers hit 100%. Meta's hardened stack drops attack success to 1.75% (from 17.6%) — Anthropic notes <em>"even ~1% represents meaningful risk at production scale."</em> The architectural answer: DeepMind's CaMeL compiles the query into a plan and uses a separate interpreter to enforce capability policies (cost: ~7pts utility for <em>provable</em> guarantees); Meta's <b>"Rule of Two"</b> mandates no agent holds more than two of {untrusted input, sensitive data, external action} without a human in the loop. The lethal trifecta as a design constraint.</p>
+        </div>
+      </div>
+    </li>
+
+    <li>
+      <div class="index">02</div>
+      <div>
+        <div class="head">
+          <span class="tease"><a href="https://www.anthropic.com/news/memory">Agents that dream</a></span>
+          <span class="src">Anthropic (Angela Jiang) · anthropic.com</span>
+        </div>
+        <div class="body">
+          <p>For two years, <q>agent memory</q> meant cramming the conversation history into the context window and praying. The 2026 version is a proper architecture: write something down, manage it in the background, read it back when needed. The new part is the middle one. Anthropic's <q>Dreaming</q> feature runs while the agent isn't working — it reads up to 100 past sessions, merges duplicates, resolves contradictions toward the newest answer, and prunes stale references. Storing facts is a notebook. Periodically distilling them is what makes an assistant feel like a colleague who's been there a while.</p>
+          <p>Anthropic's memory tool (<code>memory_20250818</code>, public beta Apr 2026) is filesystem-backed — memories are real files you <em>"view, edit, add and delete… in the console or api."</em> Rakuten reports 97% fewer first-pass errors, 27% lower cost, 34% lower latency. <q>Dreaming</q> (Code with Claude, May 2026): a scheduled background job that reorganises the memory store across ~100 sessions; Harvey claims a ~6x jump in task completion (single-source, flag before quoting). But know the ceiling: BEAM cliffs from 64.1 at 1M tokens to 48.6 at 10M — no memory architecture saturates it. The vendor question nobody asks: <em>"what's your BEAM-10M number?"</em></p>
+        </div>
+      </div>
+    </li>
+
+    <li>
+      <div class="index">03</div>
+      <div>
+        <div class="head">
+          <span class="tease"><a href="https://blog.modelcontextprotocol.io/posts/2025-12-09-mcp-joins-agentic-ai-foundation/">MCP graduates to infrastructure</a></span>
+          <span class="src">Anthropic / MCP project · modelcontextprotocol.io</span>
+        </div>
+        <div class="body">
+          <p>MCP (Model Context Protocol — think USB for AI tools) is the standard way to plug software into a chatbot. In December 2025, Anthropic gave it away — donated it to the Linux Foundation's Agentic AI Foundation, co-founded with Block and OpenAI. That's the boring news. The interesting news is what it means: a regulated bank can now build on MCP without betting on one vendor's roadmap. Governance moved from <q>Anthropic's project</q> to <q>neutral infrastructure,</q> and the adoption curve quietly went from 2 million monthly downloads in late 2024 to 97 million by March 2026.</p>
+          <p>~97M monthly SDK downloads (Mar 2026), up ~48x in 16 months — <em>faster than React's npm trajectory</em>. ~9,400 distinct public servers by mid-April 2026 (+38% in 4 months; flagged as <q>directional, not regulator-grade</q>). 41% of software orgs report limited-or-broad production use (Stacklok, n=100). Platinum members include AWS, Google, Microsoft, Cloudflare, Bloomberg. The maintainers and SEP process are unchanged — what changed is <em>governance</em>. The 59% still on the sidelines map closely to the security-CVE wave hitting unauthenticated MCP servers; the protocol is infrastructure, but the deployment story is not yet finished.</p>
+        </div>
+      </div>
+    </li>
+
+    <li>
+      <div class="index">04</div>
+      <div>
+        <div class="head">
+          <span class="tease"><a href="https://karpathy.bearblog.dev/sequoia-ascent-2026/">The keeper frame of 2026</a></span>
+          <span class="src">Andrej Karpathy · Sequoia AI Ascent 2026</span>
+        </div>
+        <div class="body">
+          <p>Karpathy gave the cleanest one-sentence test for whether AI can do a job. If you have a clean way to check the result — a test passes, a build compiles, a number matches — the AI can take that work. If you don't — architecture taste, what to ship, what to build at all — keep a human on it. Every <q>will AI replace X?</q> debate collapses into this one question. The whole tooling renaissance (Claude Code, Kiro, Cursor, eval harnesses) is just the industry methodically mapping what's verifiable.</p>
+          <p>Verbatim: <em>"Traditional computers automate what you can specify in code. This latest round of LLMs can automate what you can verify."</em> Adoption corroboration from Osmani/Google (early 2026): 85% of devs use agents regularly, 51% daily, 41% of new code is AI-generated; <em>"architecture is the most stubbornly human phase."</em> Karpathy dates Dec 2025 as the experimental-to-reliable inflection. Patrick Roos's restatement falls out cleanly: <b>Model + Harness = Agent</b> — the harness is the engineering work of <em>expanding what's verifiable</em>, which is where leverage compounds.</p>
+        </div>
+      </div>
+    </li>
+
+    <li>
+      <div class="index">05</div>
+      <div>
+        <div class="head">
+          <span class="tease"><a href="https://www.fisglobal.com/about-us/media-room/press-release/2026/fis-brings-agentic-ai-to-banking-with-anthropic-starting-with-financial-crimes">Guardrails belong in the platform</a></span>
+          <span class="src">FIS / JPMorgan · fisglobal.com + cnbc.com</span>
+        </div>
+        <div class="body">
+          <p>Two of the most serious 2026 fintech deployments — FIS partnering with Anthropic on financial-crimes investigations, and JPMorgan running long-running agents across 230,000 employees — landed on the same principle: don't trust the model to behave; build the controls into the infrastructure. The model is the easy part. The moat is the layer underneath: data isolation, per-action permissions, spending limits, audit trails — and it lives in the platform, not the prompt. In regulated finance, governance is the product.</p>
+          <p>FIS CEO Stephanie Ferris: <em>"The future is about a trusted provider who manages the data, who governs the agents, and who stands between your customers and the AI making decisions about their money."</em> JPMorgan CAO Derek Waldron (June 2026), entering <em>"the era of long-running autonomous agents"</em> (1–2 hrs heading to days/weeks): the design rule is <em>"guardrails built at the account level rather than left to the model"</em> — defined role, permitted actions, spending limits, audit trail. AML is a $35–40bn/yr US cost; AIG separately reports Claude is <em>"88% as accurate as a human expert on insurance claims"</em> out of the box.</p>
+        </div>
+      </div>
+    </li>
+
+    <li>
+      <div class="index">06</div>
+      <div>
+        <div class="head">
+          <span class="tease"><a href="https://arxiv.org/abs/2501.13956">Fintech already solved this</a></span>
+          <span class="src">Rasmussen et al. (Zep) · arXiv 2501.13956</span>
+        </div>
+        <div class="body">
+          <p>There's a dirty secret in vector-store memory: when a fact changes — a client's risk band, a regulatory limit, a credit status — the old version still exists and can still be retrieved. The AI <q>remembers</q> the wrong thing because nothing told it the fact expired. Zep's Graphiti engine fixes this with bi-temporal modelling: every relationship records <em>when the event was true</em> and <em>when it was written down</em>. Fintech engineers shipped this 20 years ago for regulatory reporting. The AI-memory startups without finance backgrounds are about to relearn it the hard way.</p>
+          <p>Bi-temporal knowledge graph with explicit <code>(t_valid, t_invalid)</code> intervals — conflicts resolve via temporal metadata, not recomputation. The pattern is <b>SCD Type 6 / bitemporal data warehousing</b>, well-known to anyone who's built trade-history or regulatory-reporting systems. Numbers: Zep at 94.8% on Deep Memory Retrieval (vs MemGPT 93.4%); up to 18.5% LongMemEval accuracy lift with 90% latency reduction. P95 retrieval ~300ms via hybrid BM25 + semantic + graph traversal — <em>no LLM calls in the retrieval path</em>.</p>
+        </div>
+      </div>
+    </li>
+
+  </ol>
+
+  <h2><span class="num">03 ·</span>Skip the hype</h2>
+  <div class="skip">
+    <div><b>"Multi-agent [anything]"</b> — Anthropic's own teardown shows multi-agent uses ~15x the tokens of chat, <em>hurts</em> coding by 2–15% on SWE-bench Verified, and degrades 70% on PlanCraft. Token usage alone explains 80% of variance on BrowseComp — <em>"fundamentally a token-spending strategy."</em></div>
+    <div><b>The "AI made me faster" feeling</b> — METR's randomised trial measured experienced devs 19% <em>slower</em> with AI (95% CI: +2% to +39%), while they believed they'd been sped up by 20%. The measured-slowdown / felt-speedup gap is the finding.</div>
+  </div>
+
+  <nav class="nav" aria-label="Digest pagination">
+    <div class="nav-prev">
+      <a href="2026-06-20.html">
+        <span class="label">← Newer</span>
+        <span class="title">"Agentic" peaks; evals are the real disciplines.</span>
+      </a>
+    </div>
+    <div class="nav-next">
+      <a href="2026-06-10.html">
+        <span class="label">Older →</span>
+        <span class="title">Loops peak; Farley lands tests-as-spec.</span>
+      </a>
+    </div>
+  </nav>
+
+  <footer>
+    <div>Distilled from a private knowledge base · twice daily · commentary on public AI-engineering news &amp; research.</div>
+    <div><a href="../index.html">home</a> · <a href="https://github.com/Samuel-Morgan-Tyghe/zeitgeist">source</a></div>
+  </footer>
+
+</div>
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('../sw.js').catch(() => {});
+    });
+  }
+</script>
+</body>
+</html>
