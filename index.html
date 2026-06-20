@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="What's real, overhyped, and next in AI engineering — distilled twice daily. Today: 'agentic' peaks; evals and verifiability are the real disciplines.">
+  <meta name="description" content="What's real, overhyped, and next in AI engineering — distilled twice daily. Today: the smart people stopped talking about 'AI agents' getting smarter and started talking about whether you can prove they did the job.">
   <title>zeitgeist · 2026-06-20</title>
   <style>
     :root {
@@ -64,25 +64,86 @@
     .tagline { color: var(--muted); font-size: 14px; max-width: 380px; margin: 8px 0 0; line-height: 1.45; }
     .stamp { font-family: var(--mono); font-size: 11.5px; color: var(--muted); white-space: nowrap; letter-spacing: 0.04em; text-transform: uppercase; }
 
-    .hero { margin: 40px 0 8px; }
-    .hero-eyebrow { font-family: var(--mono); text-transform: uppercase; font-size: 11px; letter-spacing: 0.1em; color: var(--muted); }
-    .hero-line {
+    /* Section: Plain English explainer (top of fold) */
+    .plain {
+      margin: 40px 0 0;
+      padding: 28px 0 0;
+    }
+    .plain-eyebrow {
+      font-family: var(--mono); text-transform: uppercase; font-size: 11px;
+      letter-spacing: 0.12em; color: var(--muted);
+    }
+    .plain p {
       font-family: var(--serif);
-      font-size: clamp(28px, 3vw + 14px, 48px);
-      line-height: 1.12; letter-spacing: -0.02em;
-      margin: 12px 0 0;
+      font-size: clamp(22px, 1.6vw + 14px, 32px);
+      line-height: 1.3; letter-spacing: -0.015em;
+      margin: 14px 0 0;
       font-weight: 500;
     }
-    .hero-line em { font-style: italic; color: var(--peak-fg); font-weight: 600; }
-    .hero-line .alt { color: var(--rising-fg); font-style: normal; font-weight: 600; }
-    .hero-grid {
+    .plain p .lift { background: linear-gradient(transparent 62%, rgba(31,111,235,0.18) 62%); padding: 0 2px; }
+    .plain-foot {
+      margin-top: 16px; font-size: 13px; color: var(--muted); font-style: italic;
+    }
+
+    /* Section: Before / After */
+    .deltas { margin-top: 32px; }
+    .deltas-grid {
       display: grid;
       grid-template-columns: 1fr;
       gap: 14px;
-      margin-top: 28px;
+      margin-top: 4px;
     }
     @media (min-width: 720px) {
-      .hero-grid { grid-template-columns: repeat(3, 1fr); gap: 18px; }
+      .deltas-grid { grid-template-columns: 1fr 1fr; gap: 16px; }
+    }
+    .delta {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0;
+      border: 1px solid var(--rule);
+      border-radius: 14px;
+      overflow: hidden;
+    }
+    @media (min-width: 480px) {
+      .delta { grid-template-columns: 1fr auto 1fr; align-items: stretch; }
+    }
+    .delta-side {
+      padding: 16px 18px;
+      font-size: 14.5px; line-height: 1.45;
+    }
+    .delta-side .label {
+      font-family: var(--mono); text-transform: uppercase;
+      font-size: 10.5px; letter-spacing: 0.12em;
+      display: block; margin-bottom: 6px;
+    }
+    .delta-was { background: var(--fading-bg); color: var(--ink); }
+    .delta-was .label { color: var(--fading-fg); }
+    .delta-now { background: var(--rising-bg); color: var(--ink); }
+    .delta-now .label { color: var(--rising-fg); }
+    .delta-arrow {
+      display: flex; align-items: center; justify-content: center;
+      padding: 0 12px;
+      background: var(--surface);
+      font-family: var(--mono); font-size: 18px; color: var(--rising-fg);
+      border-block: 1px solid var(--rule);
+    }
+    @media (min-width: 480px) {
+      .delta-arrow { border-block: none; border-inline: 1px solid var(--rule); }
+    }
+    @media (max-width: 479px) {
+      .delta-arrow { padding: 4px 12px; font-size: 14px; }
+    }
+    .delta-side b { font-weight: 700; }
+
+    /* Section: TL;DR */
+    .tldr { margin-top: 48px; }
+    .tldr-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+    @media (min-width: 720px) {
+      .tldr-grid { grid-template-columns: repeat(3, 1fr); gap: 18px; }
     }
     .takeaway {
       padding: 16px 18px 18px;
@@ -90,7 +151,7 @@
       border: 1px solid var(--rule);
     }
     .takeaway .label { font-family: var(--mono); text-transform: uppercase; font-size: 10.5px; letter-spacing: 0.12em; }
-    .takeaway .text { margin: 8px 0 0; font-size: 15px; line-height: 1.45; }
+    .takeaway .text { margin: 8px 0 0; font-size: 14.5px; line-height: 1.45; }
     .takeaway--important { border-color: var(--rising-fg); background: var(--rising-bg); }
     .takeaway--important .label { color: var(--rising-fg); }
     .takeaway--overhyped { border-color: var(--peak-fg); background: var(--peak-bg); }
@@ -106,7 +167,8 @@
       margin: 56px 0 18px;
       display: flex; align-items: baseline; gap: 12px;
     }
-    h2 .num { font-family: var(--mono); font-size: 12px; color: var(--muted); letter-spacing: 0.08em; }
+    h2 .num { font-family: var(--mono); font-size: 12px; color: var(--muted); letter-spacing: 0.08em; font-weight: 500; }
+    h2 .sub { font-family: var(--sans); font-size: 13px; color: var(--muted); font-weight: 400; letter-spacing: 0; margin-left: 8px; }
 
     .radar {
       display: grid;
@@ -121,8 +183,7 @@
       border-radius: 14px;
       padding: 14px 14px 16px;
     }
-    .lane-head { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px dashed currentColor; opacity: 1; }
-    .lane-head > * { opacity: 1; }
+    .lane-head { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px dashed currentColor; }
     .lane-name { font-weight: 600; letter-spacing: -0.01em; font-size: 14.5px; }
     .lane-sub { font-size: 10.5px; margin-left: auto; font-family: var(--mono); letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.7; }
     .term {
@@ -171,9 +232,7 @@
       .digests li { grid-template-columns: 110px 1fr; gap: 18px; align-items: baseline; }
     }
     .digests li:last-child { border-bottom: 1px solid var(--rule); }
-    .digests .date {
-      font-family: var(--mono); font-size: 12.5px; color: var(--muted); letter-spacing: 0.04em;
-    }
+    .digests .date { font-family: var(--mono); font-size: 12.5px; color: var(--muted); letter-spacing: 0.04em; }
     .digests .teaser { font-size: 14.5px; line-height: 1.5; }
 
     .pull {
@@ -208,7 +267,10 @@
     }
 
     @media (prefers-reduced-motion: no-preference) {
-      .hero-line, .takeaway, .lane { animation: rise 0.55s cubic-bezier(0.2, 0.6, 0.2, 1) both; }
+      .plain p, .delta, .takeaway, .lane { animation: rise 0.55s cubic-bezier(0.2, 0.6, 0.2, 1) both; }
+      .delta:nth-child(2) { animation-delay: 0.06s; }
+      .delta:nth-child(3) { animation-delay: 0.12s; }
+      .delta:nth-child(4) { animation-delay: 0.18s; }
       .takeaway:nth-child(2) { animation-delay: 0.06s; }
       .takeaway:nth-child(3) { animation-delay: 0.12s; }
       .lane:nth-child(2) { animation-delay: 0.07s; }
@@ -232,13 +294,73 @@
     <div class="stamp">Updated 2026-06-20 · AM</div>
   </header>
 
-  <section class="hero" aria-labelledby="hero">
-    <div class="hero-eyebrow" id="hero">Today's read</div>
-    <p class="hero-line"><em>"Agentic"</em> means everything and nothing. The forward crowd is quietly running on <span class="alt">evals + verifiability</span>.</p>
-    <div class="hero-grid">
+  <section class="plain" aria-labelledby="plain-eyebrow">
+    <div class="plain-eyebrow" id="plain-eyebrow">In plain English</div>
+    <p>For a year the AI conversation has been about making computers more independent — programs that "do things for you" on their own. The most respected people in the field are now quietly saying that's <span class="lift">not the real problem any more</span>. The hard part is knowing whether the computer actually did the job — and remembering what it did between Tuesday and Wednesday.</p>
+    <p class="plain-foot">Read on if you want the named ideas. Stop here and you've still got the headline.</p>
+  </section>
+
+  <section class="deltas" aria-labelledby="deltas-heading">
+    <h2 id="deltas-heading"><span class="num">01 ·</span>What people used to think <span class="sub">→ what's changed</span></h2>
+    <div class="deltas-grid">
+
+      <div class="delta">
+        <div class="delta-side delta-was">
+          <span class="label">Was</span>
+          More autonomous "AI agents" = more capable. Just keep scaling them up.
+        </div>
+        <div class="delta-arrow" aria-hidden="true">→</div>
+        <div class="delta-side delta-now">
+          <span class="label">Now</span>
+          More autonomy = more brittle. The lever is <b>evals</b> (rigorously testing what the AI produced) and <b>verifiability</b> (can you prove it was right?).
+        </div>
+      </div>
+
+      <div class="delta">
+        <div class="delta-side delta-was">
+          <span class="label">Was</span>
+          The next breakthrough will come from a <b>smarter model</b>.
+        </div>
+        <div class="delta-arrow" aria-hidden="true">→</div>
+        <div class="delta-side delta-now">
+          <span class="label">Now</span>
+          The next battleground is <b>where AIs live and what they remember</b> — "runtime" and persistence. OpenAI just bought <b>Ona</b> for exactly this.
+        </div>
+      </div>
+
+      <div class="delta">
+        <div class="delta-side delta-was">
+          <span class="label">Was</span>
+          <b>"Agentic"</b> meant cutting-edge.
+        </div>
+        <div class="delta-arrow" aria-hidden="true">→</div>
+        <div class="delta-side delta-now">
+          <span class="label">Now</span>
+          "Agentic" means almost nothing. Five engineers give five different definitions. When everyone says a word, the word is dead.
+        </div>
+      </div>
+
+      <div class="delta">
+        <div class="delta-side delta-was">
+          <span class="label">Was</span>
+          Write <b>documentation</b>; train teams to read it.
+        </div>
+        <div class="delta-arrow" aria-hidden="true">→</div>
+        <div class="delta-side delta-now">
+          <span class="label">Now</span>
+          Write <b>"skills"</b> — small executable instructions an AI can follow. <em>"No one wanted to write docs, but everyone is writing skills."</em>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="tldr">
+    <h2><span class="num">02 ·</span>Today's TL;DR <span class="sub">the named version</span></h2>
+    <div class="tldr-grid">
       <div class="takeaway takeaway--important">
         <div class="label">Most important</div>
-        <p class="text">Hamel Husain, Shreya Shankar &amp; Karpathy reject "agentic" hype for <b>evals + verifiability</b>. OpenAI buying <b>Ona</b> says the next battleground is agent <b>runtime/persistence</b>, not smarter models.</p>
+        <p class="text">Hamel Husain, Shreya Shankar &amp; Andrej Karpathy reject "agentic" hype for <b>evals + verifiability</b>. OpenAI buying <b>Ona</b> says the next battleground is agent <b>runtime/persistence</b>, not smarter models.</p>
       </div>
       <div class="takeaway takeaway--overhyped">
         <div class="label">Most overhyped</div>
@@ -246,12 +368,12 @@
       </div>
       <div class="takeaway takeaway--emerging">
         <div class="label">Emerging</div>
-        <p class="text"><b>Ontology</b> (tempered — real but slow-burn), <b>dark factories</b> (zero-human-review code), <b>docs → skills</b>.</p>
+        <p class="text"><b>Ontology</b> (tempered — real but slow-burn), <b>dark factories</b> (code shipped with zero human review), <b>docs → skills</b>.</p>
       </div>
     </div>
   </section>
 
-  <h2><span class="num">02 ·</span>Hype radar</h2>
+  <h2><span class="num">03 ·</span>Hype radar <span class="sub">the dense map</span></h2>
   <div class="radar">
 
     <div class="lane lane--emerging">
@@ -290,7 +412,7 @@
 
   </div>
 
-  <h2><span class="num">03 ·</span>Next / watch</h2>
+  <h2><span class="num">04 ·</span>Next / watch</h2>
   <ul class="watch">
     <li><b>Ontology / KG-grounding</b><span>The structured-world-model counter to brittle "agentic/loops." Be early — it's a slow burn.</span></li>
     <li><b>Evals as the default discipline</b><span>Graduating from niche craft to table-stakes.</span></li>
@@ -298,7 +420,7 @@
     <li><b>Memory governance &amp; provenance</b><span>Who authorised this memory write — is it poisoned?</span></li>
   </ul>
 
-  <h2><span class="num">04 ·</span>Recent digests</h2>
+  <h2><span class="num">05 ·</span>Recent digests</h2>
   <ul class="digests">
     <li>
       <span class="date">2026-06-20</span>
