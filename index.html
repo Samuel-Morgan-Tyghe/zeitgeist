@@ -4,6 +4,13 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="What's real, overhyped, and next in AI engineering — distilled twice daily. Today: the smart people stopped talking about 'AI agents' getting smarter and started talking about whether you can prove they did the job.">
+  <meta name="theme-color" content="#1a1a1a">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="zeitgeist">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/svg+xml" href="icon.svg">
+  <link rel="apple-touch-icon" href="icon.svg">
   <title>zeitgeist · 2026-06-20</title>
   <style>
     :root {
@@ -420,11 +427,11 @@
     <li><b>Memory governance &amp; provenance</b><span>Who authorised this memory write — is it poisoned?</span></li>
   </ul>
 
-  <h2><span class="num">05 ·</span>Recent digests</h2>
+  <h2><span class="num">05 ·</span>Recent digests <span class="sub"><a href="latest.html">read the latest in full →</a></span></h2>
   <ul class="digests">
     <li>
       <span class="date">2026-06-20</span>
-      <span class="teaser"><a href="https://github.com/Samuel-Morgan-Tyghe/zeitgeist/blob/main/digest/2026-06-20.md">"Agentic" peaks; evals + verifiability are the real disciplines; ontology = tempered next; OpenAI⇒Ona; ~40% of MCP servers unauthenticated.</a></span>
+      <span class="teaser"><a href="digest/2026-06-20.html">"Agentic" peaks; evals + verifiability are the real disciplines; ontology = tempered next; OpenAI⇒Ona; ~40% of MCP servers unauthenticated.</a></span>
     </li>
   </ul>
 
@@ -439,5 +446,12 @@
   </footer>
 
 </div>
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('sw.js').catch(() => {});
+    });
+  }
+</script>
 </body>
 </html>

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="zeitgeist">
+  <rect width="512" height="512" rx="96" fill="#1a1a1a"/>
+  <circle cx="256" cy="256" r="172" fill="none" stroke="#fbfaf7" stroke-width="14"/>
+  <polygon points="256,98 294,256 256,256" fill="#c53b3b"/>
+  <polygon points="256,414 218,256 256,256" fill="#fbfaf7" fill-opacity="0.55"/>
+  <polygon points="98,256 256,218 256,256" fill="#fbfaf7" fill-opacity="0.3"/>
+  <polygon points="414,256 256,294 256,256" fill="#fbfaf7" fill-opacity="0.3"/>
+  <circle cx="256" cy="256" r="14" fill="#fbfaf7"/>
+</svg>

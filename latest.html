@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Zeitgeist digest 2026-06-20 — 'Agentic' peaks; evals + verifiability are the real disciplines; OpenAI⇒Ona; ~40% of MCP servers unauthenticated.">
+  <meta name="theme-color" content="#1a1a1a">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="zeitgeist">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/svg+xml" href="icon.svg">
+  <link rel="apple-touch-icon" href="icon.svg">
+  <title>Digest 2026-06-20 · zeitgeist</title>
+  <style>
+    :root {
+      --ink: #1a1a1a;
+      --muted: #6b6b6b;
+      --rule: #e8e4dc;
+      --surface: #fbfaf7;
+      --emerging-fg: #2f8f5a;
+      --emerging-bg: #e9f6ed;
+      --rising-fg: #1f6feb;
+      --rising-bg: #e6f0ff;
+      --peak-fg: #c53b3b;
+      --peak-bg: #fde8e8;
+      --fading-fg: #6b6b6b;
+      --fading-bg: #eeeeee;
+      --serif: ui-serif, "Iowan Old Style", "Apple Garamond", Georgia, serif;
+      --sans: ui-sans-serif, system-ui, -apple-system, "Helvetica Neue", sans-serif;
+      --mono: ui-monospace, "SF Mono", Menlo, monospace;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --ink: #f3efe7;
+        --muted: #9b958a;
+        --rule: #2a2620;
+        --surface: #15130f;
+        --emerging-bg: #14352a;
+        --rising-bg: #16284a;
+        --peak-bg: #3a1a1a;
+        --fading-bg: #262626;
+      }
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      font-family: var(--sans); color: var(--ink); background: var(--surface);
+      line-height: 1.55; font-size: clamp(15px, 0.4vw + 14px, 17px);
+      -webkit-text-size-adjust: 100%;
+    }
+    a { color: inherit; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+    a:hover { text-decoration-thickness: 2px; }
+    .wrap { max-width: 760px; margin: 0 auto; padding: 24px 20px 48px; }
+
+    .masthead {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 12px; padding-bottom: 16px; border-bottom: 1px solid var(--rule);
+      font-size: 14px;
+    }
+    .masthead a { text-decoration: none; }
+    .wordmark {
+      font-family: var(--serif); font-size: 22px; font-weight: 600;
+      letter-spacing: -0.02em; margin: 0; line-height: 1;
+    }
+    .wordmark .glyph { font-family: var(--sans); margin-right: 0.15em; }
+    .nav-back { font-family: var(--mono); font-size: 11.5px; color: var(--muted); letter-spacing: 0.04em; text-transform: uppercase; }
+
+    .doc-head { margin: 36px 0 28px; }
+    .doc-date { font-family: var(--mono); font-size: 12px; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
+    .doc-title { font-family: var(--serif); font-weight: 600; font-size: clamp(28px, 2.5vw + 16px, 42px); letter-spacing: -0.02em; line-height: 1.12; margin: 10px 0 0; }
+
+    .plain { margin: 32px 0 0; padding: 22px 0 0; border-top: 1px solid var(--rule); }
+    .plain-eyebrow { font-family: var(--mono); text-transform: uppercase; font-size: 11px; letter-spacing: 0.12em; color: var(--muted); }
+    .plain p { font-family: var(--serif); font-size: clamp(20px, 1.3vw + 14px, 28px); line-height: 1.32; letter-spacing: -0.012em; margin: 12px 0 0; font-weight: 500; }
+    .plain p .lift { background: linear-gradient(transparent 62%, rgba(31,111,235,0.18) 62%); padding: 0 2px; }
+
+    .deltas { margin-top: 36px; }
+    .deltas-grid { display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 8px; }
+    .delta { display: grid; grid-template-columns: 1fr; border: 1px solid var(--rule); border-radius: 14px; overflow: hidden; }
+    @media (min-width: 520px) { .delta { grid-template-columns: 1fr auto 1fr; align-items: stretch; } }
+    .delta-side { padding: 14px 16px; font-size: 14.5px; line-height: 1.45; }
+    .delta-side .label { font-family: var(--mono); text-transform: uppercase; font-size: 10.5px; letter-spacing: 0.12em; display: block; margin-bottom: 6px; }
+    .delta-was { background: var(--fading-bg); color: var(--ink); }
+    .delta-was .label { color: var(--fading-fg); }
+    .delta-now { background: var(--rising-bg); color: var(--ink); }
+    .delta-now .label { color: var(--rising-fg); }
+    .delta-arrow { display: flex; align-items: center; justify-content: center; padding: 0 12px; background: var(--surface); font-family: var(--mono); font-size: 18px; color: var(--rising-fg); border-block: 1px solid var(--rule); }
+    @media (min-width: 520px) { .delta-arrow { border-block: none; border-inline: 1px solid var(--rule); } }
+    @media (max-width: 519px) { .delta-arrow { padding: 4px 12px; font-size: 14px; } }
+
+    h2 { font-family: var(--serif); font-weight: 600; font-size: clamp(20px, 1vw + 18px, 26px); letter-spacing: -0.01em; margin: 48px 0 14px; display: flex; align-items: baseline; gap: 12px; }
+    h2 .num { font-family: var(--mono); font-size: 12px; color: var(--muted); letter-spacing: 0.08em; font-weight: 500; }
+    h2 .sub { font-family: var(--sans); font-size: 13px; color: var(--muted); font-weight: 400; letter-spacing: 0; margin-left: 8px; }
+
+    /* TL;DR cards */
+    .tldr-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
+    @media (min-width: 640px) { .tldr-grid { grid-template-columns: repeat(3, 1fr); gap: 14px; } }
+    .takeaway { padding: 14px 16px; border-radius: 14px; border: 1px solid var(--rule); }
+    .takeaway .label { font-family: var(--mono); text-transform: uppercase; font-size: 10.5px; letter-spacing: 0.12em; }
+    .takeaway .text { margin: 6px 0 0; font-size: 14px; line-height: 1.45; }
+    .takeaway--important { border-color: var(--rising-fg); background: var(--rising-bg); }
+    .takeaway--important .label { color: var(--rising-fg); }
+    .takeaway--overhyped { border-color: var(--peak-fg); background: var(--peak-bg); }
+    .takeaway--overhyped .label { color: var(--peak-fg); }
+    .takeaway--emerging { border-color: var(--emerging-fg); background: var(--emerging-bg); }
+    .takeaway--emerging .label { color: var(--emerging-fg); }
+
+    /* Inline radar (compact for digest pages) */
+    .radar-rows { display: grid; gap: 8px; }
+    .row { display: grid; grid-template-columns: 1fr auto; gap: 12px; align-items: center; padding: 10px 12px; border-radius: 10px; font-size: 14px; border: 1px solid var(--rule); }
+    .row .name { font-weight: 600; }
+    .row .note { display: block; font-weight: 400; font-size: 12.5px; margin-top: 2px; opacity: 0.85; }
+    .row .stage { font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap; }
+    .row--peak { background: var(--peak-bg); border-color: var(--peak-fg); color: var(--peak-fg); }
+    .row--rising { background: var(--rising-bg); border-color: var(--rising-fg); color: var(--rising-fg); }
+    .row--emerging { background: var(--emerging-bg); border-color: var(--emerging-fg); color: var(--emerging-fg); }
+    .row--fading { background: var(--fading-bg); border-color: var(--fading-fg); color: var(--fading-fg); }
+
+    /* Worth a click */
+    .links { padding: 0; margin: 0; list-style: none; display: grid; gap: 10px; }
+    .links li { padding: 14px 16px; border: 1px solid var(--rule); border-radius: 12px; font-size: 14.5px; line-height: 1.45; background: var(--surface); }
+    .links li .verdict { display: inline-block; font-family: var(--mono); font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.1em; padding: 2px 8px; border-radius: 999px; margin-right: 8px; vertical-align: 1px; }
+    .links li .verdict--signal { color: var(--emerging-fg); background: var(--emerging-bg); }
+    .links li .verdict--urgent { color: var(--peak-fg); background: var(--peak-bg); }
+    .links li .verdict--shift { color: var(--rising-fg); background: var(--rising-bg); }
+    .links li .verdict--lead { color: var(--emerging-fg); background: var(--emerging-bg); }
+    .links li .verdict--frame { color: var(--rising-fg); background: var(--rising-bg); }
+    .links li .verdict--track { color: var(--muted); background: var(--fading-bg); }
+
+    /* Skip the hype */
+    .skip { display: grid; gap: 10px; }
+    .skip > div { padding: 14px 16px; border-left: 3px solid var(--peak-fg); background: var(--peak-bg); border-radius: 0 12px 12px 0; font-size: 14.5px; line-height: 1.45; }
+    .skip > div b { color: var(--peak-fg); }
+
+    /* Prev / next nav at bottom */
+    .nav {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+      margin: 56px 0 32px;
+      padding: 24px 0;
+      border-top: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+    }
+    .nav a, .nav .stub {
+      display: block; padding: 16px 18px; border-radius: 14px;
+      border: 1px solid var(--rule); text-decoration: none;
+      background: var(--surface);
+    }
+    .nav .label { display: block; font-family: var(--mono); text-transform: uppercase; font-size: 10.5px; letter-spacing: 0.12em; color: var(--muted); }
+    .nav .title { display: block; margin-top: 6px; font-weight: 600; font-size: 15px; }
+    .nav .nav-prev { text-align: left; }
+    .nav .nav-next { text-align: right; }
+    .nav .stub { color: var(--muted); cursor: not-allowed; opacity: 0.55; }
+    .nav a:hover { border-color: var(--rising-fg); color: var(--rising-fg); }
+    .nav a:hover .label { color: var(--rising-fg); }
+
+    footer { margin-top: 16px; padding-top: 18px; border-top: 1px solid var(--rule); font-size: 12.5px; color: var(--muted); display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; }
+
+    @media (prefers-reduced-motion: no-preference) {
+      .plain p, .delta, .takeaway, .row, .links li { animation: rise 0.5s cubic-bezier(0.2,0.6,0.2,1) both; }
+      @keyframes rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <a href="index.html" class="wordmark"><span class="glyph">🧭</span>zeitgeist</a>
+    <a href="index.html" class="nav-back">← home</a>
+  </header>
+
+  <div class="doc-head">
+    <div class="doc-date">Digest · 2026-06-20 · AM</div>
+    <h1 class="doc-title">"Agentic" peaks. Evals + verifiability are the real disciplines.</h1>
+  </div>
+
+  <section class="plain">
+    <div class="plain-eyebrow">In plain English</div>
+    <p>For a year the AI conversation has been about making computers more independent — programs that "do things for you" on their own. The most respected people in the field are now quietly saying that's <span class="lift">not the real problem any more</span>. The hard part is knowing whether the computer actually did the job — and remembering what it did between Tuesday and Wednesday.</p>
+  </section>
+
+  <section class="deltas">
+    <h2><span class="num">01 ·</span>What people used to think <span class="sub">→ what's changed</span></h2>
+    <div class="deltas-grid">
+
+      <div class="delta">
+        <div class="delta-side delta-was"><span class="label">Was</span>More autonomous "AI agents" = more capable. Just keep scaling them up.</div>
+        <div class="delta-arrow" aria-hidden="true">→</div>
+        <div class="delta-side delta-now"><span class="label">Now</span>More autonomy = more brittle. The lever is <b>evals</b> (rigorously testing what the AI produced) and <b>verifiability</b> (can you prove it was right?).</div>
+      </div>
+
+      <div class="delta">
+        <div class="delta-side delta-was"><span class="label">Was</span>The next breakthrough will come from a <b>smarter model</b>.</div>
+        <div class="delta-arrow" aria-hidden="true">→</div>
+        <div class="delta-side delta-now"><span class="label">Now</span>The next battleground is <b>where AIs live and what they remember</b> — "runtime" and persistence. OpenAI just bought <b>Ona</b> for exactly this.</div>
+      </div>
+
+      <div class="delta">
+        <div class="delta-side delta-was"><span class="label">Was</span><b>"Agentic"</b> meant cutting-edge.</div>
+        <div class="delta-arrow" aria-hidden="true">→</div>
+        <div class="delta-side delta-now"><span class="label">Now</span>"Agentic" means almost nothing. Five engineers give five different definitions. When everyone says a word, the word is dead.</div>
+      </div>
+
+      <div class="delta">
+        <div class="delta-side delta-was"><span class="label">Was</span>Write <b>documentation</b>; train teams to read it.</div>
+        <div class="delta-arrow" aria-hidden="true">→</div>
+        <div class="delta-side delta-now"><span class="label">Now</span>Write <b>"skills"</b> — small executable instructions an AI can follow. <em>"No one wanted to write docs, but everyone is writing skills."</em></div>
+      </div>
+
+    </div>
+  </section>
+
+  <h2><span class="num">02 ·</span>TL;DR <span class="sub">the named version</span></h2>
+  <div class="tldr-grid">
+    <div class="takeaway takeaway--important"><div class="label">Most important</div><p class="text">Hamel Husain, Shreya Shankar &amp; Andrej Karpathy reject "agentic" hype for <b>evals + verifiability</b>. OpenAI buying <b>Ona</b> says the next battleground is agent <b>runtime/persistence</b>, not smarter models.</p></div>
+    <div class="takeaway takeaway--overhyped"><div class="label">Most overhyped</div><p class="text"><b>"Agentic"</b> — five engineers, five answers. "Loops" is at peak too: Steinberger's post hit ~6.5M views.</p></div>
+    <div class="takeaway takeaway--emerging"><div class="label">Emerging</div><p class="text"><b>Ontology</b> (tempered — real but slow-burn), <b>dark factories</b>, <b>docs → skills</b>.</p></div>
+  </div>
+
+  <h2><span class="num">03 ·</span>Zeitgeist radar <span class="sub">today's movers</span></h2>
+  <div class="radar-rows">
+    <div class="row row--peak"><div><span class="name">"Agentic" (umbrella)</span><span class="note">Top of hype: means everything/nothing</span></div><span class="stage">🔥 peak</span></div>
+    <div class="row row--peak"><div><span class="name">Loops</span><span class="note">~6.5M-view post = peak velocity</span></div><span class="stage">🔥 peak</span></div>
+    <div class="row row--rising"><div><span class="name">Evals (as the discipline)</span><span class="note">The credible counter to "agentic"</span></div><span class="stage">📈 rising ↑</span></div>
+    <div class="row row--rising"><div><span class="name">Long-running agents / runtime</span><span class="note">OpenAI ⇒ Ona; persistence is the unlock</span></div><span class="stage">📈 rising ↑</span></div>
+    <div class="row row--emerging"><div><span class="name">Agent security / lethal trifecta</span><span class="note">Now measured + NSA guidance</span></div><span class="stage">🌱→📈 ↑</span></div>
+    <div class="row row--emerging"><div><span class="name">Dark factories</span><span class="note">Ship code with zero human review</span></div><span class="stage">🌱 emerging</span></div>
+    <div class="row row--emerging"><div><span class="name">Docs → skills</span><span class="note">Skills are the new docs</span></div><span class="stage">🌱 emerging</span></div>
+    <div class="row row--emerging"><div><span class="name">Ontology / KG-grounded agents</span><span class="note">The tempered "next" — real, but a slow burn</span></div><span class="stage">🌱 emerging</span></div>
+  </div>
+
+  <h2><span class="num">04 ·</span>Worth a click</h2>
+  <ul class="links">
+    <li><span class="verdict verdict--signal">signal</span><a href="https://www.lennysnewsletter.com/p/why-ai-evals-are-the-hottest-new-skill"><b>Evals are the hottest new skill</b></a> — Hamel Husain + Shreya Shankar. The real bottleneck behind every "agent."</li>
+    <li><span class="verdict verdict--urgent">urgent</span><a href="https://arxiv.org/abs/2605.21392"><b>VIPER-MCP: 40k repos, 106 zero-days, ~40% no auth</b></a> — actionable if you run an MCP server.</li>
+    <li><span class="verdict verdict--shift">shift</span><a href="https://openai.com/index/openai-to-acquire-ona/"><b>OpenAI to acquire Ona</b></a> — real infra shift. Agents that persist + audit = the enterprise unlock.</li>
+    <li><span class="verdict verdict--lead">lead</span><a href="https://www.dbreunig.com/2026/05/31/what-do-humans-need-from-docs.html"><b>Breunig: skills are the new docs</b></a> — quiet leading indicator.</li>
+    <li><span class="verdict verdict--frame">frame</span><a href="https://karpathy.bearblog.dev/sequoia-ascent-2026/"><b>Karpathy: "automate what you can verify"</b></a> — the keeper frame of 2026.</li>
+    <li><span class="verdict verdict--track">track</span><a href="https://blog.palantir.com/connecting-agents-to-decisions-277dee8ddb40"><b>Ontology for agents</b></a> — track it, don't buy the hype yet. Real but slow-burn.</li>
+  </ul>
+
+  <h2><span class="num">05 ·</span>Skip the hype</h2>
+  <div class="skip">
+    <div><b>"Agentic [anything]"</b> — the word now signals nothing about autonomy or reliability. Ask "what's the verification signal?" not "is it agentic?"</div>
+    <div><b>"AI fully replaces developers"</b> — a fresh study (arXiv:2606.07448) shows AI-commit adoption more than doubled in new projects, yet only <b>0–20% of dev work is fully delegatable</b> — the judgment calls stay human.</div>
+  </div>
+
+  <nav class="nav" aria-label="Digest pagination">
+    <div class="nav-prev">
+      <div class="stub">
+        <span class="label">← Newer</span>
+        <span class="title">This is the latest digest.</span>
+      </div>
+    </div>
+    <div class="nav-next">
+      <div class="stub">
+        <span class="label">Older →</span>
+        <span class="title">No earlier digest yet — check back tomorrow.</span>
+      </div>
+    </div>
+  </nav>
+
+  <footer>
+    <div>Distilled from a private knowledge base · twice daily · commentary on public AI-engineering news &amp; research.</div>
+    <div><a href="index.html">home</a> · <a href="https://github.com/Samuel-Morgan-Tyghe/zeitgeist">source</a></div>
+  </footer>
+
+</div>
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('sw.js').catch(() => {});
+    });
+  }
+</script>
+</body>
+</html>
