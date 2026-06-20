@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="What's real, overhyped, and next in AI engineering — distilled twice daily. Today: the smart people stopped talking about 'AI agents' getting smarter and started talking about whether you can prove they did the job.">
+  <meta name="description" content="What's real, overhyped, and next in AI engineering — distilled twice daily. Today: 'agentic' peaks; evals and verifiability are the real disciplines.">
   <meta name="theme-color" content="#1a1a1a">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="zeitgeist">
@@ -16,30 +16,31 @@
     :root {
       --ink: #1a1a1a;
       --muted: #6b6b6b;
+      --soft: #8d8478;
       --rule: #e8e4dc;
       --surface: #fbfaf7;
+      --surface-2: #f5f1e8;
       --emerging-fg: #2f8f5a;
-      --emerging-bg: #e9f6ed;
       --rising-fg: #1f6feb;
-      --rising-bg: #e6f0ff;
       --peak-fg: #c53b3b;
-      --peak-bg: #fde8e8;
       --fading-fg: #6b6b6b;
-      --fading-bg: #eeeeee;
       --serif: ui-serif, "Iowan Old Style", "Apple Garamond", Georgia, serif;
       --sans: ui-sans-serif, system-ui, -apple-system, "Helvetica Neue", sans-serif;
       --mono: ui-monospace, "SF Mono", Menlo, monospace;
+      --measure: 62ch;
+      --type-display: clamp(2rem, 1.4rem + 2.6vw, 3rem);
+      --type-h2: clamp(1.3rem, 1.1rem + 0.9vw, 1.6rem);
+      --type-lede: clamp(1.2rem, 1.0rem + 0.9vw, 1.5rem);
+      --type-body: 17px;
     }
     @media (prefers-color-scheme: dark) {
       :root {
         --ink: #f3efe7;
         --muted: #9b958a;
+        --soft: #7a7368;
         --rule: #2a2620;
         --surface: #15130f;
-        --emerging-bg: #14352a;
-        --rising-bg: #16284a;
-        --peak-bg: #3a1a1a;
-        --fading-bg: #262626;
+        --surface-2: #1f1c17;
       }
     }
     * { box-sizing: border-box; }
@@ -48,192 +49,145 @@
       font-family: var(--sans);
       color: var(--ink);
       background: var(--surface);
-      line-height: 1.5;
-      font-size: clamp(15px, 0.4vw + 14px, 17px);
+      line-height: 1.55;
+      font-size: var(--type-body);
+      -webkit-font-smoothing: antialiased;
       -webkit-text-size-adjust: 100%;
     }
     a { color: inherit; text-underline-offset: 3px; text-decoration-thickness: 1px; }
     a:hover { text-decoration-thickness: 2px; }
     .wrap { max-width: 920px; margin: 0 auto; padding: 24px 20px 56px; }
 
+    /* Masthead */
     .masthead {
       display: flex; align-items: flex-start; justify-content: space-between;
       gap: 16px; flex-wrap: wrap;
-      padding-bottom: 20px; border-bottom: 1px solid var(--rule);
+      padding-bottom: 22px; border-bottom: 1px solid var(--rule);
     }
     .wordmark {
-      font-family: var(--serif);
-      font-size: clamp(30px, 4vw + 8px, 44px);
-      font-weight: 600; letter-spacing: -0.025em;
-      margin: 0; line-height: 1;
+      font-family: var(--serif); font-size: clamp(28px, 4vw + 8px, 42px);
+      font-weight: 600; letter-spacing: -0.025em; margin: 0; line-height: 1;
     }
-    .wordmark .glyph { font-family: var(--sans); margin-right: 0.15em; }
+    .wordmark .glyph { font-family: var(--sans); margin-right: 0.12em; }
     .tagline { color: var(--muted); font-size: 14px; max-width: 380px; margin: 8px 0 0; line-height: 1.45; }
-    .stamp { font-family: var(--mono); font-size: 11.5px; color: var(--muted); white-space: nowrap; letter-spacing: 0.04em; text-transform: uppercase; }
+    .stamp { font-family: var(--mono); font-size: 11.5px; color: var(--muted); white-space: nowrap; letter-spacing: 0.08em; text-transform: uppercase; }
 
-    /* Section: Plain English explainer (top of fold) */
-    .plain {
-      margin: 40px 0 0;
-      padding: 28px 0 0;
-    }
-    .plain-eyebrow {
-      font-family: var(--mono); text-transform: uppercase; font-size: 11px;
-      letter-spacing: 0.12em; color: var(--muted);
-    }
+    /* Plain English with dropcap */
+    .plain { margin: 44px 0 0; }
+    .plain-eyebrow { font-family: var(--mono); text-transform: uppercase; font-size: 11px; letter-spacing: 0.12em; color: var(--muted); margin-bottom: 14px; }
     .plain p {
       font-family: var(--serif);
-      font-size: clamp(22px, 1.6vw + 14px, 32px);
-      line-height: 1.3; letter-spacing: -0.015em;
-      margin: 14px 0 0;
-      font-weight: 500;
+      font-size: var(--type-lede);
+      line-height: 1.34; letter-spacing: -0.012em;
+      margin: 0; font-weight: 500;
+      max-width: var(--measure);
     }
-    .plain p .lift { background: linear-gradient(transparent 62%, rgba(31,111,235,0.18) 62%); padding: 0 2px; }
-    .plain-foot {
-      margin-top: 16px; font-size: 13px; color: var(--muted); font-style: italic;
+    .plain p:first-of-type::first-letter {
+      font-family: var(--serif);
+      float: left;
+      font-size: 3.2em;
+      line-height: 0.86;
+      padding: 0.05em 0.1em 0 0;
+      font-weight: 600;
+      color: var(--peak-fg);
     }
+    .plain p .smcp { font-variant: small-caps; letter-spacing: 0.06em; font-weight: 600; }
+    .plain p .lift { background: linear-gradient(transparent 60%, rgba(31,111,235,0.18) 60%); padding: 0 2px; }
+    .plain-foot { margin-top: 18px; font-size: 13px; color: var(--muted); font-style: italic; max-width: var(--measure); }
 
-    /* Section: Before / After */
-    .deltas { margin-top: 32px; }
-    .deltas-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 14px;
-      margin-top: 4px;
+    /* Section headings */
+    h2 {
+      font-family: var(--serif); font-weight: 600;
+      font-size: var(--type-h2); letter-spacing: -0.01em;
+      margin: 64px 0 18px;
+      display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap;
     }
-    @media (min-width: 720px) {
-      .deltas-grid { grid-template-columns: 1fr 1fr; gap: 16px; }
-    }
+    h2 .num { font-family: var(--mono); font-size: 12px; color: var(--muted); letter-spacing: 0.1em; font-weight: 500; }
+    h2 .sub { font-family: var(--sans); font-size: 13px; color: var(--muted); font-weight: 400; letter-spacing: 0; }
+    h2 .sub a { color: inherit; }
+
+    /* Before/After deltas — homepage only */
+    .deltas-grid { display: grid; grid-template-columns: 1fr; gap: 14px; }
+    @media (min-width: 720px) { .deltas-grid { grid-template-columns: 1fr 1fr; gap: 18px; } }
     .delta {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 0;
-      border: 1px solid var(--rule);
-      border-radius: 14px;
-      overflow: hidden;
+      display: grid; grid-template-columns: 1fr;
+      border: 1px solid var(--rule); border-radius: 14px; overflow: hidden;
+      background: var(--surface);
     }
-    @media (min-width: 480px) {
-      .delta { grid-template-columns: 1fr auto 1fr; align-items: stretch; }
-    }
-    .delta-side {
-      padding: 16px 18px;
-      font-size: 14.5px; line-height: 1.45;
-    }
-    .delta-side .label {
-      font-family: var(--mono); text-transform: uppercase;
-      font-size: 10.5px; letter-spacing: 0.12em;
-      display: block; margin-bottom: 6px;
-    }
-    .delta-was { background: var(--fading-bg); color: var(--ink); }
-    .delta-was .label { color: var(--fading-fg); }
-    .delta-now { background: var(--rising-bg); color: var(--ink); }
+    @media (min-width: 480px) { .delta { grid-template-columns: 1fr auto 1fr; } }
+    .delta-side { padding: 16px 18px; font-size: 14.5px; line-height: 1.5; }
+    .delta-side .label { font-family: var(--mono); text-transform: uppercase; font-size: 10.5px; letter-spacing: 0.14em; display: block; margin-bottom: 6px; }
+    .delta-was { color: var(--muted); }
+    .delta-was .label { color: var(--soft); }
+    .delta-now { color: var(--ink); border-left: 3px solid var(--rising-fg); }
+    @media (min-width: 480px) { .delta-now { border-left: none; border-inline-start: 1px solid var(--rule); box-shadow: inset 3px 0 var(--rising-fg); } }
     .delta-now .label { color: var(--rising-fg); }
     .delta-arrow {
-      display: flex; align-items: center; justify-content: center;
-      padding: 0 12px;
-      background: var(--surface);
-      font-family: var(--mono); font-size: 18px; color: var(--rising-fg);
-      border-block: 1px solid var(--rule);
+      display: none;
     }
     @media (min-width: 480px) {
-      .delta-arrow { border-block: none; border-inline: 1px solid var(--rule); }
+      .delta-arrow { display: flex; align-items: center; justify-content: center; padding: 0 10px; font-family: var(--mono); font-size: 14px; color: var(--rising-fg); border-inline: 1px solid var(--rule); background: var(--surface-2); }
     }
-    @media (max-width: 479px) {
-      .delta-arrow { padding: 4px 12px; font-size: 14px; }
-    }
-    .delta-side b { font-weight: 700; }
 
-    /* Section: TL;DR */
-    .tldr { margin-top: 48px; }
-    .tldr-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 14px;
-    }
-    @media (min-width: 720px) {
-      .tldr-grid { grid-template-columns: repeat(3, 1fr); gap: 18px; }
-    }
+    /* TL;DR — rail-style cards (no full colour background) */
+    .tldr-grid { display: grid; grid-template-columns: 1fr; gap: 14px; }
+    @media (min-width: 720px) { .tldr-grid { grid-template-columns: repeat(3, 1fr); gap: 16px; } }
     .takeaway {
-      padding: 16px 18px 18px;
-      border-radius: 14px;
+      padding: 14px 16px 16px 18px;
+      background: var(--surface);
       border: 1px solid var(--rule);
+      border-left-width: 3px;
+      border-radius: 6px 12px 12px 6px;
     }
-    .takeaway .label { font-family: var(--mono); text-transform: uppercase; font-size: 10.5px; letter-spacing: 0.12em; }
-    .takeaway .text { margin: 8px 0 0; font-size: 14.5px; line-height: 1.45; }
-    .takeaway--important { border-color: var(--rising-fg); background: var(--rising-bg); }
+    .takeaway .label { font-family: var(--mono); text-transform: uppercase; font-size: 10.5px; letter-spacing: 0.14em; }
+    .takeaway .text { margin: 8px 0 0; font-size: 14.5px; line-height: 1.5; }
+    .takeaway--important { border-left-color: var(--rising-fg); }
     .takeaway--important .label { color: var(--rising-fg); }
-    .takeaway--overhyped { border-color: var(--peak-fg); background: var(--peak-bg); }
+    .takeaway--overhyped { border-left-color: var(--peak-fg); }
     .takeaway--overhyped .label { color: var(--peak-fg); }
-    .takeaway--emerging { border-color: var(--emerging-fg); background: var(--emerging-bg); }
+    .takeaway--emerging { border-left-color: var(--emerging-fg); }
     .takeaway--emerging .label { color: var(--emerging-fg); }
 
-    h2 {
-      font-family: var(--serif);
-      font-weight: 600;
-      font-size: clamp(20px, 1vw + 18px, 26px);
-      letter-spacing: -0.01em;
-      margin: 56px 0 18px;
-      display: flex; align-items: baseline; gap: 12px;
-    }
-    h2 .num { font-family: var(--mono); font-size: 12px; color: var(--muted); letter-spacing: 0.08em; font-weight: 500; }
-    h2 .sub { font-family: var(--sans); font-size: 13px; color: var(--muted); font-weight: 400; letter-spacing: 0; margin-left: 8px; }
+    /* Slope chart */
+    .slope-wrap { border: 1px solid var(--rule); border-radius: 14px; padding: 18px 12px 12px; background: var(--surface); }
+    .slope-svg { width: 100%; height: auto; display: block; font-family: var(--sans); }
+    .slope-svg text.lane-label { font-family: var(--mono); font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; fill: var(--muted); }
+    .slope-svg text.col-label { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.14em; text-transform: uppercase; fill: var(--muted); }
+    .slope-svg line.lane-line { stroke: var(--rule); stroke-dasharray: 2 3; stroke-width: 1; }
+    .slope-svg .slope-line { stroke-width: 1.6; fill: none; opacity: 0.9; }
+    .slope-svg .slope-line-static { stroke-width: 1; opacity: 0.45; stroke-dasharray: 1 3; }
+    .slope-svg circle { stroke: var(--surface); stroke-width: 1.5; }
+    .slope-svg .concept-label { font-size: 11.5px; font-weight: 600; fill: var(--ink); }
+    .slope-svg .concept-note { font-size: 10px; fill: var(--muted); font-weight: 400; }
+    .slope-svg .peak { stroke: var(--peak-fg); fill: var(--peak-fg); }
+    .slope-svg .rising { stroke: var(--rising-fg); fill: var(--rising-fg); }
+    .slope-svg .emerging { stroke: var(--emerging-fg); fill: var(--emerging-fg); }
+    .slope-svg .fading { stroke: var(--fading-fg); fill: var(--fading-fg); }
+    .slope-legend { display: flex; gap: 16px; flex-wrap: wrap; padding: 10px 8px 4px; font-family: var(--mono); font-size: 10.5px; color: var(--muted); letter-spacing: 0.06em; }
+    .slope-legend span b { font-weight: 700; }
+    .slope-legend .swatch { display: inline-block; width: 8px; height: 8px; border-radius: 50%; vertical-align: 1px; margin-right: 5px; }
 
-    .radar {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 14px;
-    }
-    @media (min-width: 720px) {
-      .radar { grid-template-columns: repeat(4, 1fr); gap: 14px; align-items: start; }
-    }
-    .lane {
-      border: 1px solid var(--rule);
-      border-radius: 14px;
-      padding: 14px 14px 16px;
-    }
-    .lane-head { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px dashed currentColor; }
-    .lane-name { font-weight: 600; letter-spacing: -0.01em; font-size: 14.5px; }
-    .lane-sub { font-size: 10.5px; margin-left: auto; font-family: var(--mono); letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.7; }
-    .term {
-      display: block;
-      padding: 9px 11px;
-      margin-bottom: 6px;
-      border-radius: 8px;
-      font-size: 13.5px;
-      line-height: 1.4;
-      background: rgba(0,0,0,0.03);
-    }
-    @media (prefers-color-scheme: dark) {
-      .term { background: rgba(255,255,255,0.05); }
-    }
-    .term:last-child { margin-bottom: 0; }
-    .term .name { font-weight: 600; display: block; }
-    .term .signal { display: block; margin-top: 3px; font-size: 12px; opacity: 0.85; font-weight: 400; }
-    .lane--emerging { background: var(--emerging-bg); border-color: var(--emerging-fg); color: var(--emerging-fg); }
-    .lane--rising { background: var(--rising-bg); border-color: var(--rising-fg); color: var(--rising-fg); }
-    .lane--peak { background: var(--peak-bg); border-color: var(--peak-fg); color: var(--peak-fg); }
-    .lane--fading { background: var(--fading-bg); border-color: var(--fading-fg); color: var(--fading-fg); }
-    .term-strong { box-shadow: inset 0 0 0 1.5px currentColor; background: transparent; }
-
+    /* Watch list */
     ul.watch { padding: 0; margin: 0; display: grid; gap: 12px; list-style: none; }
     @media (min-width: 720px) { ul.watch { grid-template-columns: 1fr 1fr; gap: 14px; } }
     ul.watch li {
-      padding: 14px 16px 14px 18px;
+      padding: 12px 14px 12px 16px;
       border-left: 3px solid var(--emerging-fg);
-      background: var(--emerging-bg);
-      border-radius: 0 12px 12px 0;
-      font-size: 14.5px; line-height: 1.45;
-      color: var(--emerging-fg);
+      background: var(--surface);
+      border-top: 1px solid var(--rule);
+      border-right: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+      border-radius: 4px 12px 12px 4px;
+      font-size: 14px; line-height: 1.5;
     }
-    ul.watch li b { font-weight: 700; }
-    ul.watch li span { display: block; margin-top: 4px; color: var(--ink); opacity: 0.85; font-weight: 400; font-size: 13.5px; }
+    ul.watch li b { color: var(--emerging-fg); font-weight: 700; }
+    ul.watch li span { display: block; margin-top: 4px; color: var(--ink); opacity: 0.82; font-weight: 400; font-size: 13.5px; }
 
+    /* Recent digests */
     .digests { padding: 0; margin: 0; list-style: none; }
     .digests li {
-      padding: 16px 0;
-      border-top: 1px solid var(--rule);
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 4px;
+      padding: 16px 0; border-top: 1px solid var(--rule);
+      display: grid; grid-template-columns: 1fr; gap: 4px;
     }
     @media (min-width: 560px) {
       .digests li { grid-template-columns: 110px 1fr; gap: 18px; align-items: baseline; }
@@ -241,50 +195,59 @@
     .digests li:last-child { border-bottom: 1px solid var(--rule); }
     .digests .date { font-family: var(--mono); font-size: 12.5px; color: var(--muted); letter-spacing: 0.04em; }
     .digests .teaser { font-size: 14.5px; line-height: 1.5; }
+    .digests .src { font-family: var(--mono); font-size: 11px; color: var(--soft); letter-spacing: 0.04em; }
 
+    /* Pull quote */
     .pull {
-      margin: 64px 0 32px;
-      padding: 32px 24px;
-      border-top: 1px solid var(--rule);
-      border-bottom: 1px solid var(--rule);
+      margin: 64px 0 32px; padding: 32px 24px;
+      border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule);
       text-align: center;
     }
     .pull blockquote {
       font-family: var(--serif);
-      font-size: clamp(20px, 2vw + 12px, 30px);
-      line-height: 1.3;
-      margin: 0;
-      letter-spacing: -0.015em;
-      font-weight: 500;
+      font-size: clamp(20px, 1.4vw + 14px, 28px);
+      line-height: 1.3; margin: 0; letter-spacing: -0.015em; font-weight: 500;
     }
     .pull blockquote em { color: var(--peak-fg); font-style: italic; }
     .pull cite {
       display: block; font-style: normal; margin-top: 14px;
-      font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em;
+      font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.16em;
       text-transform: uppercase; color: var(--muted);
     }
 
+    /* Lexicon */
+    .lexicon {
+      margin: 48px 0 0;
+      padding: 20px 22px;
+      background: var(--surface-2);
+      border-radius: 12px;
+      border: 1px solid var(--rule);
+    }
+    .lexicon-eyebrow { font-family: var(--mono); text-transform: uppercase; font-size: 11px; letter-spacing: 0.12em; color: var(--muted); margin-bottom: 10px; }
+    .lexicon ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
+    .lexicon li { font-size: 14px; line-height: 1.45; }
+    .lexicon q {
+      font-family: var(--serif); font-weight: 600; font-style: italic;
+      quotes: '“' '”';
+    }
+    .lexicon .src { font-family: var(--mono); color: var(--soft); font-size: 11.5px; margin-left: 4px; letter-spacing: 0.04em; }
+
     footer {
-      margin-top: 56px;
-      padding-top: 22px;
+      margin-top: 56px; padding-top: 22px;
       border-top: 1px solid var(--rule);
-      font-size: 12.5px;
-      color: var(--muted);
+      font-size: 12.5px; color: var(--muted);
       display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px;
     }
 
     @media (prefers-reduced-motion: no-preference) {
-      .plain p, .delta, .takeaway, .lane { animation: rise 0.55s cubic-bezier(0.2, 0.6, 0.2, 1) both; }
-      .delta:nth-child(2) { animation-delay: 0.06s; }
-      .delta:nth-child(3) { animation-delay: 0.12s; }
-      .delta:nth-child(4) { animation-delay: 0.18s; }
-      .takeaway:nth-child(2) { animation-delay: 0.06s; }
-      .takeaway:nth-child(3) { animation-delay: 0.12s; }
-      .lane:nth-child(2) { animation-delay: 0.07s; }
-      .lane:nth-child(3) { animation-delay: 0.14s; }
-      .lane:nth-child(4) { animation-delay: 0.21s; }
+      .plain p, .delta, .takeaway, .slope-wrap, ul.watch li { animation: rise 0.55s cubic-bezier(0.2, 0.6, 0.2, 1) both; }
+      .delta:nth-child(2) { animation-delay: 0.05s; }
+      .delta:nth-child(3) { animation-delay: 0.10s; }
+      .delta:nth-child(4) { animation-delay: 0.15s; }
+      .takeaway:nth-child(2) { animation-delay: 0.05s; }
+      .takeaway:nth-child(3) { animation-delay: 0.1s; }
       @keyframes rise {
-        from { opacity: 0; transform: translateY(10px); }
+        from { opacity: 0; transform: translateY(8px); }
         to { opacity: 1; transform: translateY(0); }
       }
     }
@@ -303,71 +266,47 @@
 
   <section class="plain" aria-labelledby="plain-eyebrow">
     <div class="plain-eyebrow" id="plain-eyebrow">In plain English</div>
-    <p>For a year the AI conversation has been about making computers more independent — programs that "do things for you" on their own. The most respected people in the field are now quietly saying that's <span class="lift">not the real problem any more</span>. The hard part is knowing whether the computer actually did the job — and remembering what it did between Tuesday and Wednesday.</p>
-    <p class="plain-foot">Read on if you want the named ideas. Stop here and you've still got the headline.</p>
+    <p><span class="smcp">For a year</span> the AI conversation has been about making computers more independent — programs that "do things for you" on their own. The most respected people in the field are now quietly saying that's <span class="lift">not the real problem any more</span>. The hard part is knowing whether the computer actually did the job — and remembering what it did between Tuesday and Wednesday.</p>
+    <p class="plain-foot">Read on for the named ideas. Stop here and you've still got the headline.</p>
   </section>
 
-  <section class="deltas" aria-labelledby="deltas-heading">
+  <section aria-labelledby="deltas-heading">
     <h2 id="deltas-heading"><span class="num">01 ·</span>What people used to think <span class="sub">→ what's changed</span></h2>
     <div class="deltas-grid">
 
       <div class="delta">
-        <div class="delta-side delta-was">
-          <span class="label">Was</span>
-          More autonomous "AI agents" = more capable. Just keep scaling them up.
-        </div>
+        <div class="delta-side delta-was"><span class="label">Was</span>More autonomous "AI agents" = more capable. Just keep scaling them up.</div>
         <div class="delta-arrow" aria-hidden="true">→</div>
-        <div class="delta-side delta-now">
-          <span class="label">Now</span>
-          More autonomy = more brittle. The lever is <b>evals</b> (rigorously testing what the AI produced) and <b>verifiability</b> (can you prove it was right?).
-        </div>
+        <div class="delta-side delta-now"><span class="label">Now</span>More autonomy = more brittle. The lever is <b>evals</b> (rigorously testing what the AI produced) and <b>verifiability</b> (can you prove it was right?).</div>
       </div>
 
       <div class="delta">
-        <div class="delta-side delta-was">
-          <span class="label">Was</span>
-          The next breakthrough will come from a <b>smarter model</b>.
-        </div>
+        <div class="delta-side delta-was"><span class="label">Was</span>The next breakthrough will come from a <b>smarter model</b>.</div>
         <div class="delta-arrow" aria-hidden="true">→</div>
-        <div class="delta-side delta-now">
-          <span class="label">Now</span>
-          The next battleground is <b>where AIs live and what they remember</b> — "runtime" and persistence. OpenAI just bought <b>Ona</b> for exactly this.
-        </div>
+        <div class="delta-side delta-now"><span class="label">Now</span>The next battleground is <b>where AIs live and what they remember</b> — "runtime" and persistence. OpenAI just bought <b>Ona</b> for exactly this.</div>
       </div>
 
       <div class="delta">
-        <div class="delta-side delta-was">
-          <span class="label">Was</span>
-          <b>"Agentic"</b> meant cutting-edge.
-        </div>
+        <div class="delta-side delta-was"><span class="label">Was</span><b>"Agentic"</b> meant cutting-edge.</div>
         <div class="delta-arrow" aria-hidden="true">→</div>
-        <div class="delta-side delta-now">
-          <span class="label">Now</span>
-          "Agentic" means almost nothing. Five engineers give five different definitions. When everyone says a word, the word is dead.
-        </div>
+        <div class="delta-side delta-now"><span class="label">Now</span>"Agentic" means almost nothing. Five engineers give five different definitions. When everyone says a word, the word is dead.</div>
       </div>
 
       <div class="delta">
-        <div class="delta-side delta-was">
-          <span class="label">Was</span>
-          Write <b>documentation</b>; train teams to read it.
-        </div>
+        <div class="delta-side delta-was"><span class="label">Was</span>Write <b>documentation</b>; train teams to read it.</div>
         <div class="delta-arrow" aria-hidden="true">→</div>
-        <div class="delta-side delta-now">
-          <span class="label">Now</span>
-          Write <b>"skills"</b> — small executable instructions an AI can follow. <em>"No one wanted to write docs, but everyone is writing skills."</em>
-        </div>
+        <div class="delta-side delta-now"><span class="label">Now</span>Write <b>"skills"</b> — small executable instructions an AI can follow. <em>"No one wanted to write docs, but everyone is writing skills."</em></div>
       </div>
 
     </div>
   </section>
 
-  <section class="tldr">
+  <section>
     <h2><span class="num">02 ·</span>Today's TL;DR <span class="sub">the named version</span></h2>
     <div class="tldr-grid">
       <div class="takeaway takeaway--important">
         <div class="label">Most important</div>
-        <p class="text">Hamel Husain, Shreya Shankar &amp; Andrej Karpathy reject "agentic" hype for <b>evals + verifiability</b>. OpenAI buying <b>Ona</b> says the next battleground is agent <b>runtime/persistence</b>, not smarter models.</p>
+        <p class="text">Hamel Husain, Shreya Shankar &amp; Andrej Karpathy reject "agentic" hype for <b>evals + verifiability</b>. OpenAI ⇒ <b>Ona</b>: the next battleground is agent <b>runtime/persistence</b>, not smarter models.</p>
       </div>
       <div class="takeaway takeaway--overhyped">
         <div class="label">Most overhyped</div>
@@ -375,65 +314,133 @@
       </div>
       <div class="takeaway takeaway--emerging">
         <div class="label">Emerging</div>
-        <p class="text"><b>Ontology</b> (tempered — real but slow-burn), <b>dark factories</b> (code shipped with zero human review), <b>docs → skills</b>.</p>
+        <p class="text"><b>Ontology</b> (tempered — real but slow-burn), <b>dark factories</b> (zero-human-review code), <b>docs → skills</b>.</p>
       </div>
     </div>
   </section>
 
-  <h2><span class="num">03 ·</span>Hype radar <span class="sub">the dense map</span></h2>
-  <div class="radar">
+  <section>
+    <h2><span class="num">03 ·</span>Hype radar <span class="sub">what moved · was → now</span></h2>
+    <div class="slope-wrap">
+      <svg class="slope-svg" viewBox="0 0 720 380" role="img" aria-label="Slope chart showing concept movement between previous and current hype stages">
+        <!-- Column labels -->
+        <text x="110" y="18" class="col-label">Was</text>
+        <text x="490" y="18" class="col-label" text-anchor="end">Now</text>
 
-    <div class="lane lane--emerging">
-      <div class="lane-head"><span class="lane-name">🌱 Emerging</span><span class="lane-sub">adopt now</span></div>
-      <div class="term term-strong"><span class="name">Ontology / KG-grounded agents</span><span class="signal">Tempered "next": real (Palantir, Neo4j, Sequeda) but slow-burn</span></div>
-      <div class="term"><span class="name">Dark factories</span><span class="signal">Zero-human-review code — swyx</span></div>
-      <div class="term"><span class="name">Docs → skills</span><span class="signal">"No one wrote docs; everyone writes skills" — Breunig</span></div>
-      <div class="term"><span class="name">Returns to domain expertise</span><span class="signal">Anthropic 400k-session study</span></div>
-      <div class="term"><span class="name">Agent memory / "Dreaming"</span><span class="signal">swyx: biggest limiting constraint</span></div>
-      <div class="term"><span class="name">Lethal trifecta / agent security</span><span class="signal">NSA-flagged (VIPER-MCP, EchoLeak)</span></div>
-      <div class="term"><span class="name">Bitemporal provenance</span><span class="signal">Zep applied SCD Type 6 — fintech knew first</span></div>
+        <!-- Lane labels (right side: where labels live) -->
+        <text x="0" y="74" class="lane-label">🔥 peak</text>
+        <text x="0" y="154" class="lane-label">📈 rising</text>
+        <text x="0" y="234" class="lane-label">🌱 emerging</text>
+        <text x="0" y="314" class="lane-label">📉 fading</text>
+
+        <!-- Lane reference lines -->
+        <line x1="100" y1="70" x2="500" y2="70" class="lane-line"/>
+        <line x1="100" y1="150" x2="500" y2="150" class="lane-line"/>
+        <line x1="100" y1="230" x2="500" y2="230" class="lane-line"/>
+        <line x1="100" y1="310" x2="500" y2="310" class="lane-line"/>
+
+        <!-- "Agentic" umbrella: peak → peak (static, top of peak lane) -->
+        <line x1="110" y1="60" x2="490" y2="60" class="slope-line-static peak"/>
+        <circle cx="110" cy="60" r="3.5" class="peak"/>
+        <circle cx="490" cy="60" r="3.5" class="peak"/>
+        <text x="500" y="63" class="concept-label">"Agentic" (umbrella)</text>
+        <text x="500" y="75" class="concept-note">means everything/nothing</text>
+
+        <!-- Loops: peak → peak (static, lower in peak lane) -->
+        <line x1="110" y1="85" x2="490" y2="85" class="slope-line-static peak"/>
+        <circle cx="110" cy="85" r="3" class="peak"/>
+        <circle cx="490" cy="85" r="3" class="peak"/>
+        <text x="500" y="88" class="concept-label">Loops</text>
+        <text x="500" y="100" class="concept-note">~6.5M-view post = peak velocity</text>
+
+        <!-- Vibe coding: peak → fading (the big descent) -->
+        <line x1="110" y1="70" x2="490" y2="310" class="slope-line fading"/>
+        <circle cx="110" cy="70" r="4" class="peak"/>
+        <circle cx="490" cy="310" r="4" class="fading"/>
+        <text x="500" y="313" class="concept-label">Vibe coding</text>
+        <text x="500" y="325" class="concept-note">becoming a pejorative</text>
+
+        <!-- MCP: rising → rising (static) -->
+        <line x1="110" y1="148" x2="490" y2="135" class="slope-line-static rising"/>
+        <circle cx="110" cy="148" r="3" class="rising"/>
+        <circle cx="490" cy="135" r="3.5" class="rising"/>
+        <text x="500" y="138" class="concept-label">MCP</text>
+        <text x="500" y="150" class="concept-note">~97M downloads · 40% unauth</text>
+
+        <!-- Evals: emerging → rising (big mover) -->
+        <line x1="110" y1="230" x2="490" y2="160" class="slope-line rising"/>
+        <circle cx="110" cy="230" r="4" class="emerging"/>
+        <circle cx="490" cy="160" r="4.5" class="rising"/>
+        <text x="500" y="163" class="concept-label">Evals (the discipline)</text>
+        <text x="500" y="175" class="concept-note">Hamel + Shreya frame it</text>
+
+        <!-- Long-running agents / runtime: emerging → rising (big mover) -->
+        <line x1="110" y1="222" x2="490" y2="185" class="slope-line rising"/>
+        <circle cx="110" cy="222" r="4" class="emerging"/>
+        <circle cx="490" cy="185" r="4.5" class="rising"/>
+        <text x="500" y="188" class="concept-label">Long-running agents</text>
+        <text x="500" y="200" class="concept-note">OpenAI ⇒ Ona</text>
+
+        <!-- Agent memory: emerging → rising -->
+        <line x1="110" y1="240" x2="490" y2="210" class="slope-line rising"/>
+        <circle cx="110" cy="240" r="3.5" class="emerging"/>
+        <circle cx="490" cy="210" r="4" class="rising"/>
+        <text x="500" y="213" class="concept-label">Agent memory</text>
+        <text x="500" y="225" class="concept-note">swyx: biggest constraint</text>
+
+        <!-- Ontology: emerging → emerging (static, the alpha) -->
+        <line x1="110" y1="230" x2="490" y2="246" class="slope-line-static emerging"/>
+        <circle cx="110" cy="230" r="3" class="emerging"/>
+        <circle cx="490" cy="246" r="4.5" class="emerging"/>
+        <text x="500" y="249" class="concept-label">Ontology / KG-grounded</text>
+        <text x="500" y="261" class="concept-note">tempered next · slow burn</text>
+
+        <!-- Dark factories: emerging → emerging -->
+        <line x1="110" y1="248" x2="490" y2="268" class="slope-line-static emerging"/>
+        <circle cx="110" cy="248" r="3" class="emerging"/>
+        <circle cx="490" cy="268" r="3.5" class="emerging"/>
+        <text x="500" y="271" class="concept-label">Dark factories</text>
+        <text x="500" y="283" class="concept-note">zero-human-review code</text>
+
+      </svg>
+      <div class="slope-legend">
+        <span><span class="swatch" style="background: var(--peak-fg);"></span>peak</span>
+        <span><span class="swatch" style="background: var(--rising-fg);"></span>rising</span>
+        <span><span class="swatch" style="background: var(--emerging-fg);"></span>emerging</span>
+        <span><span class="swatch" style="background: var(--fading-fg);"></span>fading</span>
+        <span style="margin-left: auto; opacity: 0.7;">solid = moved · dashed = held position</span>
+      </div>
     </div>
+  </section>
 
-    <div class="lane lane--rising">
-      <div class="lane-head"><span class="lane-name">📈 Rising</span><span class="lane-sub">still has edge</span></div>
-      <div class="term term-strong"><span class="name">Evals (as the discipline)</span><span class="signal">"Evals are the product-design discipline" — Hamel + Shreya</span></div>
-      <div class="term term-strong"><span class="name">Long-running agents / runtime</span><span class="signal">OpenAI ⇒ Ona; JPMorgan: "era of long-running agents"</span></div>
-      <div class="term"><span class="name">Agentic SDLC</span><span class="signal">Karpathy: "automate what you can verify"</span></div>
-      <div class="term"><span class="name">MCP</span><span class="signal">LF infra (~97M downloads); ~40% public servers unauthenticated</span></div>
-      <div class="term"><span class="name">Spec-driven dev (EARS / Kiro)</span><span class="signal">AWS Kiro enforced at the tooling layer</span></div>
-      <div class="term"><span class="name">Recursive self-improvement</span><span class="signal">Anthropic staked it (May 2026)</span></div>
-    </div>
+  <section>
+    <h2><span class="num">04 ·</span>Next / watch</h2>
+    <ul class="watch">
+      <li><b>Ontology / KG-grounding</b><span>The structured-world-model counter to brittle "agentic/loops." Be early — it's a slow burn.</span></li>
+      <li><b>Evals as the default discipline</b><span>Graduating from niche craft to table-stakes.</span></li>
+      <li><b>Agent runtime / persistence</b><span>"Where do agents live, keep state, and prove what they did?"</span></li>
+      <li><b>Memory governance &amp; provenance</b><span>Who authorised this memory write — is it poisoned?</span></li>
+    </ul>
+  </section>
 
-    <div class="lane lane--peak">
-      <div class="lane-head"><span class="lane-name">🔥 Peak</span><span class="lane-sub">overhyped</span></div>
-      <div class="term term-strong"><span class="name">"Agentic" (umbrella)</span><span class="signal">Means everything and nothing — #1 overused term</span></div>
-      <div class="term"><span class="name">Loops / "loop engineering"</span><span class="signal">Steinberger ~6.5M views = peak velocity</span></div>
-      <div class="term"><span class="name">Multi-agent</span><span class="signal">Research: hurts on most tasks; "agentic swarm" ≈ marketing</span></div>
-      <div class="term"><span class="name">Context engineering</span><span class="signal">Mainstream + Gartner-blessed</span></div>
-    </div>
+  <section>
+    <h2><span class="num">05 ·</span>Recent digests <span class="sub"><a href="latest.html">read the latest in full →</a></span></h2>
+    <ul class="digests">
+      <li>
+        <span class="date">2026-06-20</span>
+        <span class="teaser"><a href="digest/2026-06-20.html">"Agentic" peaks; evals + verifiability are the real disciplines; ontology = tempered next; OpenAI ⇒ Ona; ~40% of MCP servers unauthenticated.</a> <span class="src">(AM)</span></span>
+      </li>
+    </ul>
+  </section>
 
-    <div class="lane lane--fading">
-      <div class="lane-head"><span class="lane-name">📉 Fading</span><span class="lane-sub">commoditized</span></div>
-      <div class="term"><span class="name">Vibe coding</span><span class="signal">Becoming a pejorative; maturing into "agentic engineering"</span></div>
-    </div>
-
-  </div>
-
-  <h2><span class="num">04 ·</span>Next / watch</h2>
-  <ul class="watch">
-    <li><b>Ontology / KG-grounding</b><span>The structured-world-model counter to brittle "agentic/loops." Be early — it's a slow burn.</span></li>
-    <li><b>Evals as the default discipline</b><span>Graduating from niche craft to table-stakes.</span></li>
-    <li><b>Agent runtime / persistence</b><span>"Where do agents live, keep state, and prove what they did?"</span></li>
-    <li><b>Memory governance &amp; provenance</b><span>Who authorised this memory write — is it poisoned?</span></li>
-  </ul>
-
-  <h2><span class="num">05 ·</span>Recent digests <span class="sub"><a href="latest.html">read the latest in full →</a></span></h2>
-  <ul class="digests">
-    <li>
-      <span class="date">2026-06-20</span>
-      <span class="teaser"><a href="digest/2026-06-20.html">"Agentic" peaks; evals + verifiability are the real disciplines; ontology = tempered next; OpenAI⇒Ona; ~40% of MCP servers unauthenticated.</a></span>
-    </li>
-  </ul>
+  <section class="lexicon" aria-labelledby="lexicon-eyebrow">
+    <div class="lexicon-eyebrow" id="lexicon-eyebrow">Zeitgeist lexicon · house phrases we repeat</div>
+    <ul>
+      <li><q>Automate what you can verify.</q><span class="src">— Karpathy</span><br><span style="color: var(--muted); font-size: 13px;">the master gate of the agentic SDLC</span></li>
+      <li><q>Cap the blast radius.</q><span class="src">— Anthropic</span><br><span style="color: var(--muted); font-size: 13px;">the right question every time agent permissions expand</span></li>
+      <li><q>Vibe coding raises the floor. Agentic engineering raises the ceiling.</q><span class="src">— Karpathy</span><br><span style="color: var(--muted); font-size: 13px;">use to classify every new tool: floor-raiser or ceiling-raiser?</span></li>
+    </ul>
+  </section>
 
   <section class="pull">
     <blockquote>If everyone's saying it, it's near peak. <em>Watch what the most forward people say instead.</em></blockquote>

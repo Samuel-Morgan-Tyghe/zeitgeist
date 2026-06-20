@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Zeitgeist digest 2026-06-20 — 'Agentic' peaks; evals + verifiability are the real disciplines; OpenAI⇒Ona; ~40% of MCP servers unauthenticated.">
+  <meta name="description" content="Zeitgeist digest 2026-06-20 — 'Agentic' peaks; evals + verifiability are the real disciplines; OpenAI ⇒ Ona; ~40% of MCP servers unauthenticated.">
   <meta name="theme-color" content="#1a1a1a">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="zeitgeist">
@@ -15,38 +15,34 @@
     :root {
       --ink: #1a1a1a;
       --muted: #6b6b6b;
+      --soft: #8d8478;
       --rule: #e8e4dc;
       --surface: #fbfaf7;
+      --surface-2: #f5f1e8;
       --emerging-fg: #2f8f5a;
-      --emerging-bg: #e9f6ed;
       --rising-fg: #1f6feb;
-      --rising-bg: #e6f0ff;
       --peak-fg: #c53b3b;
-      --peak-bg: #fde8e8;
       --fading-fg: #6b6b6b;
-      --fading-bg: #eeeeee;
       --serif: ui-serif, "Iowan Old Style", "Apple Garamond", Georgia, serif;
       --sans: ui-sans-serif, system-ui, -apple-system, "Helvetica Neue", sans-serif;
       --mono: ui-monospace, "SF Mono", Menlo, monospace;
+      --measure: 62ch;
+      --type-h2: clamp(1.3rem, 1.1rem + 0.9vw, 1.6rem);
+      --type-lede: clamp(1.2rem, 1.0rem + 0.9vw, 1.5rem);
+      --type-body: 17px;
     }
     @media (prefers-color-scheme: dark) {
       :root {
-        --ink: #f3efe7;
-        --muted: #9b958a;
-        --rule: #2a2620;
-        --surface: #15130f;
-        --emerging-bg: #14352a;
-        --rising-bg: #16284a;
-        --peak-bg: #3a1a1a;
-        --fading-bg: #262626;
+        --ink: #f3efe7; --muted: #9b958a; --soft: #7a7368;
+        --rule: #2a2620; --surface: #15130f; --surface-2: #1f1c17;
       }
     }
     * { box-sizing: border-box; }
     html, body { margin: 0; padding: 0; }
     body {
       font-family: var(--sans); color: var(--ink); background: var(--surface);
-      line-height: 1.55; font-size: clamp(15px, 0.4vw + 14px, 17px);
-      -webkit-text-size-adjust: 100%;
+      line-height: 1.6; font-size: var(--type-body);
+      -webkit-font-smoothing: antialiased; -webkit-text-size-adjust: 100%;
     }
     a { color: inherit; text-underline-offset: 3px; text-decoration-thickness: 1px; }
     a:hover { text-decoration-thickness: 2px; }
@@ -55,7 +51,6 @@
     .masthead {
       display: flex; align-items: center; justify-content: space-between;
       gap: 12px; padding-bottom: 16px; border-bottom: 1px solid var(--rule);
-      font-size: 14px;
     }
     .masthead a { text-decoration: none; }
     .wordmark {
@@ -63,64 +58,107 @@
       letter-spacing: -0.02em; margin: 0; line-height: 1;
     }
     .wordmark .glyph { font-family: var(--sans); margin-right: 0.15em; }
-    .nav-back { font-family: var(--mono); font-size: 11.5px; color: var(--muted); letter-spacing: 0.04em; text-transform: uppercase; }
+    .nav-back { font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; }
 
-    .doc-head { margin: 36px 0 28px; }
-    .doc-date { font-family: var(--mono); font-size: 12px; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
-    .doc-title { font-family: var(--serif); font-weight: 600; font-size: clamp(28px, 2.5vw + 16px, 42px); letter-spacing: -0.02em; line-height: 1.12; margin: 10px 0 0; }
+    .doc-head { margin: 36px 0 12px; max-width: var(--measure); }
+    .doc-date { font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: 0.14em; text-transform: uppercase; }
+    .doc-title { font-family: var(--serif); font-weight: 600; font-size: clamp(28px, 2vw + 18px, 40px); letter-spacing: -0.02em; line-height: 1.1; margin: 12px 0 0; }
 
-    .plain { margin: 32px 0 0; padding: 22px 0 0; border-top: 1px solid var(--rule); }
-    .plain-eyebrow { font-family: var(--mono); text-transform: uppercase; font-size: 11px; letter-spacing: 0.12em; color: var(--muted); }
-    .plain p { font-family: var(--serif); font-size: clamp(20px, 1.3vw + 14px, 28px); line-height: 1.32; letter-spacing: -0.012em; margin: 12px 0 0; font-weight: 500; }
-    .plain p .lift { background: linear-gradient(transparent 62%, rgba(31,111,235,0.18) 62%); padding: 0 2px; }
+    .plain { margin: 24px 0 0; padding: 22px 0 0; border-top: 1px solid var(--rule); }
+    .plain-eyebrow { font-family: var(--mono); text-transform: uppercase; font-size: 11px; letter-spacing: 0.12em; color: var(--muted); margin-bottom: 12px; }
+    .plain p {
+      font-family: var(--serif);
+      font-size: var(--type-lede);
+      line-height: 1.34; letter-spacing: -0.012em; margin: 0; font-weight: 500;
+      max-width: var(--measure);
+    }
+    .plain p::first-letter {
+      font-family: var(--serif); float: left;
+      font-size: 3.2em; line-height: 0.86;
+      padding: 0.05em 0.1em 0 0;
+      font-weight: 600; color: var(--peak-fg);
+    }
+    .plain p .smcp { font-variant: small-caps; letter-spacing: 0.06em; font-weight: 600; }
+    .plain p .lift { background: linear-gradient(transparent 60%, rgba(31,111,235,0.18) 60%); padding: 0 2px; }
 
-    h2 { font-family: var(--serif); font-weight: 600; font-size: clamp(20px, 1vw + 18px, 26px); letter-spacing: -0.01em; margin: 48px 0 14px; display: flex; align-items: baseline; gap: 12px; }
-    h2 .num { font-family: var(--mono); font-size: 12px; color: var(--muted); letter-spacing: 0.08em; font-weight: 500; }
-    h2 .sub { font-family: var(--sans); font-size: 13px; color: var(--muted); font-weight: 400; letter-spacing: 0; margin-left: 8px; }
+    h2 {
+      font-family: var(--serif); font-weight: 600; font-size: var(--type-h2);
+      letter-spacing: -0.01em; margin: 56px 0 16px;
+      display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap;
+    }
+    h2 .num { font-family: var(--mono); font-size: 12px; color: var(--muted); letter-spacing: 0.1em; font-weight: 500; }
+    h2 .sub { font-family: var(--sans); font-size: 13px; color: var(--muted); font-weight: 400; letter-spacing: 0; }
 
-    /* TL;DR cards */
+    /* TL;DR — rail-style */
     .tldr-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
     @media (min-width: 640px) { .tldr-grid { grid-template-columns: repeat(3, 1fr); gap: 14px; } }
-    .takeaway { padding: 14px 16px; border-radius: 14px; border: 1px solid var(--rule); }
-    .takeaway .label { font-family: var(--mono); text-transform: uppercase; font-size: 10.5px; letter-spacing: 0.12em; }
-    .takeaway .text { margin: 6px 0 0; font-size: 14px; line-height: 1.45; }
-    .takeaway--important { border-color: var(--rising-fg); background: var(--rising-bg); }
+    .takeaway {
+      padding: 14px 16px 14px 18px;
+      background: var(--surface);
+      border: 1px solid var(--rule);
+      border-left-width: 3px;
+      border-radius: 6px 12px 12px 6px;
+    }
+    .takeaway .label { font-family: var(--mono); text-transform: uppercase; font-size: 10.5px; letter-spacing: 0.14em; }
+    .takeaway .text { margin: 6px 0 0; font-size: 14px; line-height: 1.5; }
+    .takeaway--important { border-left-color: var(--rising-fg); }
     .takeaway--important .label { color: var(--rising-fg); }
-    .takeaway--overhyped { border-color: var(--peak-fg); background: var(--peak-bg); }
+    .takeaway--overhyped { border-left-color: var(--peak-fg); }
     .takeaway--overhyped .label { color: var(--peak-fg); }
-    .takeaway--emerging { border-color: var(--emerging-fg); background: var(--emerging-bg); }
+    .takeaway--emerging { border-left-color: var(--emerging-fg); }
     .takeaway--emerging .label { color: var(--emerging-fg); }
 
-    /* Worth a click */
-    .links { padding: 0; margin: 0; list-style: none; display: grid; gap: 10px; }
-    .links li { padding: 14px 16px; border: 1px solid var(--rule); border-radius: 12px; font-size: 14.5px; line-height: 1.45; background: var(--surface); }
-    .links li .verdict { display: inline-block; font-family: var(--mono); font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.1em; padding: 2px 8px; border-radius: 999px; margin-right: 8px; vertical-align: 1px; }
-    .links li .verdict--signal { color: var(--emerging-fg); background: var(--emerging-bg); }
-    .links li .verdict--urgent { color: var(--peak-fg); background: var(--peak-bg); }
-    .links li .verdict--shift { color: var(--rising-fg); background: var(--rising-bg); }
-    .links li .verdict--lead { color: var(--emerging-fg); background: var(--emerging-bg); }
-    .links li .verdict--frame { color: var(--rising-fg); background: var(--rising-bg); }
-    .links li .verdict--track { color: var(--muted); background: var(--fading-bg); }
+    /* Worth a click — Axios pair items */
+    .links { padding: 0; margin: 0; list-style: none; display: grid; gap: 14px; }
+    .links li { padding: 0; }
+    .links .tease {
+      font-family: var(--serif); font-weight: 600;
+      font-size: clamp(17px, 0.6vw + 15px, 19px);
+      line-height: 1.3; letter-spacing: -0.01em;
+      display: block;
+    }
+    .links .tease a { text-decoration: none; }
+    .links .tease a:hover { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 4px; }
+    .links .src {
+      font-family: var(--mono); font-size: 11px; color: var(--soft);
+      letter-spacing: 0.04em; margin-left: 6px; white-space: nowrap;
+    }
+    .links .why {
+      display: block; margin-top: 4px;
+      font-size: 14.5px; line-height: 1.5; color: var(--ink);
+    }
+    .links .why .label {
+      font-family: var(--mono); text-transform: uppercase;
+      font-size: 10px; letter-spacing: 0.14em; color: var(--muted);
+      margin-right: 6px;
+    }
 
     /* Skip the hype */
     .skip { display: grid; gap: 10px; }
-    .skip > div { padding: 14px 16px; border-left: 3px solid var(--peak-fg); background: var(--peak-bg); border-radius: 0 12px 12px 0; font-size: 14.5px; line-height: 1.45; }
+    .skip > div {
+      padding: 14px 16px 14px 18px;
+      border-left: 3px solid var(--peak-fg);
+      background: var(--surface);
+      border-top: 1px solid var(--rule);
+      border-right: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+      border-radius: 4px 12px 12px 4px;
+      font-size: 14.5px; line-height: 1.5;
+    }
     .skip > div b { color: var(--peak-fg); }
 
-    /* Prev / next nav at bottom */
+    /* Prev / next nav */
     .nav {
       display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
-      margin: 56px 0 32px;
-      padding: 24px 0;
-      border-top: 1px solid var(--rule);
-      border-bottom: 1px solid var(--rule);
+      margin: 56px 0 32px; padding: 24px 0;
+      border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule);
     }
     .nav a, .nav .stub {
       display: block; padding: 16px 18px; border-radius: 14px;
       border: 1px solid var(--rule); text-decoration: none;
       background: var(--surface);
     }
-    .nav .label { display: block; font-family: var(--mono); text-transform: uppercase; font-size: 10.5px; letter-spacing: 0.12em; color: var(--muted); }
+    .nav .label { display: block; font-family: var(--mono); text-transform: uppercase; font-size: 10.5px; letter-spacing: 0.14em; color: var(--muted); }
     .nav .title { display: block; margin-top: 6px; font-weight: 600; font-size: 15px; }
     .nav .nav-prev { text-align: left; }
     .nav .nav-next { text-align: right; }
@@ -128,7 +166,11 @@
     .nav a:hover { border-color: var(--rising-fg); color: var(--rising-fg); }
     .nav a:hover .label { color: var(--rising-fg); }
 
-    footer { margin-top: 16px; padding-top: 18px; border-top: 1px solid var(--rule); font-size: 12.5px; color: var(--muted); display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; }
+    footer {
+      margin-top: 16px; padding-top: 18px; border-top: 1px solid var(--rule);
+      font-size: 12.5px; color: var(--muted);
+      display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px;
+    }
 
     @media (prefers-reduced-motion: no-preference) {
       .plain p, .takeaway, .links li { animation: rise 0.5s cubic-bezier(0.2,0.6,0.2,1) both; }
@@ -151,24 +193,49 @@
 
   <section class="plain">
     <div class="plain-eyebrow">In plain English</div>
-    <p>For a year the AI conversation has been about making computers more independent — programs that "do things for you" on their own. The most respected people in the field are now quietly saying that's <span class="lift">not the real problem any more</span>. The hard part is knowing whether the computer actually did the job — and remembering what it did between Tuesday and Wednesday.</p>
+    <p><span class="smcp">For a year</span> the AI conversation has been about making computers more independent — programs that "do things for you" on their own. The most respected people in the field are now quietly saying that's <span class="lift">not the real problem any more</span>. The hard part is knowing whether the computer actually did the job — and remembering what it did between Tuesday and Wednesday.</p>
   </section>
 
   <h2><span class="num">01 ·</span>TL;DR <span class="sub">the day in three</span></h2>
   <div class="tldr-grid">
-    <div class="takeaway takeaway--important"><div class="label">Most important</div><p class="text">Hamel Husain, Shreya Shankar &amp; Andrej Karpathy reject "agentic" hype for <b>evals + verifiability</b>. OpenAI buying <b>Ona</b> says the next battleground is agent <b>runtime/persistence</b>, not smarter models.</p></div>
+    <div class="takeaway takeaway--important"><div class="label">Most important</div><p class="text">Hamel Husain, Shreya Shankar &amp; Karpathy reject "agentic" hype for <b>evals + verifiability</b>. OpenAI ⇒ <b>Ona</b>: the next battleground is agent <b>runtime/persistence</b>, not smarter models.</p></div>
     <div class="takeaway takeaway--overhyped"><div class="label">Most overhyped</div><p class="text"><b>"Agentic"</b> — five engineers, five answers. "Loops" is at peak too: Steinberger's post hit ~6.5M views.</p></div>
     <div class="takeaway takeaway--emerging"><div class="label">Emerging</div><p class="text"><b>Ontology</b> (tempered — real but slow-burn), <b>dark factories</b>, <b>docs → skills</b>.</p></div>
   </div>
 
-  <h2><span class="num">02 ·</span>Worth a click</h2>
+  <h2><span class="num">02 ·</span>Worth a click <span class="sub">tease · why it matters · source</span></h2>
   <ul class="links">
-    <li><span class="verdict verdict--signal">signal</span><a href="https://www.lennysnewsletter.com/p/why-ai-evals-are-the-hottest-new-skill"><b>Evals are the hottest new skill</b></a> — Hamel Husain + Shreya Shankar. The real bottleneck behind every "agent."</li>
-    <li><span class="verdict verdict--urgent">urgent</span><a href="https://arxiv.org/abs/2605.21392"><b>VIPER-MCP: 40k repos, 106 zero-days, ~40% no auth</b></a> — actionable if you run an MCP server.</li>
-    <li><span class="verdict verdict--shift">shift</span><a href="https://openai.com/index/openai-to-acquire-ona/"><b>OpenAI to acquire Ona</b></a> — real infra shift. Agents that persist + audit = the enterprise unlock.</li>
-    <li><span class="verdict verdict--lead">lead</span><a href="https://www.dbreunig.com/2026/05/31/what-do-humans-need-from-docs.html"><b>Breunig: skills are the new docs</b></a> — quiet leading indicator.</li>
-    <li><span class="verdict verdict--frame">frame</span><a href="https://karpathy.bearblog.dev/sequoia-ascent-2026/"><b>Karpathy: "automate what you can verify"</b></a> — the keeper frame of 2026.</li>
-    <li><span class="verdict verdict--track">track</span><a href="https://blog.palantir.com/connecting-agents-to-decisions-277dee8ddb40"><b>Ontology for agents</b></a> — track it, don't buy the hype yet. Real but slow-burn.</li>
+
+    <li>
+      <span class="tease"><a href="https://www.lennysnewsletter.com/p/why-ai-evals-are-the-hottest-new-skill">Evals are the new skill</a><span class="src">(Hamel &amp; Shreya · Lenny's)</span></span>
+      <span class="why"><span class="label">Why it matters</span>The real bottleneck behind every "agent" — writing tests for AI outputs that don't have a clean pass/fail. Karpathy's <em>"automate what you can verify"</em> says it; this names the discipline.</span>
+    </li>
+
+    <li>
+      <span class="tease"><a href="https://arxiv.org/abs/2605.21392">40% of MCP servers, no auth</a><span class="src">(arXiv 2605.21392 · VIPER-MCP)</span></span>
+      <span class="why"><span class="label">Why it matters</span>40k repos scanned, 106 zero-days; if you operate an MCP server, this is Monday's work. NSA has now flagged the lethal-trifecta pattern.</span>
+    </li>
+
+    <li>
+      <span class="tease"><a href="https://openai.com/index/openai-to-acquire-ona/">OpenAI buys the runtime</a><span class="src">(OpenAI)</span></span>
+      <span class="why"><span class="label">Why it matters</span>The acquisition of <b>Ona</b> is a real infra shift. Persistent + auditable agent runtime is the enterprise unlock — the next battleground isn't smarter models, it's where agents live.</span>
+    </li>
+
+    <li>
+      <span class="tease"><a href="https://www.dbreunig.com/2026/05/31/what-do-humans-need-from-docs.html">Skills &gt; docs</a><span class="src">(Drew Breunig)</span></span>
+      <span class="why"><span class="label">Why it matters</span>"No one wanted to write docs, but everyone is writing skills." Quiet leading indicator: the shape of organisational knowledge is changing from prose to small executable instructions.</span>
+    </li>
+
+    <li>
+      <span class="tease"><a href="https://karpathy.bearblog.dev/sequoia-ascent-2026/">The keeper frame of 2026</a><span class="src">(Karpathy · Sequoia Ascent)</span></span>
+      <span class="why"><span class="label">Why it matters</span><em>"Automate what you can verify."</em> One sentence that tells you which SDLC phases automate first (test-gated, build-verified) and which stay human (architecture, taste).</span>
+    </li>
+
+    <li>
+      <span class="tease"><a href="https://blog.palantir.com/connecting-agents-to-decisions-277dee8ddb40">Ontology, tempered</a><span class="src">(Palantir · Sequeda)</span></span>
+      <span class="why"><span class="label">Why it matters</span>Real but slow-burn. Track it; don't buy the hype yet. The structured-world-model counter to brittle "agentic/loops" frameworks.</span>
+    </li>
+
   </ul>
 
   <h2><span class="num">03 ·</span>Skip the hype</h2>
