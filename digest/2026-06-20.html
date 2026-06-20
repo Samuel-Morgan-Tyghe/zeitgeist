@@ -108,29 +108,46 @@
     .takeaway--emerging { border-left-color: var(--emerging-fg); }
     .takeaway--emerging .label { color: var(--emerging-fg); }
 
-    /* Worth a click — Axios pair items */
-    .links { padding: 0; margin: 0; list-style: none; display: grid; gap: 14px; }
-    .links li { padding: 0; }
-    .links .tease {
+    /* Articles list — numbered, two-paragraph, type-driven (no card chrome) */
+    .articles { padding: 0; margin: 0; list-style: none; }
+    .articles > li {
+      display: grid;
+      grid-template-columns: 32px 1fr;
+      gap: 14px;
+      padding: 26px 0 28px;
+      border-top: 1px solid var(--rule);
+    }
+    .articles > li:last-child { border-bottom: 1px solid var(--rule); }
+    .articles .index {
+      font-family: var(--mono); font-size: 13px; color: var(--soft);
+      letter-spacing: 0.04em; padding-top: 7px;
+    }
+    .articles .head { margin-bottom: 14px; }
+    .articles .tease {
       font-family: var(--serif); font-weight: 600;
-      font-size: clamp(17px, 0.6vw + 15px, 19px);
-      line-height: 1.3; letter-spacing: -0.01em;
-      display: block;
+      font-size: clamp(20px, 0.7vw + 17px, 24px);
+      line-height: 1.22; letter-spacing: -0.018em;
+      display: block; color: var(--ink);
     }
-    .links .tease a { text-decoration: none; }
-    .links .tease a:hover { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 4px; }
-    .links .src {
+    .articles .tease a { text-decoration: none; color: inherit; }
+    .articles .tease a:hover { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 4px; color: var(--rising-fg); }
+    .articles .src {
       font-family: var(--mono); font-size: 11px; color: var(--soft);
-      letter-spacing: 0.04em; margin-left: 6px; white-space: nowrap;
+      letter-spacing: 0.06em; display: block; margin-top: 5px;
     }
-    .links .why {
-      display: block; margin-top: 4px;
-      font-size: 14.5px; line-height: 1.5; color: var(--ink);
+    .articles .body { max-width: 60ch; }
+    .articles .body p { margin: 0; font-size: 15.5px; line-height: 1.6; }
+    .articles .body p + p {
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px dashed var(--rule);
+      font-size: 14.5px;
+      color: var(--ink);
     }
-    .links .why .label {
-      font-family: var(--mono); text-transform: uppercase;
-      font-size: 10px; letter-spacing: 0.14em; color: var(--muted);
-      margin-right: 6px;
+    .articles .body em { font-style: italic; color: var(--peak-fg); }
+    @media (max-width: 520px) {
+      .articles > li { grid-template-columns: 1fr; gap: 6px; padding: 22px 0 24px; }
+      .articles .index { padding-top: 0; }
     }
 
     /* Skip the hype */
@@ -203,40 +220,94 @@
     <div class="takeaway takeaway--emerging"><div class="label">Emerging</div><p class="text"><b>Ontology</b> (tempered — real but slow-burn), <b>dark factories</b>, <b>docs → skills</b>.</p></div>
   </div>
 
-  <h2><span class="num">02 ·</span>Worth a click <span class="sub">tease · why it matters · source</span></h2>
-  <ul class="links">
+  <h2><span class="num">02 ·</span>Today's reading <span class="sub">six pieces · plain English first, then the named version</span></h2>
+  <ol class="articles">
 
     <li>
-      <span class="tease"><a href="https://www.lennysnewsletter.com/p/why-ai-evals-are-the-hottest-new-skill">Evals are the new skill</a><span class="src">(Hamel &amp; Shreya · Lenny's)</span></span>
-      <span class="why"><span class="label">Why it matters</span>The real bottleneck behind every "agent" — writing tests for AI outputs that don't have a clean pass/fail. Karpathy's <em>"automate what you can verify"</em> says it; this names the discipline.</span>
+      <div class="index">01</div>
+      <div>
+        <div class="head">
+          <span class="tease"><a href="https://www.lennysnewsletter.com/p/why-ai-evals-are-the-hottest-new-skill">Evals are the new skill</a></span>
+          <span class="src">Hamel Husain &amp; Shreya Shankar · Lenny's Newsletter</span>
+        </div>
+        <div class="body">
+          <p>For decades writing software meant <q>if input X, then output Y</q> — clean checks. AI now does work where you can't write that check upfront, so the new craft is <b>designing the test</b>: rubrics for what counts as a good answer, a judge model to score outputs, a regression suite that catches drift between model versions. The engineers who can do this well are suddenly the most valuable people in the room.</p>
+          <p>Hamel + Shreya position evals as <em>"the product-design discipline"</em> — the gate that decides what's actually shippable. Karpathy's <em>"automate what you can verify"</em> is the same idea on the other side of the equation: phases of the SDLC with strong eval signals (unit tests, builds, types) automate first; phases without (architecture, taste) stay human. If you only build one capability in 2026, build this one.</p>
+        </div>
+      </div>
     </li>
 
     <li>
-      <span class="tease"><a href="https://arxiv.org/abs/2605.21392">40% of MCP servers, no auth</a><span class="src">(arXiv 2605.21392 · VIPER-MCP)</span></span>
-      <span class="why"><span class="label">Why it matters</span>40k repos scanned, 106 zero-days; if you operate an MCP server, this is Monday's work. NSA has now flagged the lethal-trifecta pattern.</span>
+      <div class="index">02</div>
+      <div>
+        <div class="head">
+          <span class="tease"><a href="https://arxiv.org/abs/2605.21392">40% of MCP servers, no auth</a></span>
+          <span class="src">VIPER-MCP · arXiv 2605.21392</span>
+        </div>
+        <div class="body">
+          <p>A lot of new AI tools plug into chatbots using a protocol called MCP (think USB for AI tools). Researchers scanned 40,000 public MCP servers and found roughly four in ten ship with no authentication at all — and they uncovered 106 previously-unknown security holes. The short version: a malicious page can quietly steer what your chatbot does and reads on your behalf.</p>
+          <p>The NSA has now flagged the underlying pattern as the <em>"lethal trifecta"</em>: untrusted input + tool access + outbound channel = data-exfiltration vector. EchoLeak on Microsoft 365 is the canonical in-the-wild example. If you operate or depend on any MCP server in production, this is Monday's work — audit auth + scope every tool to least privilege.</p>
+        </div>
+      </div>
     </li>
 
     <li>
-      <span class="tease"><a href="https://openai.com/index/openai-to-acquire-ona/">OpenAI buys the runtime</a><span class="src">(OpenAI)</span></span>
-      <span class="why"><span class="label">Why it matters</span>The acquisition of <b>Ona</b> is a real infra shift. Persistent + auditable agent runtime is the enterprise unlock — the next battleground isn't smarter models, it's where agents live.</span>
+      <div class="index">03</div>
+      <div>
+        <div class="head">
+          <span class="tease"><a href="https://openai.com/index/openai-to-acquire-ona/">OpenAI buys the runtime</a></span>
+          <span class="src">OpenAI · acquisition of Ona</span>
+        </div>
+        <div class="body">
+          <p>For a year people assumed the AI race was about whoever builds the smartest model. OpenAI just paid for a company that does something more boring and more important: it lets AIs <b>live persistently</b> between sessions, with audit logs of what they did. The bet is that the real prize isn't a smarter brain — it's giving the brain a place to <em>stay</em> and a record of <em>what it did Tuesday</em>.</p>
+          <p>The acquisition of Ona signals the next infrastructure layer: long-running agent runtime, persistence, audit trails, memory governance. JPMorgan framed it as <em>"the era of long-running agents."</em> The market's view of where enterprise unlock sits has moved from foundation-model parameters to runtime + memory + provenance.</p>
+        </div>
+      </div>
     </li>
 
     <li>
-      <span class="tease"><a href="https://www.dbreunig.com/2026/05/31/what-do-humans-need-from-docs.html">Skills &gt; docs</a><span class="src">(Drew Breunig)</span></span>
-      <span class="why"><span class="label">Why it matters</span>"No one wanted to write docs, but everyone is writing skills." Quiet leading indicator: the shape of organisational knowledge is changing from prose to small executable instructions.</span>
+      <div class="index">04</div>
+      <div>
+        <div class="head">
+          <span class="tease"><a href="https://www.dbreunig.com/2026/05/31/what-do-humans-need-from-docs.html">Skills &gt; docs</a></span>
+          <span class="src">Drew Breunig · dbreunig.com</span>
+        </div>
+        <div class="body">
+          <p>Nobody likes writing documentation, but every engineer is now writing <b>"skills"</b> — small step-by-step files that tell an AI how to do a specific job. It's the same labour as docs. Except this time the AI actually reads it and follows the steps, so people will finally do the work.</p>
+          <p>Breunig's line: <em>"no one wanted to write docs, but everyone is writing skills."</em> Skills are executable docs scoped to an agent's tool-use surface. Quiet leading indicator — the shape of organisational knowledge is moving from human-readable prose to agent-executable instruction. Watch for the corollary: who owns the skill registry inside a company, and how is it versioned?</p>
+        </div>
+      </div>
     </li>
 
     <li>
-      <span class="tease"><a href="https://karpathy.bearblog.dev/sequoia-ascent-2026/">The keeper frame of 2026</a><span class="src">(Karpathy · Sequoia Ascent)</span></span>
-      <span class="why"><span class="label">Why it matters</span><em>"Automate what you can verify."</em> One sentence that tells you which SDLC phases automate first (test-gated, build-verified) and which stay human (architecture, taste).</span>
+      <div class="index">05</div>
+      <div>
+        <div class="head">
+          <span class="tease"><a href="https://karpathy.bearblog.dev/sequoia-ascent-2026/">The keeper frame of 2026</a></span>
+          <span class="src">Andrej Karpathy · Sequoia AI Ascent 2026</span>
+        </div>
+        <div class="body">
+          <p>Karpathy gave the cleanest one-sentence test for whether AI can do a job: <em>"automate what you can verify."</em> If you have a clean way to check the result — tests, builds, lints, types — the AI can take the job. If you don't — architecture taste, what to build, what to ship — keep a human on it. Every <q>will AI replace X?</q> debate collapses to this single question.</p>
+          <p>Full Karpathy: <em>"Traditional computers automate what you can specify in code. This latest round of LLMs can automate what you can verify."</em> The SDLC phases with strong verification signals automate first; the rest stay human because eval signals are absent. Patrick Roos's clean restatement: <b>Model + Harness = Agent</b> — the harness is the engineering work of expanding what's verifiable, which is where leverage compounds.</p>
+        </div>
+      </div>
     </li>
 
     <li>
-      <span class="tease"><a href="https://blog.palantir.com/connecting-agents-to-decisions-277dee8ddb40">Ontology, tempered</a><span class="src">(Palantir · Sequeda)</span></span>
-      <span class="why"><span class="label">Why it matters</span>Real but slow-burn. Track it; don't buy the hype yet. The structured-world-model counter to brittle "agentic/loops" frameworks.</span>
+      <div class="index">06</div>
+      <div>
+        <div class="head">
+          <span class="tease"><a href="https://blog.palantir.com/connecting-agents-to-decisions-277dee8ddb40">Ontology, tempered</a></span>
+          <span class="src">Palantir · Juan Sequeda</span>
+        </div>
+        <div class="body">
+          <p>A small group of forward thinkers say the real fix for AI's tendency to make things up isn't a smarter model — it's giving the AI a <b>structured map of the world</b> (an "ontology") so it knows what entities exist, how they relate, and can't invent nonsense. The idea is real. The catch: Palantir has been saying it since 2023 and the rest of the field is just now catching up. Slow burn.</p>
+          <p>Ontology-grounded agents / KG-grounded retrieval as the structured-world-model counter to brittle <q>agentic/loops</q> frameworks. Palantir, Neo4j, and Sequeda have the real production traction; the rest is positioning. <em>Tempered</em> because the time-to-adoption curve here is years, not quarters — be early on the concept, don't declare victory or build a wedge on the timeline.</p>
+        </div>
+      </div>
     </li>
 
-  </ul>
+  </ol>
 
   <h2><span class="num">03 ·</span>Skip the hype</h2>
   <div class="skip">
