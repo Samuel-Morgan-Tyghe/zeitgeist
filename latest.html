@@ -209,6 +209,40 @@
       .plain p, .takeaway, .links li { animation: rise 0.5s cubic-bezier(0.2,0.6,0.2,1) both; }
       @keyframes rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
     }
+  
+    /* Trust tiers (source ranking — primary/practitioner/vendor/secondary) */
+    .trust {
+      display: inline-block;
+      font-family: var(--mono);
+      font-size: 9.5px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 2px 6px 1px;
+      border-radius: 3px;
+      margin-right: 8px;
+      vertical-align: 1px;
+      line-height: 1.4;
+    }
+    .trust::before { content: '\25CF'; margin-right: 4px; opacity: 0.9; font-size: 8px; vertical-align: 1px; }
+    .trust-primary { color: var(--emerging-fg); background: rgba(47,143,90,0.10); }
+    .trust-practitioner { color: var(--rising-fg); background: rgba(31,111,235,0.10); }
+    .trust-vendor { color: var(--peak-fg); background: rgba(197,59,59,0.10); }
+    .trust-secondary { color: var(--muted); background: rgba(107,107,107,0.10); }
+
+    /* Source trust legend (small explainer at the foot of each digest) */
+    .trust-legend {
+      margin-top: 48px;
+      padding: 18px 20px 20px;
+      background: var(--surface-2);
+      border: 1px solid var(--rule);
+      border-radius: 12px;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    .trust-legend-eyebrow { font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+    .trust-legend ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
+    .trust-legend li { color: var(--muted); }
   </style>
 </head>
 <body>
@@ -251,7 +285,7 @@
       <div>
         <div class="head">
           <span class="tease"><a href="https://www.lennysnewsletter.com/p/why-ai-evals-are-the-hottest-new-skill">Evals are the new skill</a></span>
-          <span class="src">Hamel Husain &amp; Shreya Shankar · Lenny's Newsletter</span>
+          <span class="src"><span class="trust trust-practitioner">practitioner</span>Hamel Husain &amp; Shreya Shankar · Lenny's Newsletter</span>
         </div>
         <div class="body">
           <p>For decades writing software meant <q>if input X, then output Y</q> — clean checks. AI now does work where you can't write that check upfront, so the new craft is <b>designing the test</b>: rubrics for what counts as a good answer, a judge model to score outputs, a regression suite that catches drift between model versions. The engineers who can do this well are suddenly the most valuable people in the room.</p>
@@ -265,7 +299,7 @@
       <div>
         <div class="head">
           <span class="tease"><a href="https://arxiv.org/abs/2605.21392">40% of MCP servers, no auth</a></span>
-          <span class="src">VIPER-MCP · arXiv 2605.21392</span>
+          <span class="src"><span class="trust trust-primary">primary</span>VIPER-MCP · arXiv 2605.21392</span>
         </div>
         <div class="body">
           <p>A lot of new AI tools plug into chatbots using a protocol called MCP (think USB for AI tools). Researchers scanned 40,000 public MCP servers and found roughly four in ten ship with no authentication at all — and they uncovered 106 previously-unknown security holes. The short version: a malicious page can quietly steer what your chatbot does and reads on your behalf.</p>
@@ -279,7 +313,7 @@
       <div>
         <div class="head">
           <span class="tease"><a href="https://openai.com/index/openai-to-acquire-ona/">OpenAI buys the runtime</a></span>
-          <span class="src">OpenAI · acquisition of Ona</span>
+          <span class="src"><span class="trust trust-primary">primary</span>OpenAI · acquisition of Ona</span>
         </div>
         <div class="body">
           <p>For a year people assumed the AI race was about whoever builds the smartest model. OpenAI just paid for a company that does something more boring and more important: it lets AIs <b>live persistently</b> between sessions, with audit logs of what they did. The bet is that the real prize isn't a smarter brain — it's giving the brain a place to <em>stay</em> and a record of <em>what it did Tuesday</em>.</p>
@@ -293,7 +327,7 @@
       <div>
         <div class="head">
           <span class="tease"><a href="https://www.dbreunig.com/2026/05/31/what-do-humans-need-from-docs.html">Skills &gt; docs</a></span>
-          <span class="src">Drew Breunig · dbreunig.com</span>
+          <span class="src"><span class="trust trust-practitioner">practitioner</span>Drew Breunig · dbreunig.com</span>
         </div>
         <div class="body">
           <p>Nobody likes writing documentation, but every engineer is now writing <b>"skills"</b> — small step-by-step files that tell an AI how to do a specific job. It's the same labour as docs. Except this time the AI actually reads it and follows the steps, so people will finally do the work.</p>
@@ -307,7 +341,7 @@
       <div>
         <div class="head">
           <span class="tease"><a href="https://karpathy.bearblog.dev/sequoia-ascent-2026/">The keeper frame of 2026</a></span>
-          <span class="src">Andrej Karpathy · Sequoia AI Ascent 2026</span>
+          <span class="src"><span class="trust trust-primary">primary</span>Andrej Karpathy · Sequoia AI Ascent 2026</span>
         </div>
         <div class="body">
           <p>Karpathy gave the cleanest one-sentence test for whether AI can do a job: <em>"automate what you can verify."</em> If you have a clean way to check the result — tests, builds, lints, types — the AI can take the job. If you don't — architecture taste, what to build, what to ship — keep a human on it. Every <q>will AI replace X?</q> debate collapses to this single question.</p>
@@ -321,7 +355,7 @@
       <div>
         <div class="head">
           <span class="tease"><a href="https://blog.palantir.com/connecting-agents-to-decisions-277dee8ddb40">Ontology, tempered</a></span>
-          <span class="src">Palantir · Juan Sequeda</span>
+          <span class="src"><span class="trust trust-vendor">vendor</span>Palantir · Juan Sequeda</span>
         </div>
         <div class="body">
           <p>A small group of forward thinkers say the real fix for AI's tendency to make things up isn't a smarter model — it's giving the AI a <b>structured map of the world</b> (an "ontology") so it knows what entities exist, how they relate, and can't invent nonsense. The idea is real. The catch: Palantir has been saying it since 2023 and the rest of the field is just now catching up. Slow burn.</p>
@@ -337,6 +371,16 @@
     <div><b>"Agentic [anything]"</b> — the word now signals nothing about autonomy or reliability. Ask "what's the verification signal?" not "is it agentic?"</div>
     <div><b>"AI fully replaces developers"</b> — a fresh study (arXiv:2606.07448) shows AI-commit adoption more than doubled in new projects, yet only <b>0–20% of dev work is fully delegatable</b> — the judgment calls stay human.</div>
   </div>
+
+  
+  <aside class="trust-legend" aria-label="Source trust tiers">
+    <div class="trust-legend-eyebrow">About these source labels</div>
+    <ul>
+      <li><span class="trust trust-primary">primary</span>academic papers, first-party announcements, named researchers without downstream sale.</li>
+      <li><span class="trust trust-practitioner">practitioner</span>experienced practitioner; may sell adjacent services (courses, consulting). Read knowing the conflict.</li>
+      <li><span class="trust trust-vendor">vendor</span>content marketing where the author sells what the claim recommends. Often correct, always conflicted.</li>
+    </ul>
+  </aside>
 
   <nav class="nav" aria-label="Digest pagination">
     <div class="nav-prev">

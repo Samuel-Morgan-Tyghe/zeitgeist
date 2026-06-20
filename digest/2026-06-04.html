@@ -96,6 +96,40 @@
     .nav a:hover .label { color: var(--rising-fg); }
     footer { margin-top: 16px; padding-top: 18px; border-top: 1px solid var(--rule); font-size: 12.5px; color: var(--muted); display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; }
     @media (prefers-reduced-motion: no-preference) { .plain p, .takeaway, .links li, .articles > li { animation: rise 0.5s cubic-bezier(0.2,0.6,0.2,1) both; } @keyframes rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } } }
+  
+    /* Trust tiers (source ranking — primary/practitioner/vendor/secondary) */
+    .trust {
+      display: inline-block;
+      font-family: var(--mono);
+      font-size: 9.5px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 2px 6px 1px;
+      border-radius: 3px;
+      margin-right: 8px;
+      vertical-align: 1px;
+      line-height: 1.4;
+    }
+    .trust::before { content: '\25CF'; margin-right: 4px; opacity: 0.9; font-size: 8px; vertical-align: 1px; }
+    .trust-primary { color: var(--emerging-fg); background: rgba(47,143,90,0.10); }
+    .trust-practitioner { color: var(--rising-fg); background: rgba(31,111,235,0.10); }
+    .trust-vendor { color: var(--peak-fg); background: rgba(197,59,59,0.10); }
+    .trust-secondary { color: var(--muted); background: rgba(107,107,107,0.10); }
+
+    /* Source trust legend (small explainer at the foot of each digest) */
+    .trust-legend {
+      margin-top: 48px;
+      padding: 18px 20px 20px;
+      background: var(--surface-2);
+      border: 1px solid var(--rule);
+      border-radius: 12px;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    .trust-legend-eyebrow { font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+    .trust-legend ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
+    .trust-legend li { color: var(--muted); }
   </style>
 </head>
 <body>
@@ -131,7 +165,7 @@
       <div>
         <div class="head">
           <span class="tease"><a href="https://www.youtube.com/watch?v=CEvIs9y1uog">Don&#x27;t build agents — build skills</a></span>
-          <span class="src">Barry Zhang &amp;amp; Mahesh Murag · Anthropic</span>
+          <span class="src"><span class="trust trust-primary">primary</span>Barry Zhang &amp; Mahesh Murag · Anthropic</span>
         </div>
         <div class="body">
           <p>Barry Zhang from Anthropic argues that most <q>AI agent</q> projects shouldn't be agents at all. If you can already draw the decision tree on a whiteboard, the right thing to build is a fixed workflow where you wire up each step yourself. Agents — software that decides its own next move — are for genuinely ambiguous tasks, and they cost more accuracy, control, and money than people admit. The headline rule: don't reach for the autonomous version of a problem you've already solved.</p>
@@ -145,7 +179,7 @@
       <div>
         <div class="head">
           <span class="tease"><a href="https://www.youtube.com/watch?v=v3Fr2JR47KA">MCP hits 110M monthly downloads</a></span>
-          <span class="src">David Soria Parra · Anthropic</span>
+          <span class="src"><span class="trust trust-primary">primary</span>David Soria Parra · Anthropic</span>
         </div>
         <div class="body">
           <p>David Soria Parra co-created MCP — the wiring standard that lets AI assistants plug into outside tools — and he laid out where it's going next. The big number: 110 million downloads a month, hit in about half the time React took to reach the same level. It's now used by OpenAI, Google, and thousands of frameworks, and Anthropic has handed it over to the Linux Foundation so no single company owns it. The takeaway for non-builders: the connector layer for AI just stopped being an Anthropic project and started being public infrastructure.</p>
@@ -159,7 +193,7 @@
       <div>
         <div class="head">
           <span class="tease"><a href="https://www.youtube.com/watch?v=UQjAZrTM0MI">Stop converting REST APIs to MCP</a></span>
-          <span class="src">Jeremiah Lowin · AI Engineer Code Summit 2025</span>
+          <span class="src"><span class="trust trust-primary">primary</span>Jeremiah Lowin · AI Engineer Code Summit 2025</span>
         </div>
         <div class="body">
           <p>Jeremiah Lowin, who built the popular FastMCP toolkit, says most of today's MCP servers are bad products. The reason: people auto-generate them from web APIs designed for humans clicking around — hundreds of tiny endpoints, infinitely flexible. That's fine for code, but for an AI model every single call is expensive, and chaining ten little ones to do one job is slow, error-prone, and burns money. The fix is human work: pick the few combined actions an assistant actually needs, and throw the rest away.</p>
@@ -173,7 +207,7 @@
       <div>
         <div class="head">
           <span class="tease"><a href="https://www.youtube.com/watch?v=661yQKSoKP8">GitHub registry hits 2,000 servers</a></span>
-          <span class="src">GitHub team · AI Engineer Paris 2025</span>
+          <span class="src"><span class="trust trust-vendor">vendor</span>GitHub team · AI Engineer Paris 2025</span>
         </div>
         <div class="body">
           <p>GitHub showed the numbers behind MCP going mainstream inside big companies. Their public registry of connectors now lists nearly 2,000 entries — up 407% since September. Pinterest's internal deployment alone logged 66,000 tool calls in a month from 844 employees. Slack, Salesforce, Stripe, HubSpot, Shopify, Notion, Linear, Figma, and Cloudflare all run official versions. This is the moment a protocol stops being a demo and starts being IT infrastructure.</p>
@@ -187,7 +221,7 @@
       <div>
         <div class="head">
           <span class="tease"><a href="https://www.youtube.com/watch?v=4CB8zDdShzA">MCP as the multi-agent connector</a></span>
-          <span class="src">Dan Mason · AI Engineer Summit NYC 2025</span>
+          <span class="src"><span class="trust trust-practitioner">practitioner</span>Dan Mason · AI Engineer Summit NYC 2025</span>
         </div>
         <div class="body">
           <p>Dan Mason's workshop reframed MCP from <q>the thing that lets one AI use one tool</q> to <q>the wiring between teams of AIs and the real world.</q> Each AI in a multi-agent setup gets its own scoped slice of tools through MCP, with a router agent deciding who handles what. The deeper point is for product people: instead of writing code, you describe roles, the tools each role can touch, and the outcome you want — and let the system figure out the rest.</p>
@@ -203,6 +237,16 @@
     <div><b>"Just build an agent"</b> — Zhang's gauntlet: if you can pre-map the decision tree, a workflow beats an agent on accuracy, control, and cost. Most agent projects are smuggled workflows wearing a costume.</div>
     <div><b>Auto-converted REST→MCP servers</b> — Lowin's verdict is blunt: bad products. A registry entry that ships every endpoint isn't a tool, it's a context-pollution machine; curation is the actual engineering.</div>
   </div>
+
+  
+  <aside class="trust-legend" aria-label="Source trust tiers">
+    <div class="trust-legend-eyebrow">About these source labels</div>
+    <ul>
+      <li><span class="trust trust-primary">primary</span>academic papers, first-party announcements, named researchers without downstream sale.</li>
+      <li><span class="trust trust-practitioner">practitioner</span>experienced practitioner; may sell adjacent services (courses, consulting). Read knowing the conflict.</li>
+      <li><span class="trust trust-vendor">vendor</span>content marketing where the author sells what the claim recommends. Often correct, always conflicted.</li>
+    </ul>
+  </aside>
 
   <nav class="nav" aria-label="Digest pagination">
     <div class="nav-prev">

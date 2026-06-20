@@ -96,6 +96,40 @@
     .nav a:hover .label { color: var(--rising-fg); }
     footer { margin-top: 16px; padding-top: 18px; border-top: 1px solid var(--rule); font-size: 12.5px; color: var(--muted); display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; }
     @media (prefers-reduced-motion: no-preference) { .plain p, .takeaway, .links li, .articles > li { animation: rise 0.5s cubic-bezier(0.2,0.6,0.2,1) both; } @keyframes rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } } }
+  
+    /* Trust tiers (source ranking — primary/practitioner/vendor/secondary) */
+    .trust {
+      display: inline-block;
+      font-family: var(--mono);
+      font-size: 9.5px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 2px 6px 1px;
+      border-radius: 3px;
+      margin-right: 8px;
+      vertical-align: 1px;
+      line-height: 1.4;
+    }
+    .trust::before { content: '\25CF'; margin-right: 4px; opacity: 0.9; font-size: 8px; vertical-align: 1px; }
+    .trust-primary { color: var(--emerging-fg); background: rgba(47,143,90,0.10); }
+    .trust-practitioner { color: var(--rising-fg); background: rgba(31,111,235,0.10); }
+    .trust-vendor { color: var(--peak-fg); background: rgba(197,59,59,0.10); }
+    .trust-secondary { color: var(--muted); background: rgba(107,107,107,0.10); }
+
+    /* Source trust legend (small explainer at the foot of each digest) */
+    .trust-legend {
+      margin-top: 48px;
+      padding: 18px 20px 20px;
+      background: var(--surface-2);
+      border: 1px solid var(--rule);
+      border-radius: 12px;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    .trust-legend-eyebrow { font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+    .trust-legend ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
+    .trust-legend li { color: var(--muted); }
   </style>
 </head>
 <body>
@@ -131,7 +165,7 @@
       <div>
         <div class="head">
           <span class="tease"><a href="https://www.youtube.com/watch?v=hlxeiSzde5A">The &quot;secret&quot; is just CD</a></span>
-          <span class="src">Dave Farley · Modern Software Engineering</span>
+          <span class="src"><span class="trust trust-practitioner">practitioner</span>Dave Farley · Modern Software Engineering</span>
         </div>
         <div class="body">
           <p>Farley — the man who wrote the book on Continuous Delivery (CD: ship to production many times a day with confidence) — hit the same wall everyone hits with AI coding tools: impressive output, constant regressions. His fix wasn't a new prompt or framework. It was test-driven development, where the tests themselves are the specification of <q>done.</q> His one-line reframe: <q>slow down to speed up.</q> Build in 90 minutes what took weeks, then spend the rest of the day thinking critically about whether it holds up.</p>
@@ -145,7 +179,7 @@
       <div>
         <div class="head">
           <span class="tease"><a href="https://www.mindstudio.ai/blog/what-is-loop-engineering-ai-coding-agents">It&#x27;s the loop, not the model</a></span>
-          <span class="src">MindStudio · mindstudio.ai</span>
+          <span class="src"><span class="trust trust-vendor">vendor</span>MindStudio · mindstudio.ai</span>
         </div>
         <div class="body">
           <p>Everyone compares AI coding tools by which model they use. MindStudio's argument: that's the wrong axis. The real differentiator is the <em>loop</em> around the model — the act-observe-decide-repeat machinery that turns a single chat reply into a system that keeps going until the job is actually done. Claude Code and Devin are loops first, models second. The five things you need: a clear goal, a tool set, context management, termination logic, and real error handling.</p>
@@ -159,7 +193,7 @@
       <div>
         <div class="head">
           <span class="tease"><a href="https://www.youtube.com/watch?v=zMiSRliEzv4">The self in self-driving</a></span>
-          <span class="src">Joshua Snyder · PostHog</span>
+          <span class="src"><span class="trust trust-practitioner">practitioner</span>Joshua Snyder · PostHog</span>
         </div>
         <div class="body">
           <p>PostHog's Snyder reframes what <q>autonomous product development</q> means. It's not the agent writing code without a human — it's the agent deciding <em>when</em> to work without a human telling it to. The trigger is product telemetry, not a Jira ticket. Target isn't the strategic top of the backlog; it's the bottom 1% — bugs, UX paper-cuts, conversion tweaks that drain engineering hours but rarely need human judgement. Customers generate 100,000 failed queries and 1.5 million error issues per week. That's the actual case.</p>
@@ -173,7 +207,7 @@
       <div>
         <div class="head">
           <span class="tease"><a href="https://www.youtube.com/watch?v=3_gYbhABcAE">Seniors fight the model</a></span>
-          <span class="src">Philipp Schmid · Google DeepMind</span>
+          <span class="src"><span class="trust trust-primary">primary</span>Philipp Schmid · Google DeepMind</span>
         </div>
         <div class="body">
           <p>A counter-intuitive finding from Google DeepMind: the more senior the engineer, the <em>worse</em> they tend to be at building AI agents. Decades of training to remove ambiguity from systems — the thing that made them senior — is exactly the wrong instinct for software that runs on probability. Junior engineers ship working agents faster. Seniors try to <q>code away</q> the uncertainty and end up undermining what makes the agent useful in the first place.</p>
@@ -187,7 +221,7 @@
       <div>
         <div class="head">
           <span class="tease"><a href="https://www.youtube.com/watch?v=hCMrEfPG2Yg">Three tiers of generative UI</a></span>
-          <span class="src">Ruben Casas · Postman</span>
+          <span class="src"><span class="trust trust-vendor">vendor</span>Ruben Casas · Postman</span>
         </div>
         <div class="body">
           <p>When an AI assistant needs to show you something — a chart, a form, a booking flow — chat alone isn't enough. Ruben Casas (Postman) lays out the three architectures: static components the AI picks from a library, server-driven UI where a tool ships its own UI (think USB for UI), and generative UI where the model invents the interface on the fly from the conversation. Most real products will combine all three. The cost-of-change ladder runs from cheapest/least flexible to most expressive/hardest to govern.</p>
@@ -201,7 +235,7 @@
       <div>
         <div class="head">
           <span class="tease"><a href="https://youtu.be/_xIwFcnHqp4">Flame graphs inside chat</a></span>
-          <span class="src">Mhangami &amp;amp; Hampton · GitHub / Microsoft</span>
+          <span class="src"><span class="trust trust-primary">primary</span>Mhangami &amp; Hampton · GitHub / Microsoft</span>
         </div>
         <div class="body">
           <p>GitHub just shipped the cleanest example of what Casas was describing. Ask Copilot to profile a Go program inside VS Code, and the result isn't text or a table — it's a fully interactive flame graph rendered right inside the chat window, that you can click and explore like any standalone profiling tool. Generative UI stops being a hypothetical or an art project; it's in a developer tool used by millions. The bigger consequence: when the agent returns an interactive UI, the user can click — which means a UI is now a tactical answer to <q>how much agency should the agent have?</q></p>
@@ -217,6 +251,16 @@
     <div><b>"Loop engineering"</b> — newly named, already a buzzword. The five components are real, but the term will be on every coaching deck within a quarter. Farley's tests-as-spec is the unsexy half that actually does the work — quote that, not <q>loops.</q></div>
     <div><b>VibeOS</b> — an entire operating system where every app, even Notepad, is hallucinated on demand. The honest review (Futurism): <em>"a buggy and largely unusable mess."</em> Worth watching as the loudest version of a quieter trend, not as a product. Critical paths still need determinism.</div>
   </div>
+
+  
+  <aside class="trust-legend" aria-label="Source trust tiers">
+    <div class="trust-legend-eyebrow">About these source labels</div>
+    <ul>
+      <li><span class="trust trust-primary">primary</span>academic papers, first-party announcements, named researchers without downstream sale.</li>
+      <li><span class="trust trust-practitioner">practitioner</span>experienced practitioner; may sell adjacent services (courses, consulting). Read knowing the conflict.</li>
+      <li><span class="trust trust-vendor">vendor</span>content marketing where the author sells what the claim recommends. Often correct, always conflicted.</li>
+    </ul>
+  </aside>
 
   <nav class="nav" aria-label="Digest pagination">
     <div class="nav-prev">
