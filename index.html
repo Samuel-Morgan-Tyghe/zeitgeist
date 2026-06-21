@@ -11,7 +11,7 @@
   <link rel="manifest" href="manifest.json">
   <link rel="icon" type="image/svg+xml" href="icon.svg">
   <link rel="apple-touch-icon" href="icon.svg">
-  <title>zeitgeist · 2026-06-20</title>
+  <title>zeitgeist · 2026-06-21</title>
   <style>
     :root {
       --ink: #1a1a1a;
@@ -234,6 +234,37 @@
     .dd-title { font-family: var(--serif); font-size: clamp(20px, 0.8vw + 16px, 24px); font-weight: 600; line-height: 1.25; letter-spacing: -0.015em; margin: 10px 0 10px; }
     .dd-body { font-size: 14.5px; line-height: 1.5; color: var(--muted); }
     .dd-cta { font-family: var(--mono); font-size: 12px; color: var(--rising-fg); letter-spacing: 0.08em; margin-top: 12px; }
+
+    /* Sources we follow */
+    .sources-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+    @media (min-width: 560px) { .sources-grid { grid-template-columns: 1fr 1fr; gap: 12px; } }
+    .source-card {
+      display: flex; flex-direction: column; gap: 4px;
+      padding: 12px 14px 13px;
+      background: var(--surface);
+      border: 1px solid var(--rule);
+      border-radius: 8px;
+      text-decoration: none;
+      color: inherit;
+      transition: border-color 0.2s;
+    }
+    .source-card:hover { border-color: var(--rising-fg); }
+    .source-card .head { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .source-card .name { font-family: var(--serif); font-weight: 600; font-size: 15px; line-height: 1.2; letter-spacing: -0.01em; }
+    .source-card .kind { font-family: var(--mono); font-size: 10px; color: var(--soft); letter-spacing: 0.1em; text-transform: uppercase; margin-left: auto; }
+    .source-card .why { font-size: 12.5px; color: var(--muted); line-height: 1.4; margin-top: 2px; }
+
+    /* Trust tier (used in Sources section) */
+    .trust { display: inline-block; font-family: var(--mono); font-size: 9.5px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; padding: 2px 6px 1px; border-radius: 3px; line-height: 1.4; }
+    .trust::before { content: '\25CF'; margin-right: 4px; opacity: 0.9; font-size: 8px; vertical-align: 1px; }
+    .trust-primary { color: var(--emerging-fg); background: rgba(47,143,90,0.10); }
+    .trust-practitioner { color: var(--rising-fg); background: rgba(31,111,235,0.10); }
+    .trust-vendor { color: var(--peak-fg); background: rgba(197,59,59,0.10); }
 
     /* Lexicon */
     .lexicon {
@@ -481,6 +512,53 @@
         <span class="teaser"><a href="digest/2026-06-04.html">MCP becomes infrastructure (110M downloads, ~2,000 servers); Anthropic's Zhang: "don't build agents, build skills"; auto-converted REST→MCP is bad practice.</a></span>
       </li>
     </ul>
+  </section>
+
+  <section>
+    <h2><span class="num">07 ·</span>Sources we follow <span class="sub">where the publication reads from</span></h2>
+    <div class="sources-grid">
+
+      <a class="source-card" href="https://www.youtube.com/@aiDotEngineer">
+        <div class="head"><span class="trust trust-practitioner">practitioner</span><span class="name">AI Engineer</span><span class="kind">YouTube</span></div>
+        <div class="why">Conference talks · the engineer-honest read on agents, MCP, evals, coding agents. Most talks pair with a written companion.</div>
+      </a>
+
+      <a class="source-card" href="https://www.anthropic.com/engineering">
+        <div class="head"><span class="trust trust-primary">primary</span><span class="name">Anthropic Engineering &amp; Research</span><span class="kind">blog</span></div>
+        <div class="why">First-party engineering posts + Transformer Circuits interpretability · Karpathy-grade signal density.</div>
+      </a>
+
+      <a class="source-card" href="https://karpathy.bearblog.dev/">
+        <div class="head"><span class="trust trust-primary">primary</span><span class="name">Andrej Karpathy</span><span class="kind">blog</span></div>
+        <div class="why">Independent researcher · the keeper-quote source. Software 3.0, "automate what you can verify," floor vs ceiling.</div>
+      </a>
+
+      <a class="source-card" href="https://simonwillison.net/">
+        <div class="head"><span class="trust trust-primary">primary</span><span class="name">Simon Willison</span><span class="kind">blog</span></div>
+        <div class="why">Daily hands-on observations · the most reliable first-person verdict on every new release.</div>
+      </a>
+
+      <a class="source-card" href="https://metr.org/">
+        <div class="head"><span class="trust trust-primary">primary</span><span class="name">METR</span><span class="kind">research</span></div>
+        <div class="why">Independent eval nonprofit · randomised controlled trials, not vibes. The benchmark-vs-productivity gap source.</div>
+      </a>
+
+      <a class="source-card" href="https://arxiv.org/list/cs.AI/new">
+        <div class="head"><span class="trust trust-primary">primary</span><span class="name">arXiv cs.AI / cs.CL</span><span class="kind">preprints</span></div>
+        <div class="why">Academic preprints · primary research. Filter for independent authors; vendor-funded papers stay vendor-tier.</div>
+      </a>
+
+      <a class="source-card" href="https://www.dbreunig.com/">
+        <div class="head"><span class="trust trust-practitioner">practitioner</span><span class="name">Drew Breunig</span><span class="kind">blog</span></div>
+        <div class="why">Context engineering + skills · clean technical reverse-engineering of how production agent harnesses are built.</div>
+      </a>
+
+      <a class="source-card" href="https://www.latent.space/">
+        <div class="head"><span class="trust trust-practitioner">practitioner</span><span class="name">Latent Space (swyx)</span><span class="kind">blog · podcast</span></div>
+        <div class="why">Weekly recap + interviews · the zeitgeist-tracker proper. Daily AINews is aggregator-tier; long-form essays are practitioner.</div>
+      </a>
+
+    </div>
   </section>
 
   <section class="lexicon" aria-labelledby="lexicon-eyebrow">
